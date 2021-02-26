@@ -276,10 +276,12 @@
 
     this.$outerContainer.addClass('animating');
 
-    $image.data = self.album[imageNumber].link
+    $image.attr({
+      'data' : self.album[imageNumber].link
+    });
 
     // When image to show is preloaded, we send the width and height to sizeContainer()
-    var preloader = new Image();
+    var preloader = new Object();
     // preloader.onload = function() {
     //   var $preloader;
     //   var imageHeight;
