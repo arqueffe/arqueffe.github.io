@@ -276,10 +276,7 @@
 
     this.$outerContainer.addClass('animating');
 
-    $image.attr({
-      // 'data': self.album[imageNumber].alt,
-      'data': self.album[imageNumber].link
-    });
+    $image.data = self.album[imageNumber].link
 
     // When image to show is preloaded, we send the width and height to sizeContainer()
     var preloader = new Image();
@@ -335,7 +332,7 @@
     //   self.sizeContainer($image.width(), $image.height());
     // };
 
-    preloader.src          = this.album[imageNumber].link;
+    // preloader.src          = this.album[imageNumber].link;
     this.currentImageIndex = imageNumber;
   };
 
