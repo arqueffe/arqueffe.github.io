@@ -1,0 +1,844 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Ph.D. Defense</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link href='http://fonts.googleapis.com/css?family=Libre+Baskerville' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="dist/theme/moon.css" id="theme">
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+		<link rel="stylesheet" href="style.css">
+		<script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script>
+	</head>
+	<body>
+
+
+		<div class="reveal">
+			<div class="slides">
+
+				<section class="title">
+					<h3>Connected Multi-Agent Path Finding</h3>
+					<h4>How Robots Get Away with Texting and Driving</h4>
+					<p style="text-align: center;">
+						<small>
+							<b>Arthur Queffelec</b><br><br>
+							<font size="-1">Ph.D. Defense</font>
+						</small><br><br>
+						<!-- <small>FMAI 2021</small> -->
+					</p>
+				</section>
+
+				<section>
+					<section style="overflow: hidden;">
+						<h4>Path Planning in Real-World Problems</h4>
+						<div style="float:left;height: 200px;">
+							<img src="figs/train_planning.jpg"
+							style="display: block;"><p style="text-align: center;">Train Planning [56]</p>
+						</div>
+						<div style="display: table-cell;height: 200px;">
+							<img src="figs/plane_planning.jpg"
+							style="display: block;"><p style="text-align: center;">Aviation Planning [119]</p>
+						</div>
+						<div style="display: table-cell;height: 200px;">
+							<img src="figs/road_planning.jpg"
+							style="display: block;"><p style="text-align: center;">Road Planning [39]</p>
+						</div>
+					</section>
+					<section>
+						<h4>Autonomous Path Planning</h4>
+						<div style="overflow: hidden;margin: 0 auto;width: 800px;">
+							<div style="float:left;width: 350px;">
+								<img src="figs/warehouse_robots.jpg"
+								style="display: block; margin-left: auto;margin-right: auto;"><p style="text-align: center;">Warehouse Robots [162]</p>
+							</div>
+							<div style="width:100px;display: table-cell"></div>
+							<div style="display: table-cell;height: 200px;">
+								<img src="figs/aircraft_towing.jpg"
+								style="display: block; margin-left: auto;margin-right: auto;"><p style="text-align: center;">Aircraft-Towing Vehicles [110]</p>
+							</div>
+						</div>
+						<div style="overflow: hidden;margin: 0 auto;width: 800px;">
+							<div style="width: 350px;float:left">
+								<img src="figs/office_robots.jpg"
+								style="display: block; margin-left: auto;margin-right: auto;"><p style="text-align: center;">Office Robots [157]</p>
+							</div>
+							<div style="width:100px;display: table-cell"></div>
+							<div style="display: table-cell;height: 200px;">
+								<img src="figs/port_vehicle.jpg"
+								style="display: block; margin-left: auto;margin-right: auto;"><p style="text-align: center;">Autonomous Port Vehicles [154]</p>
+							</div>
+						</div>
+						<aside class="notes">
+							Entities in video-games, mine clearance robots,
+							vacuum cleaners and more.
+							We can guarantee optimality, lack of collisions,
+							connectivity, formation. Thus, we can reduce pollution, congestion,
+							accidents, cots and more.
+						</aside>
+					</section>
+					<section>
+						<h4>Limitations</h4>
+						<table>
+							<tr><td></td><th>Complete Knowledge</th><th>Incomplete Knowledge</th></tr>
+							<tr><th>Complete Connectivity</th><td><img src="figs/warehouse_robots.jpg" width="400px"></td><td><img src="figs/office_robots.jpg"width="400px"></td></tr>
+							<tr><th>Incomplete Connectivity</th><td><img src="figs/autonomous-farm.jpg"width="400px"></td><td><img src="figs/search_and_rescue.jpg"width="400px"></td></tr>
+						</table>
+					</section>
+				</section>
+
+				<section><h2>Preliminaries</h2></section>
+
+				<section><h3>Multi-Agent Path Finding</h3>
+					<section>
+						<iframe data-src="mapf-svg.html" data-preload style="width: 100%; height: 400px;"></iframe>
+						<div>
+							<ul>
+								<li class="fragment">Start configuration: $\langle 1,2,8\rangle$</li>
+								<li class="fragment">Goal Configuration: $\langle 7,10,11\rangle$</li>
+								<li class="fragment">Execution: $\langle\langle 1,2,8\rangle,\langle 1,2,5\rangle,\langle 1,5,6\rangle,\langle 5,6,7\rangle,\langle 6,7,11\rangle,\langle 7,10,11\rangle\rangle$</li>
+								<li class=fragment>Cost: 14</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h4>Decision Problem:</h4>
+						<p>
+							<b><font size="+3">Input:</font></b> A graph $G =
+							\langle V, E \rangle$ with $V$ a finite set of nodes
+							and $E$ a set of movement edges, an initial and a
+							goal configuration $c^i$, $c^g$ elements of $V^n$,
+							with $n$ the number of agents.
+						</p>
+						<p>
+							<b><font size="+3">Output:</font></b> Does there
+							exist an execution to reach $c^g$ from $c^i$ without
+							collision ?
+						</p>
+						<h4>Optimization Problem:</h4>
+						<p>
+							<b><font size="+3">Input:</font></b> A graph $G =
+							\langle V, E \rangle$ with $V$ a finite set of nodes
+							and $E$ a set of movement edges, an initial and a
+							goal configuration $c^i$, $c^g$ elements of $V^n$,
+							with $n$ the number of agents, and an integer $k$.
+						</p>
+						<p>
+							<b><font size="+3">Output:</font></b> Does there
+							exist an execution of cost $k$ to reach $c^g$ from $c^i$ without
+							collision ?
+						</p>
+					</section>
+					<section>
+						<h4>Collisions</h4>
+						<iframe data-src="collision-svg.html" data-preload style="width: 100%; height: 400px;"></iframe>
+						<div>
+							<ul>
+								<li class="fragment">Node Collision</li>
+								<li class="fragment">Edge Collision</li>
+							</ul>
+						</div>
+					</section>
+				</section>
+
+				<section><h3>State of the Art</h3>
+					<section>
+						<h4>Coordinated Motion Problem</h4>
+						<svg width="100%" height="400" viewBox="0 0 800 410"
+							xmlns="http://www.w3.org/2000/svg"
+							style="padding-left:0; padding-right:0; margin-left:
+							auto; margin-right:auto; display: block;">
+						<g>
+							<ellipse stroke-width="3" ry="30" rx="30" id="node_1" cy="60" cx="60" stroke="#174F7A" fill="#3989C7">
+								<animateMotion dur="5s" repeatCount="indefinite">
+									<mpath xlink:href="#wire"></mpath>
+								</animateMotion>
+							</ellipse>
+							<ellipse stroke-width="3" ry="30" rx="30" id="node_1" cy="250" cx="130" stroke="#174F7A" fill="#3989C7">
+								<animateMotion dur="5s" repeatCount="indefinite">
+									<mpath xlink:href="#wire2"></mpath>
+								</animateMotion>
+							</ellipse>
+							<path stroke="none" fill="none" id="wire" d="M 50 50 Q 100 250 250 200 Q 550 200 450 100 " ></path>
+							<path stroke="none" fill="none" id="wire2" d="M 100 100 Q 200 50 300 50 Q 400 200 500 50 " ></path>
+							<polygon stroke-width="3" stroke="#797A1D" fill="#C4C726" points="579.1246117974981,311.16026908252906 538.8753882025019,324.23803458662553 514,290 538.8753882025019,255.76196541337447 579.1246117974981,268.83973091747094" />
+							<polygon stroke-width="3" stroke="#797A1D" fill="#C4C726" points="408,181.1769145362398 354,150 408,118.8230854637602" />
+							<polygon stroke-width="3" stroke="#797A1D" fill="#C4C726" points="331.08719811121773,149.04953652058023 270.0268840560683,197.74351209636413 193.88591783271397,180.36483342212267 160,110.00000000000001 193.88591783271397,39.63516657787733 270.02688405606835,22.256487903635886 331.08719811121773,70.95046347941974" />
+						</g>
+						</svg>
+						<div>
+							<ul>
+								<li class="fragment">Introduced by Reif [129] and Hopcroft et al. [71]</li>
+								<li class="fragment">PSPACE-hard in two dimensional case [136]</li>
+								<li class="fragment">PSPACE-hard restricted to unit-square robots [144]</li>
+							</ul>
+						</div>
+					</section>
+					<section>
+						<h4>15-Puzzle</h4>
+						<iframe data-src="puzzle/index.html" data-preload style="width: 100%; height: 300px;"></iframe>
+						<div>
+							<p>
+								Generalized by Ratner and Warmuth [128], shortest execution showed NP-hard.
+							</p>
+						</div>
+					</section>
+					<section>
+						<h4>Complexity</h4>
+						<ul>
+							<li>NP-hard on planar graphs [167]</li>
+							<li>NP-hard on grid graphs [171]</li>
+							<li>Existence of an execution in PTIME [169]</li>
+							<li>PTIME on slideable graphs [160]</li>
+						</ul>
+						<br><br><br>
+						<h4>Variants</h4>
+						<ul>
+							<li>Target-Assignment and Path Finding [102]</li>
+							<li>$k$-Robustness [11]</li>
+							<li>$p$-Robustness [10]</li>
+							<li>Lifelong MAPF [104]</li>
+						</ul>
+						<aside class="notes">
+							The Target-Assignment and Path Finding (TAPF)
+							problem is the problem of assigning targets to the
+							agents in teams along planning collision-free paths.
+						</aside>
+					</section>
+				</section>
+
+				<section><h2>Connectivity</h2></section>
+
+				<section><h3>Connected MAPF</h3>
+					<section>
+						<iframe data-src="cmapf-svg.html" data-preload
+						style="width: 100%; height: 350px;"></iframe>
+						<ul>
+							<li>Introduced and shown NP-hard by Hollinger and Singh [69]</li>
+							<li>Existence of an execution shown PSPACE-hard by Tateo et al. [151]</li>
+						</ul>
+					</section>
+					<section>
+						<h4>Decision Problem:</h4>
+						<p>
+							<b><font size="+3">Input:</font></b> A topological
+							graph $G = \langle V, E^m, E^c \rangle$ with $V$ a
+							finite set of nodes and $E^m$ a set of movement
+							edges, $E^c$ a set of communication edges, an
+							initial and a goal configuration $c^i$, $c^g$
+							elements of $V^n$, with $n$ the number of agents.
+						</p>
+						<p>
+							<b><font size="+3">Output:</font></b> Does there
+							exist a connected execution to reach $c^g$ from
+							$c^i$ ?
+						</p>
+						<h4>Optimization Problem:</h4>
+						<p>
+							<b><font size="+3">Input:</font></b> A topological
+							graph $G = \langle V, E^m, E^c \rangle$ with $V$ a
+							finite set of nodes and $E^m$ a set of movement
+							edges, $E^c$ a set of communication edges, an
+							initial and a goal configuration $c^i$, $c^g$
+							elements of $V^n$, with $n$ the number of agents and
+							an integer $k$.
+						</p>
+						<p>
+							<b><font size="+3">Output:</font></b> Does there
+							exist a connected execution of cost $k$ to reach
+							$c^g$ from $c^i$ ?
+						</p>
+					</section>
+					<section>
+						<p>
+							<b><font size="+3">Connected Configuration:
+							</font></b> A configuration $c$ of size $n$ is
+							connected if and only if the sub-graph $G_c=\langle
+							V_c, E^c \rangle$ with $V_c = \{ c_1, \dots, c_n \}$
+							is a connected graph.
+						</p>
+						<p>
+							<b><font size="+3">Connected Execution:
+							</font></b> An execution $exec=\langle c^1, \dots,
+							c^k \rangle$ is connected if and only if for all $0<
+							i\leq k$ such that $c^i$ is a connected configuration.
+						</p>
+					</section>
+					<section><h4>Directed Topological Graphs</h4>
+							<iframe data-src="directed-svg.html" data-preload style="width: 100%; height: 350px;"></iframe>
+							<span class="r-frame">$E^m$ and $E^c$ are
+							arbitrary</span><br><br>
+							<p class="r-fit-text">
+								CMAPF is <b>PSPACE-complete</b> and Bounded CMAPF is <b>NP-complete</b>.
+							</p>
+					</section>
+					<section><h4>Undirected Topological Graphs</h4>
+						<iframe data-src="undirected-svg.html" data-preload style="width: 100%; height: 350px;"></iframe>
+						<span class="r-frame">$E^m$ is undirected</span><br><br>
+						<p class="r-fit-text">
+							CMAPF is <b>PSPACE-complete</b> and Bounded CMAPF is <b>NP-complete</b>.
+						</p>
+					</section>
+					<section><h4>Neighbor-Communicable Topological Graphs</h4>
+						<iframe data-src="neighbor-svg.html" data-preload style="width: 100%; height: 350px;"></iframe>
+						<span class="r-frame">$E^m \subseteq E^c$</span><br><br>
+						CMAPF is <b>PSPACE-complete</b> and Bounded CMAPF is <b>NP-complete</b>.
+					</section>
+					<section><h4>Sight-Moveable Topological Graphs</h4>
+						<iframe data-src="sight-svg.html" data-preload style="width: 100%; height: 350px;"></iframe>
+						CMAPF is in <b>LOGSPACE</b> and Bounded CMAPF is <b>NP-complete</b>.
+					</section>
+					<section><h4>Complete-Communication Topological Graphs</h4>
+						<iframe data-src="complete-svg.html" data-preload style="width: 100%; height: 350px;"></iframe>
+						<span class="r-frame">$E^c = V \times V$</span><br><br>
+						CMAPF is in <b>LOGSPACE</b> and Bounded CMAPF is <b>NLOGSPACE</b>.
+					</section>
+				</section>
+
+				<section><h3>CCBS</h3>
+					<section>
+						<h4>Conflict-Based Search</h4>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<h4>Low-Level</h4>
+								<p>
+									Computes the path of an agent given a set of
+									constraints.
+								</p>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<h4>High-Level</h4>
+								<p>
+									Searches for a constraint tree to resolve
+									conflict along the execution.
+								</p>
+							</div>
+						</div>
+						<p>
+							<b><font size="+3">Constraint:</font></b>
+							A constraint is a tuple $\langle a,v,t, \beta\rangle$ where
+							$a$ is an agent, $v$ is a node, $t$ is a timestep and
+							$\beta\in \{\top, \bot\}$.
+						</p>
+					</section>
+					<section>
+						<iframe data-src="cbs-svg.html" data-preload
+						style="width: 100%; height: 350px;"></iframe>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<ul>
+									<li class="fragment">$\langle g, 5, 1, \bot\rangle
+									\vee \langle b, 5, 1, \bot\rangle$</li>
+								</ul>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<ul>
+									<li class="fragment">$\langle b, 5, 1, \bot\rangle$</li>
+								</ul>
+							</div>
+						</div>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<ul>
+									<li class="fragment">$\langle g, 5, 1, \bot\rangle
+										\vee \langle r, 5, 1, \bot\rangle$</li>
+								</ul>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<ul>
+									<li class="fragment">$\langle r, 5, 1, \bot\rangle$</li>
+								</ul>
+							</div>
+						</div>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<ul>
+									<li class="fragment">$\langle r, 5, 2, \bot\rangle
+										\vee \langle b, 5, 2, \bot\rangle$</li>
+								</ul>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<ul>
+									<li class="fragment">$\langle r, 5, 2, \bot\rangle$</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+					<section>
+						<iframe data-src="ccbs-svg.html" data-preload
+						style="width: 100%; height: 350px;"></iframe>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<ul>
+									<li class="fragment">Pick a "most disconnected"
+									agent.</li>
+								</ul>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<ul>
+									<li class="fragment">Agent Red</li>
+								</ul>
+							</div>
+						</div>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<ul>
+									<li class="fragment">Generate the constraints:</li>
+									<ul>
+										<li class="fragment">Only feasible</li>
+										<li class="fragment">Partial generation</li>
+									</ul>
+								</ul>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<ul>
+									<li class="fragment">$\langle r, 5, 1, \top
+									\rangle$</li>
+									<li class="fragment">$\langle r, 6, 1, \top
+									\rangle$</li>
+								</ul>
+							</div>
+						</div>
+					</section>
+					<section>
+						<h4>Benchmarks</h4>
+						<img src="figs/Maps.png" style="display: block;">
+						<table>
+							<tbody>
+								<tr>
+									<td>Number of Nodes</td>
+									<td>1494</td>
+									<td>2205</td>
+								</tr>
+								<tr>
+									<td>Movement Edges</td>
+									<td>2419</td>
+									<td>4107</td>
+								</tr>
+								<tr>
+									<td>Communication Edges</td>
+									<td>29962</td>
+									<td>39310</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+					<section>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<div id="graph1"
+								style="width:500px;height:250px;"></div>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<div id="graph2"
+								style="width:500px;height:250px;"></div>
+							</div>
+						</div>
+						<script>
+							SROF = document.getElementById('graph1');
+							SROP = document.getElementById('graph2');
+							// Agents IRISA DFS SB
+							let agents = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+							let ccbsyoff = [0.58,0.37,0.22,0.2,0.19,0.16,0.18,0.16,0.13,0.10,0.12,0.02,0.12,0,0,0,0,0,0];
+							let dfsyoff = [1,1,1,1,1,1,1,0.68,0.06,0,0,0,0,0,0,0,0,0,0];
+							let sbyoff = [0.77,0.745,0.63,0.69,0.57,0.585,0.56,0.565,0.59,0.56,0.58,0.49,0.48,0.41,0.43,0.39,0.38,0.34,0.30];
+							Plotly.newPlot( SROF, [
+								{
+									x: agents,
+									y: ccbsyoff,
+									name: 'CCBS'
+								},
+								{
+									x: agents,
+									y: dfsyoff,
+									name: 'DFS'
+								},
+								{
+									x: agents,
+									y: sbyoff,
+									name: 'SB'
+								}
+								], { title:'Offices', font: {color:'#b5c7c7'}, height: '200px', paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', xaxis: {title: 'Number of Agents'}, yaxis:{title:'Success Rate'}} );
+								let ccbsyop = [0.82,0.74,0.6,0.64,0.46,0.42,0.5,0.4,0.54,0.46,0.47,0.47,0.54,0.40,0.66,0.52,0.50,0.46,0.40];
+								let dfsyop = [1,1,1,1,1,1,1,0.5,0,0,0,0,0,0,0,0,0,0,0];
+								let sbyop = [0.98,0.97,0.99,0.98,0.98,1,1,1,1,0.45,0.23,0.06,0.03,0.02,0.09,0.02,0.01,0.05,0.01];
+								Plotly.newPlot( SROP, [
+								{
+									x: agents,
+									y: ccbsyop,
+									name: 'CCBS'
+								},
+								{
+									x: agents,
+									y: dfsyop,
+									name: 'DFS'
+								},
+								{
+									x: agents,
+									y: sbyop,
+									name: 'SB'
+								}
+								], { title:'Open', font: {color:'#b5c7c7'}, height: '200px', paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', xaxis: {title: 'Number of Agents'}, yaxis:{title:'Success Rate'}} );
+						</script>
+					</section>
+					<section>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<div id="graph3"
+								style="width:500px;height:250px;"></div>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<div id="graph4"
+								style="width:500px;height:250px;"></div>
+							</div>
+						</div>
+						<script>
+							SROF = document.getElementById('graph3');
+							SROP = document.getElementById('graph4');
+							// let agents = [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+							let ccbsyoffsize = [100,134,158,225,251,277,370,404,440,415,492,476,554];
+							let dfsyoffsize = [125,197,286,378,484,568,668,718,626];
+							let sbyoffsize = [120,218,338,520,747,1032,1386,1956,2000];
+							Plotly.newPlot( SROF, [
+								{
+									x: agents,
+									y: ccbsyoffsize,
+									name: 'CCBS'
+								},
+								{
+									x: agents,
+									y: dfsyoffsize,
+									name: 'DFS'
+								},
+								{
+									x: agents,
+									y: sbyoffsize,
+									name: 'SB'
+								}
+								], { title:'Offices', font: {color:'#b5c7c7'}, height: '200px', paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', xaxis: {title: 'Number of Agents'}, yaxis:{title:'Success Rate'}} );
+								let ccbsyopsize = [79,139,185,214,293,317,376,420,495,425,481,525,578,632,664,654,822,843,893];
+								let dfsyopsize = [92,163,232,289,381,447,516,493];
+								let sbyopsize = [89,160,253,352,515,743,870,1068];
+								Plotly.newPlot( SROP, [
+								{
+									x: agents,
+									y: ccbsyopsize,
+									name: 'CCBS'
+								},
+								{
+									x: agents,
+									y: dfsyopsize,
+									name: 'DFS'
+								},
+								{
+									x: agents,
+									y: sbyopsize,
+									name: 'SB'
+								}
+								], { title:'Open', font: {color:'#b5c7c7'}, height: '200px', paper_bgcolor:'rgba(0,0,0,0)', plot_bgcolor:'rgba(0,0,0,0)', xaxis: {title: 'Number of Agents'}, yaxis:{title:'Success Rate'}} );
+						</script>
+					</section>
+				</section>
+
+				<section><h2>Incomplete Knowledge</h2></section>
+
+				<section><h3>CMAPF with Incomplete Knowledge</h3>
+					<section><h4>Initial Knowledge and Discovery</h4>
+						<iframe data-src="cmapfik-svg.html" data-preload style="width: 100%; height: 400px;"></iframe>
+						<div class="row" style="padding-left: 42%;">
+							<!-- <div class="column" style="float: left; width: 18%;">
+								<svg xmlns="http://www.w3.org/2000/svg" width="50" height="180">
+									<circle cx="25" cy="25" r="20" fill="#1d623b" />
+									<circle cx="25" cy="75" r="20" fill="#E06651" />
+									<line x1="0" y1="125" x2="50" y2="125" style="stroke:#3a7ecf;stroke-width:2" />
+									<line x1="0" y1="175" x2="50" y2="175" stroke-dasharray="4" style="stroke:#247354;stroke-width:2" />
+								</svg>
+							</div> -->
+							<!-- <div class="column" style="line-height:50px;float: left; width: 55%;text-align: left;">
+								Agents<br>
+								Goals<br>
+								Movement Edge<br>
+								Communication Edge
+							</div> -->
+						</div>
+					</section>
+					<section>
+						<p>
+							<b><font size="+3">Input:</font></b> Two topological
+							graph $G_1$ "must", $\mathbf{G_2}$ "may", an initial
+							and a goal	 configuration $c^i$, $c^g$ elements of
+							$V^n$, with $n$ the number of agents.
+						</p>
+						<div style="display: flex;">
+							<div style="flex: 0 0 54%;">
+								<p>
+									<b><font size="+3">Output:</font></b> Does
+									there exist a connected joint
+									<b>strategy</b> to reach $c^g$ from $c^i$ ?
+								</p>
+							</div>
+							<div style="flex: 1;padding-left: 1cm;">
+								<p>
+									<b><font size="+3">Output:</font></b> Does
+									there exist a decentralized joint
+									<b>strategy</b>
+									to reach $c^g$ from $c^i$ ?
+								</p>
+							</div>
+						</div>
+					</section>
+					<section>
+						<p>
+							<b><font size="+3">Strategy:</font></b>
+							A strategy $\sigma_i$ for agent $i$ maps any
+							execution $\pi$ to a vertex such that
+							$(last(\pi)_i,\sigma_i(\pi))\in E^m$.
+						</p>
+
+						<p>
+							<b><font size="+3">Uniform:</font></b>
+							A strategy $\sigma_i$ is uniform if for all
+							$|\pi|=|\pi'|$ with identical knowledge for agent
+							$i$, $\sigma_i(\pi) = \sigma_i(\pi')$.
+						</p>
+
+						<p>
+							<b><font size="+3">Connected:</font></b>
+							A strategy $\sigma$ is connected if all outcomes are
+							connected.
+						</p>
+
+						<p>
+							<b><font size="+3">Decentralized:</font></b>
+							A strategy $\sigma$ is decentralized if agents
+							disconnect and share their knowledge upon
+							reconnection.
+						</p>
+
+						<p>
+							<b><font size="+3">Bounded:</font></b>
+							A strategy $\sigma$ is bounded by $k$ if all
+							outcomes reaches the goal in $k$ steps.
+						</p>
+
+					</section>
+					<section>
+						<h4>Complexity Results</h4>
+						<table>
+							<thead>
+								<tr>
+									<th></th>
+									<th>Decentralized</th>
+									<th>Connected</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Bounded</td>
+									<td>NEXP-complete</td>
+									<td>PSPACE-complete</td>
+								</tr>
+								<tr>
+									<td>Unbounded</td>
+									<td>NEXP-complete</td>
+									<td>PSPACE-complete</td>
+								</tr>
+							</tbody>
+						</table>
+						<br><br><br>
+						<h4>Additional Results</h4>
+						<ul>
+							<li>Unbounded reachability on undirected graphs is trivial</li>
+							<li>All results hold with a base station</li>
+							<li>All results hold with collision-free constraint</li>
+							<li>PSPACE-completeness results hold on planar graphs</li>
+						</ul>
+					</section>
+				</section>
+
+				<section><h3>Contribution Overview</h3>
+					<section>
+						<small style="text-align: justify;">
+							<div>
+								<span id="Charrier_2019_RCPCA"> Reachability and
+								Coverage Planning for Connected Agents, T. Charrier
+								and A. Queffelec and O. Sankur and F.
+								Schwarzentruber, IJCAI-19.</span>
+							</div><br>
+							<div>
+								<span id="Charrier_2020_CPCA"> Complexity of
+								planning for connected agents, T. Charrier and A.
+								Queffelec and O. Sankur and F. Schwarzentruber,
+								Journal of AAMAS.
+								</span>
+							</div><br>
+							<div>
+								<span id="Hollinger_2012_MCPC"> Multirobot
+								coordination with periodic connectivity: Theory and
+								experiments, G. A. Hollinger and S. Singh, IEEE
+								Trans. Robotics.
+								</span>
+							</div><br>
+							<div>
+								<span id="Tateo_2018_MCPP"> Multiagent connected
+								path planning: Pspace-completeness and how to deal
+								with it, D. Tateo, J. Banfi, A. Riva, F. Amigoni,
+								and A. Bonarini, AAAI-18.
+								</span>
+							</div>
+						</small>
+					</section>
+					<section>
+						<table>
+							<thead>
+								<tr>
+									<th>Topo. Graph/Problem</th>
+									<th>CMAPF</th>
+									<th>Bounded CMAPF</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Directed</td>
+									<td rowspan="3" >PSPACE-complete</td>
+									<td rowspan="4" >NP-complete</td>
+								</tr>
+								<tr>
+									<td>Undirected</td>
+								</tr>
+								<tr>
+									<td>Neighbor-Communicable</td>
+								</tr>
+								<tr>
+									<td>Sight-Moveable</td>
+									<td rowspan="2">LOGSPACE</td>
+								</tr>
+								<tr>
+									<td>Complete-Communication</td>
+									<td>NLOGSPACE</td>
+								</tr>
+							</tbody>
+							<caption style="caption-side: bottom;">
+								Complexity Results of CMAPF
+							</caption>
+						</table>
+					</section>
+
+					<section>
+						<table>
+							<thead>
+								<tr>
+									<th>Topo. Graph/Problem</th>
+									<th>Coverage</th>
+									<th>Bounded Coverage</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Directed</td>
+									<td rowspan="2" >PSPACE-complete</td>
+									<td rowspan="4" >NP-complete</td>
+								</tr>
+								<tr>
+									<td>Undirected</td>
+								</tr>
+								<tr>
+									<td>Sight-Moveable</td>
+									<td rowspan="2">LOGSPACE</td>
+								</tr>
+								<tr>
+									<td>Complete-Communication</td>
+								</tr>
+							</tbody>
+							<caption style="caption-side: bottom;">
+								Complexity Results of Coverage
+							</caption>
+						</table>
+					</section>
+					<section>
+						<table>
+							<thead>
+								<tr>
+									<th></th>
+									<th>Decentralized</th>
+									<th>Connected</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Bounded</td>
+									<td>NEXP-complete</td>
+									<td>PSPACE-complete</td>
+								</tr>
+								<tr>
+									<td>Unbounded</td>
+									<td>NEXP-complete</td>
+									<td>PSPACE-complete</td>
+								</tr>
+							</tbody>
+							<caption style="caption-side: bottom;">
+								Complexity Results of Partial Knowledge
+							</caption>
+						</table>
+					</section>
+				</section>
+
+				<section><h3>Going Further</h3>
+					<section>
+						<ul>
+							<li>Algorithm based on Conflict-Based Search</li>
+							<li>Complexity analysis of partial knowledge of the environment
+								<ul>
+									<li>Solving the connected case with Canadian Traveler Problem-like solvers</li>
+									<li>Solving the decentralized case with Dec-POMDPs solver or MARL approaches</li>
+								</ul>
+							</li>
+						</ul>
+					</section>
+				</section>
+
+			</div>
+		</div>
+
+
+
+
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/math/math.js"></script>
+		<script>
+			Reveal.initialize(
+				{
+					hash: true,
+
+					math: {
+						mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+						config: 'TeX-AMS_HTML-full',
+						// pass other options into `MathJax.Hub.Config()`
+						TeX: { Macros: { RR: "{\\bf R}" } }
+					},
+					plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath ],
+					dependencies: [
+						{ src: 'plugin/toc/tableofcontents.js' }
+					],
+					tableofcontents: {
+						title: "Outline",
+						position: 3,
+						titleTag: "h3",
+						titleTagSelector: "h3",
+						ignoreFirstSlide: true,
+						fadeInElements: false,
+						isNumbered: true
+					}
+				}
+			);
+		</script>
+	</body>
+</html>

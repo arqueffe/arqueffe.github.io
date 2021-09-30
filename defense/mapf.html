@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+    <head>
+		<title>MAPF</title>
+
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+		<script src="node_modules/cytoscape/dist/cytoscape.min.js"></script>
+
+		<style>
+			body {
+				font-family: helvetica;
+				font-size: 15px;
+			}
+
+			#cy {
+				width: 100%;
+				height: 400px;
+				z-index: 999;
+			}
+		</style>
+
+		<script>
+            window.step = 0
+			document.addEventListener('DOMContentLoaded', function(){
+
+                window.step = 0
+				var cy = window.cy = cytoscape({
+					container: document.getElementById('cy'),
+
+                    layout: {
+                        name: 'preset'
+                    },
+
+					style: [
+						{
+							selector: 'node',
+							style: {
+                                'width': 20,
+                                'height' : 20,
+								'label': 'data(id)',
+								'text-valign': 'center',
+								'color': '#000000',
+								'background-color': '#3a7ecf'
+							}
+						},
+
+						{
+							selector: 'edge',
+							style: {
+								'width': 1,
+								'line-color': '#3a7ecf',
+								'opacity': 0.5
+							}
+						}
+					],
+					elements: {
+						nodes: [
+							{ data: { id: '1'}, position: { x: 0, y: 0 }, grabbable: false, style: { 'background-color': '#1d623b'} },
+							{ data: { id: '2'}, position: { x: 100, y: 0 }, grabbable: false, style: { 'background-color': '#237647'} },
+							{ data: { id: '3'}, position: { x: 200, y: 0 }, grabbable: false },
+							{ data: { id: '4'}, position: { x: 300, y: 0 }, grabbable: false },
+
+							{ data: { id: '5'}, position: { x: 50, y: 50 }, grabbable: false },
+							{ data: { id: '6'}, position: { x: 150, y: 50 }, grabbable: false },
+							{ data: { id: '7'}, position: { x: 250, y: 50 }, grabbable: false, style: { 'background-color': '#621d31'} },
+
+                            { data: { id: '8'}, position: { x: 0, y: 100 }, grabbable: false, style: { 'background-color': '#298953'} },
+                            { data: { id: '9'}, position: { x: 100, y: 100 }, grabbable: false },
+                            { data: { id: '10'}, position: { x: 200, y: 100 }, grabbable: false, style: { 'background-color': '#76233b'} },
+                            { data: { id: '11'}, position: { x: 300, y: 100 }, grabbable: false, style: { 'background-color': '#892944'} }
+						],
+						edges: [
+							{ data: { source: '1', target: '2', directed: 'false'} },
+							{ data: { source: '1', target: '5', directed: 'false'} },
+							{ data: { source: '1', target: '8', directed: 'false'} },
+
+							{ data: { source: '2', target: '5', directed: 'false'} },
+
+							{ data: { source: '3', target: '7', directed: 'false'} },
+							{ data: { source: '3', target: '4', directed: 'false'} },
+
+							{ data: { source: '4', target: '7', directed: 'false'} },
+							{ data: { source: '4', target: '11', directed: 'false'} },
+
+							{ data: { source: '5', target: '8', directed: 'false'} },
+							{ data: { source: '5', target: '6', directed: 'false'} },
+                            { data: { source: '5', target: '9', directed: 'false'} },
+
+							{ data: { source: '6', target: '7', directed: 'false'} },
+
+                            { data: { source: '7', target: '10', directed: 'false'} },
+                            { data: { source: '7', target: '11', directed: 'false'} },
+
+                            { data: { source: '8', target: '9', directed: 'false'} },
+
+                            { data: { source: '10', target: '11', directed: 'false'} }
+						]
+					}
+				});
+
+                cy.zoomingEnabled( false );
+
+			});
+
+            document.addEventListener("click", function(event) {
+
+                exec = ['1,2,8', '1,2,5', '1,5,6', '5,6,7', '6,7,11', '7,10,11']
+
+                function displayStep(i, cy){
+
+                    let last = exec[exec.length - 1]
+                    let current = exec[i]
+                    let nodes = cy.nodes()
+                    for (var i = 0; i < nodes.length; i+=1)
+                    {
+                        let node = nodes[i]
+                        currentPos = current.split(',')
+                        lastPos = last.split(',')
+                        if (node.id() == currentPos[0])
+                            node.style('background-color', '#1d623b')
+                        else if (node.id() == currentPos[1])
+                            node.style('background-color', '#237647')
+                        else if (node.id() == currentPos[2])
+                            node.style('background-color', '#298953')
+                        else if (node.id() == lastPos[0])
+                            node.style('background-color', '#621d31')
+                        else if (node.id() == lastPos[1])
+                            node.style('background-color', '#76233b')
+                        else if (node.id() == lastPos[2])
+                            node.style('background-color', '#892944')
+                        else
+                            node.style('background-color', '#3a7ecf')
+                    }
+
+                }
+                if (event.screenX > 1000) { // n
+                    if (window.step < exec.length - 1){
+                        window.step += 1;
+                        displayStep(window.step, window.cy);
+                    }
+                }
+                if (event.screenX < 1000) { // b
+                    if (window.step > 0){
+                        window.step -= 1;
+                        displayStep(window.step, window.cy);
+                    }
+                }
+            });
+		</script>
+	</head>
+
+	<body>
+		<div id="cy"></div>
+	</body>
+
+</html>

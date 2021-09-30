@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+    <head>
+		<title>MAPF</title>
+
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+
+		<script src="https://pixijs.download/release/pixi.js"></script>
+
+	</head>
+
+	<body>
+		<script>
+			let app = new PIXI.Application({ width: 800, height: 400, backgroundAlpha: 0});
+			app.view.style.paddingLeft = 0;
+			app.view.style.paddingRight = 0;
+			app.view.style.marginLeft = 'auto';
+			app.view.style.marginRight = 'auto';
+			app.view.style.display = 'block';
+
+			const sprite = PIXI.Texture.from('commLine.png');
+
+			document.body.appendChild(app.view);
+			const corner_x = 75;
+			const corner_y = 75;
+			const offset_x = 200;
+			const offset_y = 100;
+
+			let current_step = 0;
+			let drones = [];
+			let to_destroy = [];
+			let ticker;
+			const starts = [1,2,8];
+			const ends = [7,10,11];
+			const steps = [[1,2,5], [1,5,6], [5,6,7], [6,7,11], [7,10,11]];
+			const nodes = [
+				[corner_x + offset_x*0, corner_y + offset_y*0], [corner_x + offset_x*1, corner_y + offset_y*0], [corner_x + offset_x*2, corner_y + offset_y*0], [corner_x + offset_x*3, corner_y + offset_y*0],
+				[corner_x + offset_x*0.5, corner_y + offset_y*1], [corner_x + offset_x*1.5, corner_y + offset_y*1], [corner_x + offset_x*2.5, corner_y + offset_y*1],
+			    [corner_x + offset_x*0, corner_y + offset_y*2], [corner_x + offset_x*1, corner_y + offset_y*2], [corner_x + offset_x*2, corner_y + offset_y*2], [corner_x + offset_x*3, corner_y + offset_y*2]
+			];
+			const edges = [[2,5,8], [5], [7,4], [7,11], [6,8,9], [7], [10,11], [9], [], [11], []];
+			// const comms = [[2,5,8], [5,6,3], [7,4,6], [7,11], [6,8,9],
+			// [7,9,10], [10,11], [9], [10], [11], []];
+			const comms = [[2,8], [5]];
+			let elapses = [];
+
+			let drone_move_fn = (delta, drone, index) => {
+				elapses[index] += delta;
+				if (current_step == 0)
+					return;
+				if (!(drone.x <= nodes[steps[current_step-1][index]-1][0]-20 - 1 || drone.x >= nodes[steps[current_step-1][index]-1][0]-20 + 1) && !(drone.y <= nodes[steps[current_step-1][index]-1][1]-50 - 1 || drone.y >= nodes[steps[current_step-1][index]-1][1]-50 + 1)){
+					to_destroy[index] = true;
+					return;
+				}
+				if (drone.x <= nodes[steps[current_step-1][index]-1][0]-20 - 1 || drone.x >= nodes[steps[current_step-1][index]-1][0]-20 + 1){
+					drone.x = lerp(drone.x, nodes[steps[current_step-1][index]-1][0]-20, elapses[index]*0.005);
+				}
+				if (drone.y <= nodes[steps[current_step-1][index]-1][1]-50 - 1 || drone.y >= nodes[steps[current_step-1][index]-1][1]-50 + 1)
+					drone.y = lerp(drone.y, nodes[steps[current_step-1][index]-1][1]-50, elapses[index]*0.005);
+			};
+
+			let bend = 50.0;
+
+			function DisplayGraph(n, e, c, s, t) {
+				const graph = new PIXI.Graphics();
+				graph.beginFill(0x3a7ecf);
+				// Edges
+				for (const index_a in e){
+					let adj_list = e[index_a];
+					for (const index_b of adj_list){
+						graph.lineStyle(5, 0x3a7ecf).moveTo(n[index_a][0], n[index_a][1]).lineTo(n[index_b-1][0], n[index_b-1][1]);
+					}
+				}
+				graph.endFill();
+				const comEdges = new PIXI.Graphics();
+				for (const index_a in c){
+					
+					let adj_list = c[index_a];
+					for (const index_b of adj_list){
+					// 	let points;
+					// 	let x1 = n[index_a][0];
+					// 	let y1 = n[index_a][1];
+					// 	let x2 = n[index_b-1][0];
+					// 	let y2 = n[index_b-1][1];
+
+					// 	let xa = (x2 - x1)/2;
+					// 	let ya = (y2 - y1)/2;
+					// 	let x0 = x1 + xa;
+					// 	let y0 = y1 + ya;
+
+					// 	let a = Math.sqrt(Math.pow(xa, 2) + Math.pow(ya, 2));
+					// 	let b = Math.sqrt(Math.abs(Math.pow(radius, 2) - Math.pow(a, 2)));
+					// 	let x3 = x0 + ((b * ya)/a);
+					// 	let y3 = y0 - ((b * xa)/a);
+
+					// 	function midpointCircle(x1, y1, x2, y2, xc, yc, r){
+					// 		let xmid = (x1 + x2)/2;
+					// 		let ymid = (y1 + y2)/2;
+					// 		let dist = Math.sqrt(Math.pow(xc - xmid, 2) + Math.pow(yc - ymid, 2));
+					// 		let scale = r / dist;
+					// 		if (x1 >= x2)
+					// 			scale = - scale;
+					// 		let dx = Math.abs(xc - xmid);
+					// 		let dy = Math.abs(yc - ymid);
+					// 		let xcmid = xc + (dx * scale);
+					// 		let ycmid = yc + (dy * scale);
+					// 		return [xcmid, ycmid];
+					// 	}
+
+						// let distance = Math.sqrt(Math.pow((n[index_a][0] - n[index_b-1][0]), 2) + Math.pow((n[index_a][1] - n[index_b-1][1]), 2));
+						// console.log(distance);
+						// let radius = (Math.pow(distance/2, 2) + Math.pow((bend*distance)/2,2))/(2*((bend*distance)/2));
+						// console.log(radius);
+						// let omega = 4 * Math.atan(bend);
+						// let center_x = radius*Math.cos(omega/2 + 90) + n[index_a][0];
+						// let center_y = radius*Math.sin(omega/2 + 90) + n[index_a][1];
+						// console.log(center_x, center_y);
+						// graph.drawCircle(x3, y3, radius);
+						// let p1 = midpointCircle(x1, y1, x2, y2, x3, y3, radius);
+						// let p2 = midpointCircle(x1, y1, p1[0], p1[1], x3, y3, radius);
+						// let p3 = midpointCircle(p1[0], p1[1], x2, y2, x3, y3, radius);
+						// graph.moveTo(x1, y1).lineTo(p2[0], p2[1]);
+						// graph.moveTo(p2[0], p2[1]).lineTo(p1[0], p1[1]);
+						// graph.moveTo(p1[0], p1[1]).lineTo(p3[0], p3[1]);
+
+						comEdges.moveTo(n[index_a][0], n[index_a][1]);
+						if (n[index_a][0] == n[index_b-1][0])
+							comEdges.bezierCurveTo(n[index_a][0], n[index_a][1]+bend, n[index_b-1][0], n[index_b-1][1]+bend, n[index_b-1][0], n[index_b-1][1]);
+						else if (n[index_a][1] == n[index_b-1][1])
+							comEdges.bezierCurveTo(n[index_a][0], n[index_a][1]-bend, n[index_b-1][0], n[index_b-1][1]-bend, n[index_b-1][0], n[index_b-1][1]);
+						else if (index_a == index_b-5)
+							comEdges.bezierCurveTo(n[index_a][0]+bend, n[index_a][1]-bend, n[index_b-1][0]+bend, n[index_b-1][1]-bend, n[index_b-1][0], n[index_b-1][1]);
+						else
+							comEdges.bezierCurveTo(n[index_a][0]-bend, n[index_a][1]-bend, n[index_b-1][0]-bend, n[index_b-1][1]-bend, n[index_b-1][0], n[index_b-1][1]);
+					}
+					
+				}
+				app.stage.addChild(comEdges);
+				// app.stage.addChild(cont);
+				// Background node color
+				graph.lineStyle(5, 0x3a7ecf);
+				// graph.endFill();
+				// Nodes
+				PIXI.BitmapFont.from("LabelFont", {
+					fontFamily: "Arial",
+					fontSize: 25,
+					fill: "white"
+				});
+				let labels = [];
+				for (const a in n){
+					if (s.includes(parseInt(a)+1)) {
+						graph.beginFill(0x1d623b);
+					} else if (t.includes(parseInt(a)+1)) {
+						graph.beginFill(0x76233b);
+					} else {
+						graph.beginFill(0x3a7ecf);
+					}
+					graph.drawCircle(n[a][0], n[a][1], 25);
+					const label = new PIXI.BitmapText(parseInt(a)+1+"", {fontName: "LabelFont"});
+					label.anchor = (0.5,0.5);
+					label.x = n[a][0];
+					label.y = n[a][1];
+					labels.push(label);
+					graph.endFill();
+				}
+				app.stage.addChild(graph);
+				for (const label of labels){
+					app.stage.addChild(label);
+				}
+				for (const index in starts){
+					app.loader.add('drone_'+parseInt(index)+1, 'drone_'+(parseInt(index)+1)+'.png');
+				}
+			}
+
+			DisplayGraph(nodes, edges, comms, starts, ends);
+
+			app.loader.load((loader, resources) => {
+				res = resources
+				for (const index in starts) {
+					const drone = new PIXI.Sprite(resources["drone_"+parseInt(index)+1].texture);
+
+					drone.x = nodes[starts[index]-1][0]-20;
+					drone.y = nodes[starts[index]-1][1]-50;
+					drone.height = 20;
+					drone.width = 69;
+
+					drone.anchor.x = 0.5;
+					drone.anchor.y = 0.5;
+
+					app.stage.addChild(drone);
+					drones.push(drone);
+
+					let elapsed = 0.0;
+					app.ticker.add((delta) => {
+						elapsed += delta;
+						drone.y += Math.cos(elapsed/60) * 0.15;
+					});
+				}
+			});
+
+			function lerp(a, b, c) {
+				return a * (1 - c) + b * c;
+			}
+
+			document.addEventListener("click", function(event) {
+
+				if (event.screenX > 1000) { // n
+					if (current_step == steps.length){
+						return;
+					}
+					console.log("next");
+					if (ticker != undefined){
+						ticker.stop();
+						ticker = undefined;
+						elapses = [];
+						to_destroy = [];
+						for (const index in starts) {
+							const drone = drones[index];
+							const step = current_step == 0 ? starts : steps[current_step-1];
+							drone.x = nodes[step[index]-1][0] - 20;
+							drone.y = nodes[step[index]-1][1] - 50;
+						}
+					}
+					current_step++;
+					ticker = new PIXI.Ticker();
+					for (const index in starts) {
+						const drone = drones[index];
+						to_destroy.push(false);
+						elapses.push(0);
+						ticker.add((delta) => drone_move_fn(delta, drone, index));
+					}
+				}
+				if (event.screenX < 1000) { // b
+					if (current_step == 0){
+						return;
+					}
+					console.log("previous");
+					current_step--;
+					for (const dest in to_destroy){
+						to_destroy[dest] = true;
+					}
+					for (const index in starts) {
+						const drone = drones[index];
+						const step = current_step == 0 ? starts : steps[current_step-1];
+						drone.x = nodes[step[index]-1][0] - 20;
+						drone.y = nodes[step[index]-1][1] - 50;
+					}
+				}
+			});
+
+			app.ticker.add(() => {
+				if (ticker == undefined)
+					return;
+				ticker.update();
+				for (const dest of to_destroy){
+					if (!dest){
+						return;
+					}
+					ticker.stop();
+				}
+				console.log("END");
+				ticker = undefined;
+				elapses = [];
+				to_destroy = [];
+			});
+
+		  </script>
+	</body>
+
+</html>
+
