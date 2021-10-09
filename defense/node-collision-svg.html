@@ -3,61 +3,39 @@
     <head>
 		<title>MAPF</title>
 
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.5, maximum-scale=1.5">
 
 	</head>
 
 	<body>
 
-    <svg width="100%" height="400px" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg"
+    <svg width="100%" height="550" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg"
     style="padding-left:0; padding-right:0; margin-left: auto;
     margin-right:auto; display: block;">
     <g id="svg">
-        <defs>
-            <marker id="head" orient="auto" markerWidth="50" markerHeight="600" refX="14" refY="3">
-                <path d="M-1,0 V6 L4,3 Z" fill="#C7514E"></path>
-            </marker>
-        </defs>
-
-
         <ellipse stroke-width="3" ry="30" rx="30" id="node_1" cy="60" cx="60" stroke="#000" fill="#778899"/>
         <text x="60" y="60" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">1</text>
         <ellipse stroke-width="3" ry="30" rx="30" id="node_2" cy="60" cx="280" stroke="#000" fill="#778899"/>
         <text x="280" y="60" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">2</text>
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_3" cy="60" cx="500" stroke="#000" fill="#778899"/>
-        <text x="500" y="60" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">3</text>
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_4" cy="60" cx="720" stroke="#000" fill="#778899"/>
-        <text x="720" y="60" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">4</text>
 
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_5" cy="210" cx="170" stroke="#000" fill="#778899"/>
-        <text x="170" y="210" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">5</text>
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_6" cy="210" cx="390" stroke="#000" fill="#778899"/>
-        <text x="390" y="210" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">6</text>
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_7" cy="210" cx="610" stroke="#000" fill="#778899"/>
-        <text x="610" y="210" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">7</text>
+        <ellipse stroke-width="3" ry="30" rx="30" id="node_3" cy="210" cx="170" stroke="#000" fill="#778899"/>
+        <text x="170" y="210" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">3</text>
 
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_8" cy="360" cx="60" stroke="#000" fill="#778899"/>
-        <text x="60" y="360" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">8</text>
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_9" cy="360" cx="280" stroke="#000" fill="#778899"/>
-        <text x="280" y="360" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">9</text>
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_10" cy="360" cx="500" stroke="#000" fill="#778899"/>
-        <text x="500" y="360" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">10</text>
-        <ellipse stroke-width="3" ry="30" rx="30" id="node_11" cy="360" cx="720" stroke="#000" fill="#778899"/>
-        <text x="720" y="360" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">11</text>
-
-        <!-- <image xlink:href="drone_1.png" id="drone_1" x="60" y="60" height="60" width="60" transform="translate(-60,-60)" filter="drop-shadow(0px 0x 100px 100px white)">
+        <ellipse stroke-width="3" ry="30" rx="30" id="node_4" cy="360" cx="60" stroke="#000" fill="#778899"/>
+        <text x="60" y="360" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">4</text>
+        <ellipse stroke-width="3" ry="30" rx="30" id="node_5" cy="360" cx="280" stroke="#000" fill="#778899"/>
+        <text x="280" y="360" text-anchor="middle" stroke="#000" dy=".3em" font-size="1.5em">5</text>
+        
+        <image xlink:href="drone_1.png" id="drone_1" x="60" y="60" height="60" width="60" transform="translate(-60,-60)" filter="drop-shadow(0px 0x 100px 100px white)">
             <animate attributeType="CSS" additive="sum" attributeName="y" values="10;0;10" dur="2.5s" repeatCount="indefinite" />
         </image>
         <image xlink:href="drone_2.png" id="drone_2" x="280" y="60" height="60" width="60" transform="translate(-60,-60)" filter="drop-shadow(0px 0px 100px 100px white)">
             <animate attributeType="CSS" additive="sum" attributeName="y" values="10;0;10" dur="2.5s" repeatCount="indefinite" />
         </image>
-        <image xlink:href="drone_3.png" id="drone_3" x="60" y="360" height="60" width="60" transform="translate(-60,-60)" filter="drop-shadow(0px 0px 100px 100px white)">
-            <animate attributeType="CSS" additive="sum" attributeName="y" values="10;0;10" dur="2.5s" repeatCount="indefinite" />
-        </image> -->
     </g>
     </svg>
     <script>
-        const edges = [[2,5,8], [5], [7,4], [7,11], [], [7], [10,11], [9], [], [11], []];
+        const edges = [[2,3], [1,3], [4,5], [5]];
         const svg = document.getElementById("svg");
         for (let source_index in edges){
             for (let target_number of edges[source_index]){
@@ -70,12 +48,11 @@
                 newLine.setAttribute('y1',source.cy.baseVal.value);
                 newLine.setAttribute('stroke-width', 3);
                 newLine.setAttribute('stroke', "#C7514E");
-                // newLine.setAttribute('marker-end', 'url(#head)');
                 svg.prepend(newLine);
             }
         }
         // <path d="M60 60 C 20 80, 20 340, 60 360" stroke-width="3" stroke-dasharray="4, 1, 2" stroke="#247354" fill="transparent"/>
-        const comms = [[2,3,4,5,6,7,8,9,10,11]];
+        const comms = [];
         // const comms = [[2]]
         for (let source_index in comms){
             for (let target_number of comms[source_index]){
@@ -99,25 +76,16 @@
                 (ampli*ts_rot[0]+target.cx.baseVal.value)+' '+(ampli*ts_rot[1]+target.cy.baseVal.value)+', '+target.cx.baseVal.value+' '+target.cy.baseVal.value);
                 newPath.setAttribute('stroke-width', 3);
                 newPath.setAttribute('stroke', "#C4C726");
-                newPath.setAttribute('stroke-dasharray', "10, 10");
+                newPath.setAttribute('stroke-dasharray', "4, 1, 2");
                 newPath.setAttribute('fill', 'transparent');
-                // <animate attributeType="CSS" additive="sum" attributeName="y" values="10;0;10" dur="2.5s" repeatCount="indefinite" />
-                let newAnim = document.createElementNS('http://www.w3.org/2000/svg','animate');
-                newAnim.setAttribute('attributeType', 'CSS');
-                newAnim.setAttribute('id', 'comm_'+(parseInt(source_index)+1)+'_'+target_number);
-                newAnim.setAttribute('attributeName', 'stroke-dashoffset');
-                newAnim.setAttribute('values', "0;100;0")
-                newAnim.setAttribute('dur', '0s');
-                newAnim.setAttribute('repeatCount', 'indefinite');
-                newPath.append(newAnim);
                 svg.prepend(newPath);
                 // stroke-dashoffset: 200
             }
         }
 
 
-        // let drones = [document.getElementById("drone_1"), document.getElementById("drone_2"), document.getElementById("drone_3")];
-        // console.log(drones);
+        let drones = [document.getElementById("drone_1"), document.getElementById("drone_2")];
+        console.log(drones);
         let start_hovering = null;
 
         function hovering(timestamp){
@@ -139,8 +107,8 @@
         let to_destroy = [];
         let elapses = [];
         let ticker;
-        const starts = [];
-        const steps = [];
+        const starts = [1,2];
+        const steps = [[3,3]];
 
         function lerp(a, b, c) {
             return a * (1 - c) + b * c;
@@ -196,19 +164,7 @@
 
         animateComm();
 
-        // let autoRun = true;
-
-        // SET START COLOR
-        for (const start of starts){
-            const dest_node = document.getElementById("node_"+start);
-            dest_node.setAttribute("fill", "#1d623b");
-        }
-
-        // SET END COLOR
-        for (const end of steps[steps.length-1]){
-            const dest_node = document.getElementById("node_"+end);
-            dest_node.setAttribute("fill", "#621d31");
-        }
+        let autoRun = true;
 
         function nextFrame(){
             if (current_step == steps.length){
@@ -232,8 +188,10 @@
                     const drone = drones[index];
                     const step = current_step == 0 ? starts : steps[current_step-1];
                     const dest_node = document.getElementById("node_"+step[index]);
+                    drone.style.visibility = 'hidden';
                     drone.x.baseVal.value = dest_node.cx.baseVal.value;
                     drone.y.baseVal.value = dest_node.cy.baseVal.value;
+                    drone.style.visibility = 'visible';
                 }
         }
 
