@@ -8,13 +8,14 @@
     <language>en-gb</language>
     <lastBuildDate>Thu, 07 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Intoduction to WorldWise</title>
+      <title>Welcome to the WorldWise DevBlog!</title>
       <link>https://arqueffe.github.io/blog/posts/intro-post/</link>
       <pubDate>Thu, 07 Mar 2024 00:00:00 +0000</pubDate>
       
       <guid>https://arqueffe.github.io/blog/posts/intro-post/</guid>
       
-      <description>First Title First piece of code </description>
+      <description>What is WorldWise? WorldWise is a mobile application that aims to teach geography using the state of the art technologies of E-Learning. My goal is to give a personalized learning experience to the users, breaking away from traditional learning methods.
+Why WorldWise? I believe that the existing learning applications are not personalized enough. While they can be engaging, they assume that all users learn in the same way. WorldWise is designed to learn from the user for the user.</description>
       
     </item>
     
