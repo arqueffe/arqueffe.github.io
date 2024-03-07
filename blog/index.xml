@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Home on Blog | Arthur Queffelec</title>
+    <link>https://hba.sid.one/</link>
+    <description>Recent content in Home on Blog | Arthur Queffelec</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-gb</language>
+    <lastBuildDate>Thu, 07 Mar 2024 13:50:20 +0100</lastBuildDate><atom:link href="https://hba.sid.one/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Intoduction to WorldWise</title>
+      <link>https://hba.sid.one/posts/intro-post/</link>
+      <pubDate>Thu, 07 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://hba.sid.one/posts/intro-post/</guid>
+      
+      <description>First Title First piece of code </description>
+      
+    </item>
+    
+  </channel>
+</rss>
