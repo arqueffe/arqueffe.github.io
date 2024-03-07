@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Blog | Arthur Queffelec</title>
-    <link>https://hba.sid.one/posts/</link>
+    <link>https://arqueffe.github.io/blog/posts/</link>
     <description>Recent content in Posts on Blog | Arthur Queffelec</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Thu, 07 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://hba.sid.one/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 07 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Intoduction to WorldWise</title>
-      <link>https://hba.sid.one/posts/intro-post/</link>
+      <link>https://arqueffe.github.io/blog/posts/intro-post/</link>
       <pubDate>Thu, 07 Mar 2024 00:00:00 +0000</pubDate>
       
-      <guid>https://hba.sid.one/posts/intro-post/</guid>
+      <guid>https://arqueffe.github.io/blog/posts/intro-post/</guid>
       
       <description>First Title First piece of code </description>
       

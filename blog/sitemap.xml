@@ -2,20 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://hba.sid.one/</loc>
+    <loc>https://arqueffe.github.io/blog/</loc>
     <lastmod>2024-03-07T13:50:20+01:00</lastmod>
   </url><url>
-    <loc>https://hba.sid.one/pages/</loc>
+    <loc>https://arqueffe.github.io/blog/pages/</loc>
     <lastmod>2024-03-07T13:50:20+01:00</lastmod>
   </url><url>
-    <loc>https://hba.sid.one/posts/intro-post/</loc>
+    <loc>https://arqueffe.github.io/blog/posts/intro-post/</loc>
     <lastmod>2024-03-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hba.sid.one/posts/</loc>
+    <loc>https://arqueffe.github.io/blog/posts/</loc>
     <lastmod>2024-03-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://hba.sid.one/categories/</loc>
+    <loc>https://arqueffe.github.io/blog/categories/</loc>
   </url><url>
-    <loc>https://hba.sid.one/tags/</loc>
+    <loc>https://arqueffe.github.io/blog/tags/</loc>
   </url>
 </urlset>
