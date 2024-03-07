@@ -2,10 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on Blog | Arthur Queffelec</title>
-    <link>https://arqueffe.github.io/blog/pages/</link>
+    <link>http://localhost:1313/blog/pages/</link>
     <description>Recent content in Pages on Blog | Arthur Queffelec</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-gb</language>
-    <lastBuildDate>Thu, 07 Mar 2024 13:50:20 +0100</lastBuildDate><atom:link href="https://arqueffe.github.io/blog/pages/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-gb</language><atom:link href="http://localhost:1313/blog/pages/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
