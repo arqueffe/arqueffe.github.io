@@ -6,7 +6,19 @@
     <description>Recent content in Home on Blog | Arthur Queffelec</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-gb</language>
-    <lastBuildDate>Thu, 07 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 25 Mar 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WorldWise - Enhancing the Learning Experience! Iteration 1&#43;</title>
+      <link>https://arqueffe.github.io/blog/posts/ww-25-03-24/</link>
+      <pubDate>Mon, 25 Mar 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://arqueffe.github.io/blog/posts/ww-25-03-24/</guid>
+      
+      <description>Welcome back to the WorldWise DevBlog! After a little more than two weeks, I&amp;rsquo;m excited to share the progress I&amp;rsquo;ve made on the app during Iteration 1 and beyond. Since my last post, I&amp;rsquo;ve been hard at work refining the app&amp;rsquo;s functionality and user experience. Here&amp;rsquo;s a glimpse into what I&amp;rsquo;ve been up to:
+User Interface Improvements Simplified Navigation: I&amp;rsquo;ve replaced the &amp;lsquo;Skip&amp;rsquo; button with an &amp;lsquo;I Don&amp;rsquo;t Know&amp;rsquo; and &amp;lsquo;Next&amp;rsquo; system, streamlining the learning process and making it more intuitive.</description>
+      
+    </item>
+    
     <item>
       <title>WorldWise - Welcome to the WorldWise DevBlog!</title>
       <link>https://arqueffe.github.io/blog/posts/intro-post/</link>
