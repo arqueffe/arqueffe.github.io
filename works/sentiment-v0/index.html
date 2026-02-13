@@ -1,820 +1,191 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Running ONNX Models in Flutter</title>
-    <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-
-
-
-
-<link rel="canonical" href="https://arqueffe.github.io/works/sentiment-v0/" />
-
-
-<link rel="stylesheet" href="/application.709b6b3bc6da55de7fe4007242383e35271f9c3b9821c394b3231e87adfd2313.css" integrity="sha256-cJtrO8baVd5/5AByQjg&#43;NScfnDuYIcOUsyMeh639IxM=" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-<meta property="og:title" content="Running ONNX Models in Flutter" />
-<meta property="og:type" content="article" />
-<meta property="og:description" content="A Guide to Using flutter_onnxruntime for Mobile Machine Learning" />
-    <meta property="og:image" content="https://arqueffe.github.io/images/author/arthur.png">
-  <meta property="og:url" content="https://arqueffe.github.io/works/sentiment-v0/">
-
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Running ONNX Models in Flutter">
-  <meta name="twitter:description" content="A Guide to Using flutter_onnxruntime for Mobile Machine Learning">
-
-    
-<meta name="description" content="A Guide to Using flutter_onnxruntime for Mobile Machine Learning" />
-
-
-    
-
-
-
-
-
-    <script integrity="sha256-2BwJjqRAiPaI8auaJ1nlOKNIUGyjtiMovI8Mf7JpcwM=">
-     document.documentElement.setAttribute('data-theme', 'dark')
-
-    </script>
-    
-  </head>
-
-  <body class="type-article kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
-    <div class="container-fluid bg-secondary wrapper">
-      
-      
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-
-
-<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
-  <div class="container">
-    
-    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
-      <i data-feather="sidebar"></i>
-    </button>
-    
-    <a class="navbar-brand" href="/">
-      Arthur&#39;s Portfolio</a>
-    <button
-      class="navbar-toggler navbar-light"
-      id="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#top-nav-items"
-      aria-label="menu"
-    >
-      <i data-feather="menu"></i>
-    </button>
-
-    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
-      <ul class="nav navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/#home">Home</a>
-        </li>
-        
-          
-          
-            
-              
-              
-                <li class="nav-item">
-                  <a class="nav-link" href="/#about">About</a>
-                </li>
-              
-            
-            
-              
-              
-                <li class="nav-item">
-                  <a class="nav-link" href="/#skills">Skills</a>
-                </li>
-              
-            
-            
-              
-              
-                <li class="nav-item">
-                  <a class="nav-link" href="/#experiences">Experiences</a>
-                </li>
-              
-            
-            
-              
-              
-                <li class="nav-item">
-                  <a class="nav-link" href="/#education">Education</a>
-                </li>
-              
-            
-            
-            
-              
-              
-                <li class="nav-item">
-                  <a class="nav-link" href="/#works">Works</a>
-                </li>
-              
-            
-            
-              
-              
-                <li class="nav-item">
-                  <a class="nav-link" href="/#publications">Publications</a>
-                </li>
-              
-            
-          
-        
-        
-        
-        
-        
-        
-        
-        
-      </ul>
-    </div>
-  </div>
-  
-  
-  
-  
-</nav>
-
-
-
-      
-      
-  
-  <section class="toc-section left-toc" id="toc-section">
-    <div class="toc-holder">
-      <h5 class="text-center ps-3">Table of Contents</h5>
-      <hr>
-      <div class="toc">
-        <nav id="TableOfContents">
-  <ul>
-    <li><a href="#introduction">Introduction</a></li>
-    <li><a href="#onnx-runtime-for-flutter">ONNX Runtime for Flutter</a>
-      <ul>
-        <li><a href="#why-onnx-runtime">Why ONNX Runtime?</a></li>
-      </ul>
-    </li>
-    <li><a href="#running-a-simple-onnx-model">Running a Simple ONNX Model</a></li>
-    <li><a href="#a-bigger-model">A Bigger Model</a></li>
-    <li><a href="#converting-the-model-to-onnx-format">Converting the Model to ONNX Format</a></li>
-    <li><a href="#making-a-simple-flutter-app-to-run-the-model">Making a simple Flutter App to Run the Model</a></li>
-    <li><a href="#running-inference-with-flutter_onnxruntime">Running Inference with flutter_onnxruntime</a>
-      <ul>
-        <li><a href="#tokenization">Tokenization</a></li>
-        <li><a href="#inference">Inference</a></li>
-        <li><a href="#post-processing-the-output">Post-processing the Output</a></li>
-      </ul>
-    </li>
-    <li><a href="#final-demo">Final Demo</a></li>
-    <li><a href="#future-improvements">Future Improvements</a></li>
-    <li><a href="#call-to-action">Call to Action</a></li>
-    <li><a href="#license">License</a></li>
-  </ul>
-</nav>
-      </div>
-    </div>
-  </section>
-  
-
-
-      
-      
-<section class="content-section" id="content-section">
-  <div class="content">
-    <div class="container p-0 read-area">
-      <div class="hero-area col-sm-12" id="hero-area" style="background-image: url('/images/works/sentiment-v0/hero.jpg');">
-      </div>
-
-      <div class="page-content">
-        
-        <div class="author-profile ms-auto align-self-lg-center">
-          <img class="rounded-circle" src='/images/author/arthur_hu_4fb916464580a7f5.png' alt="Author">
-          <h5 class="author-name">Arthur Queffelec</h5>
-          <p class="text-muted">Friday, February 13, 2026 | 10 minutes</p>
-        </div>
-        
-
-        <div class="title">
-          <h1>Running ONNX Models in Flutter</h1>
-        </div>
-
-        
-
-        
-          <div class="tags">
-  <ul style="padding-left: 0;">
-    
-    
-    <li><a href="/tags/machine-learning/" class="btn btn-sm btn-outline-info rounded">machine learning</a></li>
-    
-    
-    <li><a href="/tags/nlp/" class="btn btn-sm btn-outline-info rounded">nlp</a></li>
-    
-    
-    <li><a href="/tags/mobile/" class="btn btn-sm btn-outline-info rounded">mobile</a></li>
-    
-  </ul>
-</div>
-
-        
-        <div class="post-content" id="post-content">
-          <h2 id="introduction">Introduction</h2>
-<p>Hi there!</p>
-<p>Lately, I’ve been seeing a wave of articles and posts praising lightning-fast GPU inference. And don’t get me wrong, GPUs are great, and I absolutely appreciate a good speed boost as much as the next person. But I also believe a huge chunk of real-world use cases simply don’t need massive models or blazing inference speeds. In fact, for many apps, the ability to run small models fully offline, on the device that’s already in your pocket, provides far more practical value, especially when it comes to privacy.</p>
-<p>I’ve been tinkering with <a href="https://flutter.dev/" target="_blank" rel="noopener">Flutter</a> for quite a while now, and naturally, I started wondering: How far can I push on-device inference? Can I run lightweight ML models directly in a Flutter app… without any server, without GPU, and ideally without pain?</p>
-<p>In this article, I want to share the journey I took to run <strong>ONNX models offline</strong> in Flutter using an <strong>ONNX Runtime</strong> plugin (<a href="https://pub.dev/packages/flutter_onnxruntime" target="_blank" rel="noopener">flutter_onnxruntime</a>). I’ll show what worked, what didn’t, and what I learned along the way. If you want to do something similar, hopefully this saves you some time, and possibly some sanity.</p>
-<h2 id="onnx-runtime-for-flutter">ONNX Runtime for Flutter</h2>
-<h3 id="why-onnx-runtime">Why ONNX Runtime?</h3>
-<p>The <a href="https://onnxruntime.ai/docs/" target="_blank" rel="noopener">ONNX Runtime documentation</a> introduces itself like this:</p>
-<blockquote>
-<p>“ONNX Runtime is a cross-platform machine-learning model accelerator, with a flexible interface to integrate hardware-specific libraries. ONNX Runtime can be used with models from PyTorch, TensorFlow/Keras, TFLite, scikit-learn, and other frameworks.”</p>
-</blockquote>
-<p>That’s pretty much all I needed to hear.</p>
-<p>I don’t mind using different frameworks during training, experimenting is part of the fun, but when it comes to deployment, juggling multiple toolchains is not. Being able to train in anything and then export to ONNX for deployment is a huge win. It means I can keep experimenting freely, yet still ship a single portable artifact.</p>
-<p>Now, Dart has great FFI support and ONNX Runtime ships a C library, so in theory I could wire it all together myself. But in practice… I prefer to stand on the shoulders of people who already did the hard work.</p>
-<p>There are currently a least two ONNX Runtime plugins on pub.dev:</p>
-<ul>
-<li><strong><a href="https://pub.dev/packages/onnxruntime" target="_blank" rel="noopener">onnxruntime</a></strong> which has been last update 22 month ago.</li>
-<li><strong><a href="https://pub.dev/packages/flutter_onnxruntime" target="_blank" rel="noopener">flutter_onnxruntime</a></strong> which has been last update 5 days ago.
-(and depending on when you read this, maybe a few more 😊)</li>
-</ul>
-<p>After looking through issues, examples, and overall maintenance, I landed on <strong>flutter_onnxruntime</strong>. It’s actively developed, has a clean API, supports both Android and iOS, and the documentation doesn’t require archeology skills to decipher. Good enough for me.</p>
-<h2 id="running-a-simple-onnx-model">Running a Simple ONNX Model</h2>
-<p>Before going all-in with a huge model, I wanted to check that the plugin actually works. No point debugging tokenizer issues or tensor shapes if the runtime isn’t set up correctly.</p>
-<p>The plugin includes a very straightforward sample: a simple ONNX model that adds two numbers together. Perfect. It’s tiny, predictable, and impossible to misunderstand. You give it A and B, it gives you their sum.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:flutter_onnxruntime/flutter_onnxruntime.dart&#39;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// create inference session
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> ort <span style="color:#f92672">=</span> OnnxRuntime();
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> session <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> ort.createSessionFromAsset(<span style="color:#e6db74">&#39;assets/models/addition_model.onnx&#39;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// specify input with data and shape
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> inputs <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#39;A&#39;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">await</span> OrtValue.fromList([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>], [<span style="color:#ae81ff">3</span>]),
-</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#39;B&#39;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">await</span> OrtValue.fromList([<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>], [<span style="color:#ae81ff">3</span>])
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// start the inference
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> outputs <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> session.run(inputs);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// print output data
-</span></span></span><span style="display:flex;"><span>print(<span style="color:#66d9ef">await</span> outputs[<span style="color:#e6db74">&#39;C&#39;</span>]<span style="color:#f92672">!</span>.asList());
-</span></span></code></pre></div><p><img src="/images/works/sentiment-v0/addition_model.ort.png" alt="Screenshot of Netron showing the addition model with input and output shapes."></p>
-<p>Alright, this all seems pretty straightforward. We create an inference session from an ONNX model bundled in our Flutter assets, prepare a couple of tensors with the correct data and shapes, run the inference, and voilà, we get output. For simple models like the addition example, it almost feels too easy.</p>
-<p>But of course, that’s because the model itself is simple.</p>
-<p>Once you step into the world of transformer-based models, the real challenge isn’t running the model, it’s feeding it data in exactly the way it expects. Input shapes, token IDs, segment IDs, attention masks… suddenly building the tensors becomes the hard part.</p>
-<h2 id="a-bigger-model">A Bigger Model</h2>
-<p>I think we now have a solid grasp on how to run a simple ONNX model. So let’s take things one step further and apply the same approach to a more complex model: <strong><a href="https://huggingface.co/boltuix/bert-emotion" target="_blank" rel="noopener">bert_emotion</a></strong>, a BERT-based classifier for emotion detection. Unlike our tiny addition model, this one takes raw text as input and outputs a set of logits corresponding to different emotion categories.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;architectures&#34;</span>: [
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;BertForSequenceClassification&#34;</span>
-</span></span><span style="display:flex;"><span>  ],
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;attention_probs_dropout_prob&#34;</span>: <span style="color:#ae81ff">0.1</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;classifier_dropout&#34;</span>: <span style="color:#66d9ef">null</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;hidden_act&#34;</span>: <span style="color:#e6db74">&#34;gelu&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;hidden_dropout_prob&#34;</span>: <span style="color:#ae81ff">0.1</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;hidden_size&#34;</span>: <span style="color:#ae81ff">256</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id2label&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;0&#34;</span>: <span style="color:#e6db74">&#34;sadness&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">...</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;12&#34;</span>: <span style="color:#e6db74">&#34;sarcasm&#34;</span>
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;initializer_range&#34;</span>: <span style="color:#ae81ff">0.02</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;intermediate_size&#34;</span>: <span style="color:#ae81ff">1024</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;label2id&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;sadness&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#960050;background-color:#1e0010">...</span>
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;sarcasm&#34;</span>: <span style="color:#ae81ff">12</span>
-</span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;layer_norm_eps&#34;</span>: <span style="color:#ae81ff">1e-12</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;max_position_embeddings&#34;</span>: <span style="color:#ae81ff">512</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;model_type&#34;</span>: <span style="color:#e6db74">&#34;bert&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;num_attention_heads&#34;</span>: <span style="color:#ae81ff">4</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;num_hidden_layers&#34;</span>: <span style="color:#ae81ff">4</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;pad_token_id&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;position_embedding_type&#34;</span>: <span style="color:#e6db74">&#34;absolute&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;problem_type&#34;</span>: <span style="color:#e6db74">&#34;single_label_classification&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;torch_dtype&#34;</span>: <span style="color:#e6db74">&#34;float32&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;transformers_version&#34;</span>: <span style="color:#e6db74">&#34;4.50.1&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;type_vocab_size&#34;</span>: <span style="color:#ae81ff">2</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;use_cache&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;vocab_size&#34;</span>: <span style="color:#ae81ff">30522</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>From the model configuration, we can see that this is a BERT model designed for single-label classification across 13 emotion categories. The model expects tokenized text as input and returns logits for each of those emotion classes. Another important detail is the maximum sequence length of 512 tokens, which means our input needs to be correctly tokenized, padded, and shaped to match this requirement.</p>
-<h2 id="converting-the-model-to-onnx-format">Converting the Model to ONNX Format</h2>
-<p>A trained eye will also notice that the configuration points to a Hugging Face Transformers checkpoint in safetensors format. So we first need to convert it. Fortunately, the <a href="https://huggingface.co/docs/transformers/index" target="_blank" rel="noopener">Hugging Face Transformers library</a> makes this conversion quite straightforward, and we can export the model to ONNX with just a few lines of Python.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> pathlib <span style="color:#f92672">import</span> Path
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> transformers <span style="color:#f92672">import</span> AutoModelForSequenceClassification, AutoTokenizer
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load the model and tokenizer</span>
-</span></span><span style="display:flex;"><span>model <span style="color:#f92672">=</span> AutoModelForSequenceClassification<span style="color:#f92672">.</span>from_pretrained(<span style="color:#e6db74">&#34;bert-emotion&#34;</span>, local_files_only<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>tokenizer <span style="color:#f92672">=</span> AutoTokenizer<span style="color:#f92672">.</span>from_pretrained(<span style="color:#e6db74">&#34;bert-emotion&#34;</span>, local_files_only<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set the model to evaluation mode</span>
-</span></span><span style="display:flex;"><span>model<span style="color:#f92672">.</span>eval()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prepare a sample input for the model to easily determine the input shapes and data types</span>
-</span></span><span style="display:flex;"><span>sample <span style="color:#f92672">=</span> tokenizer(
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;I feel great today!&#34;</span>,
-</span></span><span style="display:flex;"><span>    return_tensors<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;pt&#34;</span>,
-</span></span><span style="display:flex;"><span>    truncation<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>    max_length<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span>,         <span style="color:#75715e"># ensure we respect the model&#39;s max sequence length</span>
-</span></span><span style="display:flex;"><span>    padding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;max_length&#34;</span>,
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>input_ids <span style="color:#f92672">=</span> sample[<span style="color:#e6db74">&#34;input_ids&#34;</span>]
-</span></span><span style="display:flex;"><span>attention_mask <span style="color:#f92672">=</span> sample[<span style="color:#e6db74">&#34;attention_mask&#34;</span>]
-</span></span><span style="display:flex;"><span>token_type_ids <span style="color:#f92672">=</span> sample<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;token_type_ids&#34;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Wrap the model to ensure it returns logits in a way that ONNX can understand</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BertEmotionOnnxWrapper</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__init__</span>(self, model: torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module) <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
-</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span><span style="color:#a6e22e">__init__</span>()
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> model
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(
-</span></span><span style="display:flex;"><span>        self,
-</span></span><span style="display:flex;"><span>        input_ids: torch<span style="color:#f92672">.</span>Tensor,
-</span></span><span style="display:flex;"><span>        attention_mask: torch<span style="color:#f92672">.</span>Tensor,
-</span></span><span style="display:flex;"><span>        token_type_ids: torch<span style="color:#f92672">.</span>Tensor,
-</span></span><span style="display:flex;"><span>    ) <span style="color:#f92672">-&gt;</span> torch<span style="color:#f92672">.</span>Tensor:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>model(
-</span></span><span style="display:flex;"><span>            input_ids<span style="color:#f92672">=</span>input_ids,
-</span></span><span style="display:flex;"><span>            attention_mask<span style="color:#f92672">=</span>attention_mask,
-</span></span><span style="display:flex;"><span>            token_type_ids<span style="color:#f92672">=</span>token_type_ids,
-</span></span><span style="display:flex;"><span>            return_dict<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>        )<span style="color:#f92672">.</span>logits
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Export the model to ONNX format</span>
-</span></span><span style="display:flex;"><span>wrapper <span style="color:#f92672">=</span> BertEmotionOnnxWrapper(model)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>output_path <span style="color:#f92672">=</span> Path(<span style="color:#e6db74">&#34;bert-emotion/bert-emotion.onnx&#34;</span>)
-</span></span><span style="display:flex;"><span>output_path<span style="color:#f92672">.</span>parent<span style="color:#f92672">.</span>mkdir(parents<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>, exist_ok<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Export the model to ONNX format with dynamic axes for batch size and sequence length</span>
-</span></span><span style="display:flex;"><span>torch<span style="color:#f92672">.</span>onnx<span style="color:#f92672">.</span>export(
-</span></span><span style="display:flex;"><span>    wrapper,
-</span></span><span style="display:flex;"><span>    (input_ids, attention_mask, token_type_ids),
-</span></span><span style="display:flex;"><span>    output_path<span style="color:#f92672">.</span>as_posix(),
-</span></span><span style="display:flex;"><span>    input_names<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;input_ids&#34;</span>, <span style="color:#e6db74">&#34;attention_mask&#34;</span>, <span style="color:#e6db74">&#34;token_type_ids&#34;</span>],
-</span></span><span style="display:flex;"><span>    output_names<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;logits&#34;</span>],
-</span></span><span style="display:flex;"><span>    dynamic_axes<span style="color:#f92672">=</span>{
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;input_ids&#34;</span>: {<span style="color:#ae81ff">0</span>: <span style="color:#e6db74">&#34;batch_size&#34;</span>, <span style="color:#ae81ff">1</span>: <span style="color:#e6db74">&#34;sequence_length&#34;</span>},
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;attention_mask&#34;</span>: {<span style="color:#ae81ff">0</span>: <span style="color:#e6db74">&#34;batch_size&#34;</span>, <span style="color:#ae81ff">1</span>: <span style="color:#e6db74">&#34;sequence_length&#34;</span>},
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;token_type_ids&#34;</span>: {<span style="color:#ae81ff">0</span>: <span style="color:#e6db74">&#34;batch_size&#34;</span>, <span style="color:#ae81ff">1</span>: <span style="color:#e6db74">&#34;sequence_length&#34;</span>},
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;logits&#34;</span>: {<span style="color:#ae81ff">0</span>: <span style="color:#e6db74">&#34;batch_size&#34;</span>},
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    opset_version<span style="color:#f92672">=</span><span style="color:#ae81ff">17</span>,
-</span></span><span style="display:flex;"><span>    do_constant_folding<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;ONNX model exported to: </span><span style="color:#e6db74">{</span>output_path<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</span></span></code></pre></div><p>This script loads the <strong>bert_emotion</strong> model and its tokenizer, prepares a sample input to determine the input signature, wraps the model so it returns logits in a way ONNX can understand, and then exports everything to ONNX with dynamic axes for both batch size and sequence length.</p>
-<p>The input_names and output_names parameters assign stable graph names inside the exported model. This matters because dynamic_axes refers to these names directly. In our case, axis 0 is marked as batch_size and axis 1 as sequence_length for all three inputs, allowing the model to handle varying batch sizes and token lengths at inference time. The logits output is dynamic only along axis 0, meaning the number of predictions scales with batch size.</p>
-<p>Now let’s open the model in <a href="https://netron.app/" target="_blank" rel="noopener">Netron</a> and confirm that the input and output shapes look correct.</p>
-<figure>
-    <img src="/images/works/sentiment-v0/bert-emotion_input.onnx.png" alt="Screenshot of Netron showing the bert_emotion model inputs.">
-<figcaption>Figure 1: Screenshot of Netron showing the bert_emotion model inputs.</figcaption>
-</figure>
-<p>Inspecting the input nodes, we see exactly what we expect: the three input tensors (input_ids, attention_mask, token_type_ids), the vocabulary size of 30 522, and a maximum sequence length of 512.</p>
-<figure>
-    <img src="/images/works/sentiment-v0/bert-emotion_output.onnx.png" alt="Screenshot of Netron showing the bert_emotion model outputs.">
-<figcaption>Figure 2: Screenshot of Netron showing the bert_emotion model outputs.</figcaption>
-</figure>
-<p>The output also looks correct, we get a logits vector of size num_classes. With that confirmed, we can finally move on to running this ONNX model inside Flutter.</p>
-<h2 id="making-a-simple-flutter-app-to-run-the-model">Making a simple Flutter App to Run the Model</h2>
-<p>Let’s put together a minimal Flutter app that lets us type text and see the predicted emotion using our freshly exported bert_emotion ONNX model.</p>
-<figure>
-    <img src="/images/works/sentiment-v0/app.png" alt="Screenshot of the Flutter app.">
-<figcaption>Figure 3: Screenshot of the Flutter app.</figcaption>
-</figure>
-<p>Nothing fancy here: a text field for input, a button to trigger inference, a few toggles for real-time inference while typing, and a simple UI displaying the predicted emotion and its confidence score.</p>
-<h2 id="running-inference-with-flutter_onnxruntime">Running Inference with flutter_onnxruntime</h2>
-<h3 id="tokenization">Tokenization</h3>
-<p>To run inference, we first need to tokenize the text exactly as the model was trained. For that, we can use the <strong><a href="https://pub.dev/packages/dart_bert_tokenizer" target="_blank" rel="noopener">dart_bert_tokenizer</a></strong> package, which provides a tokenizer compatible with BERT’s WordPiece vocabulary and preprocessing steps.</p>
-<p>Let’s look at how to integrate it and prepare the inputs for our ONNX model.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;package:dart_bert_tokenizer/dart_bert_tokenizer.dart&#39;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> main() {
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Load tokenizer
-</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> tokenizer <span style="color:#f92672">=</span> WordPieceTokenizer.fromVocabFileSync(<span style="color:#e6db74">&#39;vocab.txt&#39;</span>);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Encode text
-</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> encoding <span style="color:#f92672">=</span> tokenizer.encode(<span style="color:#e6db74">&#39;Hello, world!&#39;</span>);
-</span></span><span style="display:flex;"><span>  print(encoding.tokens); <span style="color:#75715e">// [[CLS], hello, ,, world, !, [SEP]]
-</span></span></span><span style="display:flex;"><span>  print(encoding.ids);    <span style="color:#75715e">// [101, 7592, 1010, 2088, 999, 102]
-</span></span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Decode back to text
-</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">final</span> text <span style="color:#f92672">=</span> tokenizer.decode(encoding.ids, skipSpecialTokens: <span style="color:#66d9ef">true</span>);
-</span></span><span style="display:flex;"><span>  print(text); <span style="color:#75715e">// hello , world !
-</span></span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>The usage is pretty straightforward: we load the tokenizer with its vocabulary file, encode the input text to obtain token IDs, and, if needed, we can also decode those token IDs back into text. That’s all we need to prepare inputs in the exact same way the original BERT model expects.</p>
-<h3 id="inference">Inference</h3>
-<p>Now that tokenization is in place, we can prepare the input tensors for our ONNX model and run inference using <strong>flutter_onnxruntime</strong>. The workflow is essentially the same as with the simple addition model, just with bigger tensors and more inputs.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#75715e">// We encode the text
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> encoding <span style="color:#f92672">=</span> _tokenizer<span style="color:#f92672">!</span>.encode(text);
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// We recover the input ids, attention mask, and token type ids from the encoding
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> inputIds <span style="color:#f92672">=</span> Int64List.fromList(
-</span></span><span style="display:flex;"><span>encoding.ids.map((value) <span style="color:#f92672">=&gt;</span> value.toInt()).toList(),
-</span></span><span style="display:flex;"><span>);
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> attentionMask <span style="color:#f92672">=</span> Int64List.fromList(
-</span></span><span style="display:flex;"><span>encoding.attentionMask.map((value) <span style="color:#f92672">=&gt;</span> value.toInt()).toList(),
-</span></span><span style="display:flex;"><span>);
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> tokenTypeIds <span style="color:#f92672">=</span> Int64List.fromList(
-</span></span><span style="display:flex;"><span>encoding.typeIds.map((value) <span style="color:#f92672">=&gt;</span> value.toInt()).toList(),
-</span></span><span style="display:flex;"><span>);
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// We convert the input data to OrtValue tensors
-</span></span></span><span style="display:flex;"><span>inputIdsTensor <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> OrtValue.fromList(inputIds, [<span style="color:#ae81ff">1</span>, inputIds.length]);
-</span></span><span style="display:flex;"><span>attentionMaskTensor <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> OrtValue.fromList(attentionMask, [
-</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">1</span>,
-</span></span><span style="display:flex;"><span>    attentionMask.length,
-</span></span><span style="display:flex;"><span>]);
-</span></span><span style="display:flex;"><span>tokenTypeIdsTensor <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> OrtValue.fromList(tokenTypeIds, [
-</span></span><span style="display:flex;"><span>    <span style="color:#ae81ff">1</span>,
-</span></span><span style="display:flex;"><span>    tokenTypeIds.length,
-</span></span><span style="display:flex;"><span>]);
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> inputs <span style="color:#f92672">=</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">String</span>, OrtValue<span style="color:#f92672">&gt;</span>{
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;input_ids&#39;</span><span style="color:#f92672">:</span> inputIdsTensor,
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;attention_mask&#39;</span><span style="color:#f92672">:</span> attentionMaskTensor,
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;token_type_ids&#39;</span><span style="color:#f92672">:</span> tokenTypeIdsTensor,
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// And if we didn&#39;t make any mistake, we can run the inference
-</span></span></span><span style="display:flex;"><span>outputs <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> _session<span style="color:#f92672">!</span>.run(inputs);
-</span></span></code></pre></div><h3 id="post-processing-the-output">Post-processing the Output</h3>
-<p>Once inference completes, we receive a logits tensor. From there, we simply apply a softmax to compute confidence scores and pick the emotion with the highest probability. That’s our prediction.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dart" data-lang="dart"><span style="display:flex;"><span><span style="color:#75715e">// We get the logits output tensor
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> logitsTensor <span style="color:#f92672">=</span> outputs[<span style="color:#e6db74">&#39;logits&#39;</span>] <span style="color:#f92672">??</span> outputs.values.first;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> logitsData <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> logitsTensor.asFlattenedList();
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> logits <span style="color:#f92672">=</span> logitsData
-</span></span><span style="display:flex;"><span>    .map((value) <span style="color:#f92672">=&gt;</span> (value <span style="color:#f92672">as</span> <span style="color:#66d9ef">num</span>).toDouble())
-</span></span><span style="display:flex;"><span>    .toList();
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// We can then apply an argmax to get the predicted class index, and a softmax to get the confidence scores
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> predictedIndex <span style="color:#f92672">=</span> _argmax(logits);
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> confidence <span style="color:#f92672">=</span> _softmax(logits)[predictedIndex];
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> emotion <span style="color:#f92672">=</span> predictedIndex <span style="color:#f92672">&lt;</span> _labels.length
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">?</span> _labels[predictedIndex]
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;label_</span><span style="color:#e6db74">$</span>predictedIndex<span style="color:#e6db74">&#39;</span>;
-</span></span></code></pre></div><p>And just like that, we can display both the predicted emotion and its confidence score directly in our Flutter UI.</p>
-<blockquote>
-<p>Tip: Make sure to clean up/release any input tensors after inference to avoid memory leaks.</p>
-</blockquote>
-<h2 id="final-demo">Final Demo</h2>
-<p>Here’s where Flutter really shines: I developed this app on Windows for Android, and thanks to Flutter’s portability, I can run the exact same UI on the web as well. Enjoy!</p>
-<div class="app-embed">
-  <button
-    type="button"
-    class="btn btn-primary app-embed__load"
-    data-app-load
-    data-loaded-label="Demo loaded"
-  >
-    Load interactive demo
-  </button>
-  <iframe
-    class="app-embed__frame"
-    title="Sentiment demo application"
-    loading="lazy"
-    aria-label="Sentiment demo application"
-    data-app-src="/works/sentiment-v0/embed.html"
-  ></iframe>
-</div>
-<blockquote>
-<p>Note: The web version doesn’t support models using <strong>int64</strong> inputs, so this demo uses a version of the model converted to <strong>int32</strong> instead.</p>
-</blockquote>
-<h2 id="future-improvements">Future Improvements</h2>
-<ul>
-<li>Experiment with quantization to reduce model size and improve inference speed on mobile.</li>
-<li>Design a more journal-like UI to make the app more engaging.</li>
-<li>Fine-tune this model, or a different one, to match a full emotion wheel instead of just 13 classes.</li>
-<li>Add support for int64 tensors in <a href="https://pub.dev/packages/flutter_onnxruntime" target="_blank" rel="noopener">flutter_onnxruntime</a> so the original model can run on the web.</li>
-</ul>
-<h2 id="call-to-action">Call to Action</h2>
-<p>Go checkout the <a href="https://github.com/arqueffe/onnx_flutter_example" target="_blank" rel="noopener">code</a> on GitHub, give the app a try, and feel free to reach out with questions or feedback. I’d love to hear what you build with it!</p>
-<h2 id="license">License</h2>
-<p>While my code is open source under the <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT License</a>, the <a href="https://huggingface.co/boltuix/bert-emotion" target="_blank" rel="noopener">bert_emotion</a> model itself is not (<a href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noopener">Apache 2.0 License</a>).</p>
-
-        </div>
-
-        <div class="row ps-3 pe-3">
-          <div class="col-md-6 share-buttons">
-          
-          </div>
-
-          
-        </div>
-
-      
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="row next-prev-navigator">
-  
-  
-</div>
-
-
-      
-
-      
-
-      </div>
-    </div>
-  </div>
-  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
-    <i class="fas fa-chevron-circle-up"></i>
-  </a>
-</section>
-
-
-      
-       
-    </div>
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-  
-      
-  
-
-
-
-
-
-  
-  
-
-
-
-  
-  
-    
-  
-
-  
-  
-    
-  
-
-  
-  
-
-  
-  
-    
-    
-      
-    
-  
-
-
-  
-  
-  
-    
-  
-
-  
-  
-  
-
-  
-  
-  
-    
-  
-  
-
-  
-  
-  
-
-  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
-    <div class="container pt-5">
-      <div class="row text-start justify-content-center">
-        
-        <div class="col-md-5 col-sm-12">
-          <h5>Navigation</h5>
-          
-          <ul>
-              
-                
-                
-                  
-                
-                <li class="nav-item">
-                  <a class="smooth-scroll" href="https://arqueffe.github.io/#about">About</a>
-                </li>
-              
-              
-                
-                
-                  
-                
-                <li class="nav-item">
-                  <a class="smooth-scroll" href="https://arqueffe.github.io/#skills">Skills</a>
-                </li>
-              
-              
-                
-                
-                  
-                
-                <li class="nav-item">
-                  <a class="smooth-scroll" href="https://arqueffe.github.io/#experiences">Experiences</a>
-                </li>
-              
-              
-                
-                
-                  
-                
-                <li class="nav-item">
-                  <a class="smooth-scroll" href="https://arqueffe.github.io/#education">Education</a>
-                </li>
-              
-              
-              
-                
-                
-                  
-                
-                <li class="nav-item">
-                  <a class="smooth-scroll" href="https://arqueffe.github.io/#works">Works</a>
-                </li>
-              
-              
-                
-                
-                  
-                
-                <li class="nav-item">
-                  <a class="smooth-scroll" href="https://arqueffe.github.io/#publications">Publications</a>
-                </li>
-              
-            
-              
-            
-          </ul>
-          
-        </div>
-        
-        
-        <div class="col-md-5 col-sm-12">
-          <h5>Contact me:</h5>
-          <ul>
-            
-              
-                <li><a href=mailto:arthur.queffelec@gmail.com target="_blank" rel="noopener">
-                  <span><i class="fas fa-envelope"></i></span> <span>arthur.queffelec@gmail.com</span>
-                </a></li>
-              
-            
-              
-                <li><a href=https://github.com/arqueffe target="_blank" rel="noopener">
-                  <span><i class="fab fa-github"></i></span> <span>arqueffe</span>
-                </a></li>
-              
-            
-              
-                <li><a href=https://www.linkedin.com/in/arqueffe target="_blank" rel="noopener">
-                  <span><i class="fab fa-linkedin"></i></span> <span>Arthur Queffelec</span>
-                </a></li>
-              
-            
-              
-                <li><a href=tel:&#43;33698977231 target="_blank" rel="noopener">
-                  <span><i class="fas fa-phone-alt"></i></span> <span>&#43;33698977231</span>
-                </a></li>
-              
-            
-              
-                <li><a href=https://www.researchgate.net/profile/arthur-queffelec target="_blank" rel="noopener">
-                  <span><i class="fab fa-researchgate"></i></span> <span>Arthur Queffelec</span>
-                </a></li>            
-              
-            
-          </ul>
-        </div>
-        
-        
-        
-      </div>
-    </div>
-    
-    
-    <hr />
-    <div class="container">
-      <div class="row text-start">
-        <div class="col-md-4">
-          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
-            <img src="/images/theme-logo_hu_be7279b2506ad3f1.png" alt="Toha Theme Logo">
-            Toha
-          </a>
-        </div>
-        <div class="col-md-4 text-center">© 2020 Copyright.</div>
-        <div class="col-md-4 text-end">
-          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
-          <img
-            src="/images/hugo-logo.svg"
-            alt="Hugo Logo"
-            height="18"
-          />
-          </a>
-        </div>
-      </div>
-    </div>
-    
-  </footer>
-
-
-    <script src="/application.fa3906c959dfe6652c17fb5c6e1ec0db36c992f0614ef7ed21e2a87c6c2bd918.js" integrity="sha256-&#43;jkGyVnf5mUsF/tcbh7A2zbJkvBhTvftIeKofGwr2Rg=" defer></script>
-
-
-    
-     
-
-    
-</body>
-</html>
+<!doctype html><html lang=en><head><title>Running ONNX Models in Flutter</title><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=X-UA-Compatible content="ie=edge"><link rel=canonical href=https://arqueffe.github.io/works/sentiment-v0/><link rel=stylesheet href=/application.709b6b3bc6da55de7fe4007242383e35271f9c3b9821c394b3231e87adfd2313.css integrity="sha256-cJtrO8baVd5/5AByQjg+NScfnDuYIcOUsyMeh639IxM="><meta property="og:title" content="Running ONNX Models in Flutter"><meta property="og:type" content="article"><meta property="og:description" content="A Guide to Using flutter_onnxruntime for Mobile Machine Learning"><meta property="og:image" content="https://arqueffe.github.io/images/author/arthur.png"><meta property="og:url" content="https://arqueffe.github.io/works/sentiment-v0/"><meta name=twitter:card content="summary"><meta name=twitter:title content="Running ONNX Models in Flutter"><meta name=twitter:description content="A Guide to Using flutter_onnxruntime for Mobile Machine Learning"><meta name=description content="A Guide to Using flutter_onnxruntime for Mobile Machine Learning"><script integrity="sha256-2BwJjqRAiPaI8auaJ1nlOKNIUGyjtiMovI8Mf7JpcwM=">document.documentElement.setAttribute("data-theme","dark")</script></head><body class="type-article kind-page" data-bs-spy=scroll data-bs-target=#TableOfContents data-bs-offset=80><div class="container-fluid bg-secondary wrapper"><nav class="navbar navbar-expand-xl top-navbar shadow" id=top-navbar><div class=container><button class="navbar-toggler navbar-light" id=sidebar-toggler type=button>
+<i data-feather=sidebar></i>
+</button>
+<a class=navbar-brand href=/>Arthur's Portfolio</a>
+<button class="navbar-toggler navbar-light" id=navbar-toggler type=button data-bs-toggle=collapse data-bs-target=#top-nav-items aria-label=menu>
+<i data-feather=menu></i></button><div class="collapse navbar-collapse dynamic-navbar" id=top-nav-items><ul class="nav navbar-nav ms-auto"><li class=nav-item><a class=nav-link href=/#home>Home</a></li><li class=nav-item><a class=nav-link href=/#about>About</a></li><li class=nav-item><a class=nav-link href=/#skills>Skills</a></li><li class=nav-item><a class=nav-link href=/#experiences>Experiences</a></li><li class=nav-item><a class=nav-link href=/#education>Education</a></li><li class=nav-item><a class=nav-link href=/#works>Works</a></li><li class=nav-item><a class=nav-link href=/#publications>Publications</a></li></ul></div></div></nav><section class="toc-section left-toc" id=toc-section><div class=toc-holder><h5 class="text-center ps-3">Table of Contents</h5><hr><div class=toc><nav id=TableOfContents><ul><li><a href=#introduction>Introduction</a></li><li><a href=#onnx-runtime-for-flutter>ONNX Runtime for Flutter</a><ul><li><a href=#why-onnx-runtime>Why ONNX Runtime?</a></li></ul></li><li><a href=#running-a-simple-onnx-model>Running a Simple ONNX Model</a></li><li><a href=#a-bigger-model>A Bigger Model</a></li><li><a href=#converting-the-model-to-onnx-format>Converting the Model to ONNX Format</a></li><li><a href=#making-a-simple-flutter-app-to-run-the-model>Making a simple Flutter App to Run the Model</a></li><li><a href=#running-inference-with-flutter_onnxruntime>Running Inference with flutter_onnxruntime</a><ul><li><a href=#tokenization>Tokenization</a></li><li><a href=#inference>Inference</a></li><li><a href=#post-processing-the-output>Post-processing the Output</a></li></ul></li><li><a href=#final-demo>Final Demo</a></li><li><a href=#future-improvements>Future Improvements</a></li><li><a href=#call-to-action>Call to Action</a></li><li><a href=#license>License</a></li></ul></nav></div></div></section><section class=content-section id=content-section><div class=content><div class="container p-0 read-area"><div class="hero-area col-sm-12" id=hero-area style=background-image:url(/images/works/sentiment-v0/hero.jpg)></div><div class=page-content><div class="author-profile ms-auto align-self-lg-center"><img class=rounded-circle src=/images/author/arthur_hu_4fb916464580a7f5.png alt=Author><h5 class=author-name>Arthur Queffelec</h5><p class=text-muted>Friday, February 13, 2026 | 10 minutes</p></div><div class=title><h1>Running ONNX Models in Flutter</h1></div><div class=tags><ul style=padding-left:0><li><a href=/tags/machine-learning/ class="btn btn-sm btn-outline-info rounded">machine learning</a></li><li><a href=/tags/nlp/ class="btn btn-sm btn-outline-info rounded">nlp</a></li><li><a href=/tags/mobile/ class="btn btn-sm btn-outline-info rounded">mobile</a></li></ul></div><div class=post-content id=post-content><h2 id=introduction>Introduction</h2><p>Hi there!</p><p>Lately, I’ve been seeing a wave of articles and posts praising lightning-fast GPU inference. And don’t get me wrong, GPUs are great, and I absolutely appreciate a good speed boost as much as the next person. But I also believe a huge chunk of real-world use cases simply don’t need massive models or blazing inference speeds. In fact, for many apps, the ability to run small models fully offline, on the device that’s already in your pocket, provides far more practical value, especially when it comes to privacy.</p><p>I’ve been tinkering with <a href=https://flutter.dev/ target=_blank rel=noopener>Flutter</a> for quite a while now, and naturally, I started wondering: How far can I push on-device inference? Can I run lightweight ML models directly in a Flutter app… without any server, without GPU, and ideally without pain?</p><p>In this article, I want to share the journey I took to run <strong>ONNX models offline</strong> in Flutter using an <strong>ONNX Runtime</strong> plugin (<a href=https://pub.dev/packages/flutter_onnxruntime target=_blank rel=noopener>flutter_onnxruntime</a>). I’ll show what worked, what didn’t, and what I learned along the way. If you want to do something similar, hopefully this saves you some time, and possibly some sanity.</p><h2 id=onnx-runtime-for-flutter>ONNX Runtime for Flutter</h2><h3 id=why-onnx-runtime>Why ONNX Runtime?</h3><p>The <a href=https://onnxruntime.ai/docs/ target=_blank rel=noopener>ONNX Runtime documentation</a> introduces itself like this:</p><blockquote><p>“ONNX Runtime is a cross-platform machine-learning model accelerator, with a flexible interface to integrate hardware-specific libraries. ONNX Runtime can be used with models from PyTorch, TensorFlow/Keras, TFLite, scikit-learn, and other frameworks.”</p></blockquote><p>That’s pretty much all I needed to hear.</p><p>I don’t mind using different frameworks during training, experimenting is part of the fun, but when it comes to deployment, juggling multiple toolchains is not. Being able to train in anything and then export to ONNX for deployment is a huge win. It means I can keep experimenting freely, yet still ship a single portable artifact.</p><p>Now, Dart has great FFI support and ONNX Runtime ships a C library, so in theory I could wire it all together myself. But in practice… I prefer to stand on the shoulders of people who already did the hard work.</p><p>There are currently a least two ONNX Runtime plugins on pub.dev:</p><ul><li><strong><a href=https://pub.dev/packages/onnxruntime target=_blank rel=noopener>onnxruntime</a></strong> which has been last update 22 month ago.</li><li><strong><a href=https://pub.dev/packages/flutter_onnxruntime target=_blank rel=noopener>flutter_onnxruntime</a></strong> which has been last update 5 days ago.
+(and depending on when you read this, maybe a few more 😊)</li></ul><p>After looking through issues, examples, and overall maintenance, I landed on <strong>flutter_onnxruntime</strong>. It’s actively developed, has a clean API, supports both Android and iOS, and the documentation doesn’t require archeology skills to decipher. Good enough for me.</p><h2 id=running-a-simple-onnx-model>Running a Simple ONNX Model</h2><p>Before going all-in with a huge model, I wanted to check that the plugin actually works. No point debugging tokenizer issues or tensor shapes if the runtime isn’t set up correctly.</p><p>The plugin includes a very straightforward sample: a simple ONNX model that adds two numbers together. Perfect. It’s tiny, predictable, and impossible to misunderstand. You give it A and B, it gives you their sum.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-dart data-lang=dart><span style=display:flex><span><span style=color:#66d9ef>import</span> <span style=color:#e6db74>&#39;package:flutter_onnxruntime/flutter_onnxruntime.dart&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// create inference session
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> ort <span style=color:#f92672>=</span> OnnxRuntime();
+</span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> session <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> ort.createSessionFromAsset(<span style=color:#e6db74>&#39;assets/models/addition_model.onnx&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// specify input with data and shape
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> inputs <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>   <span style=color:#e6db74>&#39;A&#39;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>await</span> OrtValue.fromList([<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>], [<span style=color:#ae81ff>3</span>]),
+</span></span><span style=display:flex><span>   <span style=color:#e6db74>&#39;B&#39;</span><span style=color:#f92672>:</span> <span style=color:#66d9ef>await</span> OrtValue.fromList([<span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>2</span>], [<span style=color:#ae81ff>3</span>])
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// start the inference
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> outputs <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> session.run(inputs);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>// print output data
+</span></span></span><span style=display:flex><span>print(<span style=color:#66d9ef>await</span> outputs[<span style=color:#e6db74>&#39;C&#39;</span>]<span style=color:#f92672>!</span>.asList());
+</span></span></code></pre></div><figure><img srcset src=/images/works/sentiment-v0/addition_model.ort.png alt='Screenshot of Netron showing the addition model with input and output shapes.'><figcaption>Figure 1: Screenshot of Netron showing the addition model with input and output shapes.</figcaption></figure><p>Alright, this all seems pretty straightforward. We create an inference session from an ONNX model bundled in our Flutter assets, prepare a couple of tensors with the correct data and shapes, run the inference, and voilà, we get output. For simple models like the addition example, it almost feels too easy.</p><p>But of course, that’s because the model itself is simple.</p><p>Once you step into the world of transformer-based models, the real challenge isn’t running the model, it’s feeding it data in exactly the way it expects. Input shapes, token IDs, segment IDs, attention masks… suddenly building the tensors becomes the hard part.</p><h2 id=a-bigger-model>A Bigger Model</h2><p>I think we now have a solid grasp on how to run a simple ONNX model. So let’s take things one step further and apply the same approach to a more complex model: <strong><a href=https://huggingface.co/boltuix/bert-emotion target=_blank rel=noopener>bert_emotion</a></strong>, a BERT-based classifier for emotion detection. Unlike our tiny addition model, this one takes raw text as input and outputs a set of logits corresponding to different emotion categories.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;architectures&#34;</span>: [
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;BertForSequenceClassification&#34;</span>
+</span></span><span style=display:flex><span>  ],
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;attention_probs_dropout_prob&#34;</span>: <span style=color:#ae81ff>0.1</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;classifier_dropout&#34;</span>: <span style=color:#66d9ef>null</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;hidden_act&#34;</span>: <span style=color:#e6db74>&#34;gelu&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;hidden_dropout_prob&#34;</span>: <span style=color:#ae81ff>0.1</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;hidden_size&#34;</span>: <span style=color:#ae81ff>256</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;id2label&#34;</span>: {
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;0&#34;</span>: <span style=color:#e6db74>&#34;sadness&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#960050;background-color:#1e0010>...</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>&#34;12&#34;</span>: <span style=color:#e6db74>&#34;sarcasm&#34;</span>
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;initializer_range&#34;</span>: <span style=color:#ae81ff>0.02</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;intermediate_size&#34;</span>: <span style=color:#ae81ff>1024</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;label2id&#34;</span>: {
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;sadness&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>      <span style=color:#960050;background-color:#1e0010>...</span>
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#34;sarcasm&#34;</span>: <span style=color:#ae81ff>12</span>
+</span></span><span style=display:flex><span>  },
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;layer_norm_eps&#34;</span>: <span style=color:#ae81ff>1e-12</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;max_position_embeddings&#34;</span>: <span style=color:#ae81ff>512</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;model_type&#34;</span>: <span style=color:#e6db74>&#34;bert&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;num_attention_heads&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;num_hidden_layers&#34;</span>: <span style=color:#ae81ff>4</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;pad_token_id&#34;</span>: <span style=color:#ae81ff>0</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;position_embedding_type&#34;</span>: <span style=color:#e6db74>&#34;absolute&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;problem_type&#34;</span>: <span style=color:#e6db74>&#34;single_label_classification&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;torch_dtype&#34;</span>: <span style=color:#e6db74>&#34;float32&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;transformers_version&#34;</span>: <span style=color:#e6db74>&#34;4.50.1&#34;</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;type_vocab_size&#34;</span>: <span style=color:#ae81ff>2</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;use_cache&#34;</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>  <span style=color:#f92672>&#34;vocab_size&#34;</span>: <span style=color:#ae81ff>30522</span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>From the model configuration, we can see that this is a BERT model designed for single-label classification across 13 emotion categories. The model expects tokenized text as input and returns logits for each of those emotion classes. Another important detail is the maximum sequence length of 512 tokens, which means our input needs to be correctly tokenized, padded, and shaped to match this requirement.</p><h2 id=converting-the-model-to-onnx-format>Converting the Model to ONNX Format</h2><p>A trained eye will also notice that the configuration points to a Hugging Face Transformers checkpoint in safetensors format. So we first need to convert it. Fortunately, the <a href=https://huggingface.co/docs/transformers/index target=_blank rel=noopener>Hugging Face Transformers library</a> makes this conversion quite straightforward, and we can export the model to ONNX with just a few lines of Python.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>from</span> pathlib <span style=color:#f92672>import</span> Path
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> transformers <span style=color:#f92672>import</span> AutoModelForSequenceClassification, AutoTokenizer
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Load the model and tokenizer</span>
+</span></span><span style=display:flex><span>model <span style=color:#f92672>=</span> AutoModelForSequenceClassification<span style=color:#f92672>.</span>from_pretrained(<span style=color:#e6db74>&#34;bert-emotion&#34;</span>, local_files_only<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span>tokenizer <span style=color:#f92672>=</span> AutoTokenizer<span style=color:#f92672>.</span>from_pretrained(<span style=color:#e6db74>&#34;bert-emotion&#34;</span>, local_files_only<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Set the model to evaluation mode</span>
+</span></span><span style=display:flex><span>model<span style=color:#f92672>.</span>eval()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Prepare a sample input for the model to easily determine the input shapes and data types</span>
+</span></span><span style=display:flex><span>sample <span style=color:#f92672>=</span> tokenizer(
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;I feel great today!&#34;</span>,
+</span></span><span style=display:flex><span>    return_tensors<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;pt&#34;</span>,
+</span></span><span style=display:flex><span>    truncation<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>,
+</span></span><span style=display:flex><span>    max_length<span style=color:#f92672>=</span><span style=color:#ae81ff>512</span>,         <span style=color:#75715e># ensure we respect the model&#39;s max sequence length</span>
+</span></span><span style=display:flex><span>    padding<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;max_length&#34;</span>,
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>input_ids <span style=color:#f92672>=</span> sample[<span style=color:#e6db74>&#34;input_ids&#34;</span>]
+</span></span><span style=display:flex><span>attention_mask <span style=color:#f92672>=</span> sample[<span style=color:#e6db74>&#34;attention_mask&#34;</span>]
+</span></span><span style=display:flex><span>token_type_ids <span style=color:#f92672>=</span> sample<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;token_type_ids&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Wrap the model to ensure it returns logits in a way that ONNX can understand</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>BertEmotionOnnxWrapper</span>(torch<span style=color:#f92672>.</span>nn<span style=color:#f92672>.</span>Module):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>__init__</span>(self, model: torch<span style=color:#f92672>.</span>nn<span style=color:#f92672>.</span>Module) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>        super()<span style=color:#f92672>.</span><span style=color:#a6e22e>__init__</span>()
+</span></span><span style=display:flex><span>        self<span style=color:#f92672>.</span>model <span style=color:#f92672>=</span> model
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(
+</span></span><span style=display:flex><span>        self,
+</span></span><span style=display:flex><span>        input_ids: torch<span style=color:#f92672>.</span>Tensor,
+</span></span><span style=display:flex><span>        attention_mask: torch<span style=color:#f92672>.</span>Tensor,
+</span></span><span style=display:flex><span>        token_type_ids: torch<span style=color:#f92672>.</span>Tensor,
+</span></span><span style=display:flex><span>    ) <span style=color:#f92672>-&gt;</span> torch<span style=color:#f92672>.</span>Tensor:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>model(
+</span></span><span style=display:flex><span>            input_ids<span style=color:#f92672>=</span>input_ids,
+</span></span><span style=display:flex><span>            attention_mask<span style=color:#f92672>=</span>attention_mask,
+</span></span><span style=display:flex><span>            token_type_ids<span style=color:#f92672>=</span>token_type_ids,
+</span></span><span style=display:flex><span>            return_dict<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>,
+</span></span><span style=display:flex><span>        )<span style=color:#f92672>.</span>logits
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Export the model to ONNX format</span>
+</span></span><span style=display:flex><span>wrapper <span style=color:#f92672>=</span> BertEmotionOnnxWrapper(model)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>output_path <span style=color:#f92672>=</span> Path(<span style=color:#e6db74>&#34;bert-emotion/bert-emotion.onnx&#34;</span>)
+</span></span><span style=display:flex><span>output_path<span style=color:#f92672>.</span>parent<span style=color:#f92672>.</span>mkdir(parents<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>, exist_ok<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Export the model to ONNX format with dynamic axes for batch size and sequence length</span>
+</span></span><span style=display:flex><span>torch<span style=color:#f92672>.</span>onnx<span style=color:#f92672>.</span>export(
+</span></span><span style=display:flex><span>    wrapper,
+</span></span><span style=display:flex><span>    (input_ids, attention_mask, token_type_ids),
+</span></span><span style=display:flex><span>    output_path<span style=color:#f92672>.</span>as_posix(),
+</span></span><span style=display:flex><span>    input_names<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;input_ids&#34;</span>, <span style=color:#e6db74>&#34;attention_mask&#34;</span>, <span style=color:#e6db74>&#34;token_type_ids&#34;</span>],
+</span></span><span style=display:flex><span>    output_names<span style=color:#f92672>=</span>[<span style=color:#e6db74>&#34;logits&#34;</span>],
+</span></span><span style=display:flex><span>    dynamic_axes<span style=color:#f92672>=</span>{
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;input_ids&#34;</span>: {<span style=color:#ae81ff>0</span>: <span style=color:#e6db74>&#34;batch_size&#34;</span>, <span style=color:#ae81ff>1</span>: <span style=color:#e6db74>&#34;sequence_length&#34;</span>},
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;attention_mask&#34;</span>: {<span style=color:#ae81ff>0</span>: <span style=color:#e6db74>&#34;batch_size&#34;</span>, <span style=color:#ae81ff>1</span>: <span style=color:#e6db74>&#34;sequence_length&#34;</span>},
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;token_type_ids&#34;</span>: {<span style=color:#ae81ff>0</span>: <span style=color:#e6db74>&#34;batch_size&#34;</span>, <span style=color:#ae81ff>1</span>: <span style=color:#e6db74>&#34;sequence_length&#34;</span>},
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;logits&#34;</span>: {<span style=color:#ae81ff>0</span>: <span style=color:#e6db74>&#34;batch_size&#34;</span>},
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    opset_version<span style=color:#f92672>=</span><span style=color:#ae81ff>17</span>,
+</span></span><span style=display:flex><span>    do_constant_folding<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>,
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;ONNX model exported to: </span><span style=color:#e6db74>{</span>output_path<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</span></span></code></pre></div><p>This script loads the <strong>bert_emotion</strong> model and its tokenizer, prepares a sample input to determine the input signature, wraps the model so it returns logits in a way ONNX can understand, and then exports everything to ONNX with dynamic axes for both batch size and sequence length.</p><p>The input_names and output_names parameters assign stable graph names inside the exported model. This matters because dynamic_axes refers to these names directly. In our case, axis 0 is marked as batch_size and axis 1 as sequence_length for all three inputs, allowing the model to handle varying batch sizes and token lengths at inference time. The logits output is dynamic only along axis 0, meaning the number of predictions scales with batch size.</p><p>Now let’s open the model in <a href=https://netron.app/ target=_blank rel=noopener>Netron</a> and confirm that the input and output shapes look correct.</p><figure><img srcset='/images/works/sentiment-v0/bert-emotion_input.onnx_hu_aa216f3d9b6432c8.png 500w
+, /images/works/sentiment-v0/bert-emotion_input.onnx_hu_6856b9a3553eccf2.png 800w
+, /images/works/sentiment-v0/bert-emotion_input.onnx_hu_7c1fb817eedf10f9.png 1200w
+, /images/works/sentiment-v0/bert-emotion_input.onnx_hu_d31aad5ba2a9a779.png 1500w' src=/images/works/sentiment-v0/bert-emotion_input.onnx.png alt='Screenshot of Netron showing the bert_emotion model inputs.'><figcaption>Figure 1: Screenshot of Netron showing the bert_emotion model inputs.</figcaption></figure><p>Inspecting the input nodes, we see exactly what we expect: the three input tensors (input_ids, attention_mask, token_type_ids), the vocabulary size of 30 522, and a maximum sequence length of 512.</p><figure><img srcset src=/images/works/sentiment-v0/bert-emotion_output.onnx.png alt='Screenshot of Netron showing the bert_emotion model outputs.'><figcaption>Figure 2: Screenshot of Netron showing the bert_emotion model outputs.</figcaption></figure><p>The output also looks correct, we get a logits vector of size num_classes. With that confirmed, we can finally move on to running this ONNX model inside Flutter.</p><h2 id=making-a-simple-flutter-app-to-run-the-model>Making a simple Flutter App to Run the Model</h2><p>Let’s put together a minimal Flutter app that lets us type text and see the predicted emotion using our freshly exported bert_emotion ONNX model.</p><figure><img srcset='/images/works/sentiment-v0/app_hu_124cb3545eeb893b.png 500w' src=/images/works/sentiment-v0/app.png alt='Screenshot of the Flutter app.'><figcaption>Figure 3: Screenshot of the Flutter app.</figcaption></figure><p>Nothing fancy here: a text field for input, a button to trigger inference, a few toggles for real-time inference while typing, and a simple UI displaying the predicted emotion and its confidence score.</p><h2 id=running-inference-with-flutter_onnxruntime>Running Inference with flutter_onnxruntime</h2><h3 id=tokenization>Tokenization</h3><p>To run inference, we first need to tokenize the text exactly as the model was trained. For that, we can use the <strong><a href=https://pub.dev/packages/dart_bert_tokenizer target=_blank rel=noopener>dart_bert_tokenizer</a></strong> package, which provides a tokenizer compatible with BERT’s WordPiece vocabulary and preprocessing steps.</p><p>Let’s look at how to integrate it and prepare the inputs for our ONNX model.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-dart data-lang=dart><span style=display:flex><span><span style=color:#66d9ef>import</span> <span style=color:#e6db74>&#39;package:dart_bert_tokenizer/dart_bert_tokenizer.dart&#39;</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>void</span> main() {
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Load tokenizer
+</span></span></span><span style=display:flex><span>  <span style=color:#66d9ef>final</span> tokenizer <span style=color:#f92672>=</span> WordPieceTokenizer.fromVocabFileSync(<span style=color:#e6db74>&#39;vocab.txt&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Encode text
+</span></span></span><span style=display:flex><span>  <span style=color:#66d9ef>final</span> encoding <span style=color:#f92672>=</span> tokenizer.encode(<span style=color:#e6db74>&#39;Hello, world!&#39;</span>);
+</span></span><span style=display:flex><span>  print(encoding.tokens); <span style=color:#75715e>// [[CLS], hello, ,, world, !, [SEP]]
+</span></span></span><span style=display:flex><span>  print(encoding.ids);    <span style=color:#75715e>// [101, 7592, 1010, 2088, 999, 102]
+</span></span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>// Decode back to text
+</span></span></span><span style=display:flex><span>  <span style=color:#66d9ef>final</span> text <span style=color:#f92672>=</span> tokenizer.decode(encoding.ids, skipSpecialTokens: <span style=color:#66d9ef>true</span>);
+</span></span><span style=display:flex><span>  print(text); <span style=color:#75715e>// hello , world !
+</span></span></span><span style=display:flex><span>}
+</span></span></code></pre></div><p>The usage is pretty straightforward: we load the tokenizer with its vocabulary file, encode the input text to obtain token IDs, and, if needed, we can also decode those token IDs back into text. That’s all we need to prepare inputs in the exact same way the original BERT model expects.</p><h3 id=inference>Inference</h3><p>Now that tokenization is in place, we can prepare the input tensors for our ONNX model and run inference using <strong>flutter_onnxruntime</strong>. The workflow is essentially the same as with the simple addition model, just with bigger tensors and more inputs.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-dart data-lang=dart><span style=display:flex><span><span style=color:#75715e>// We encode the text
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> encoding <span style=color:#f92672>=</span> _tokenizer<span style=color:#f92672>!</span>.encode(text);
+</span></span><span style=display:flex><span><span style=color:#75715e>// We recover the input ids, attention mask, and token type ids from the encoding
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> inputIds <span style=color:#f92672>=</span> Int64List.fromList(
+</span></span><span style=display:flex><span>encoding.ids.map((value) <span style=color:#f92672>=&gt;</span> value.toInt()).toList(),
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> attentionMask <span style=color:#f92672>=</span> Int64List.fromList(
+</span></span><span style=display:flex><span>encoding.attentionMask.map((value) <span style=color:#f92672>=&gt;</span> value.toInt()).toList(),
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> tokenTypeIds <span style=color:#f92672>=</span> Int64List.fromList(
+</span></span><span style=display:flex><span>encoding.typeIds.map((value) <span style=color:#f92672>=&gt;</span> value.toInt()).toList(),
+</span></span><span style=display:flex><span>);
+</span></span><span style=display:flex><span><span style=color:#75715e>// We convert the input data to OrtValue tensors
+</span></span></span><span style=display:flex><span>inputIdsTensor <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> OrtValue.fromList(inputIds, [<span style=color:#ae81ff>1</span>, inputIds.length]);
+</span></span><span style=display:flex><span>attentionMaskTensor <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> OrtValue.fromList(attentionMask, [
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>    attentionMask.length,
+</span></span><span style=display:flex><span>]);
+</span></span><span style=display:flex><span>tokenTypeIdsTensor <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> OrtValue.fromList(tokenTypeIds, [
+</span></span><span style=display:flex><span>    <span style=color:#ae81ff>1</span>,
+</span></span><span style=display:flex><span>    tokenTypeIds.length,
+</span></span><span style=display:flex><span>]);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> inputs <span style=color:#f92672>=</span> <span style=color:#f92672>&lt;</span><span style=color:#66d9ef>String</span>, OrtValue<span style=color:#f92672>&gt;</span>{
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#39;input_ids&#39;</span><span style=color:#f92672>:</span> inputIdsTensor,
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#39;attention_mask&#39;</span><span style=color:#f92672>:</span> attentionMaskTensor,
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#39;token_type_ids&#39;</span><span style=color:#f92672>:</span> tokenTypeIdsTensor,
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span><span style=color:#75715e>// And if we didn&#39;t make any mistake, we can run the inference
+</span></span></span><span style=display:flex><span>outputs <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> _session<span style=color:#f92672>!</span>.run(inputs);
+</span></span></code></pre></div><h3 id=post-processing-the-output>Post-processing the Output</h3><p>Once inference completes, we receive a logits tensor. From there, we simply apply a softmax to compute confidence scores and pick the emotion with the highest probability. That’s our prediction.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-dart data-lang=dart><span style=display:flex><span><span style=color:#75715e>// We get the logits output tensor
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> logitsTensor <span style=color:#f92672>=</span> outputs[<span style=color:#e6db74>&#39;logits&#39;</span>] <span style=color:#f92672>??</span> outputs.values.first;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> logitsData <span style=color:#f92672>=</span> <span style=color:#66d9ef>await</span> logitsTensor.asFlattenedList();
+</span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> logits <span style=color:#f92672>=</span> logitsData
+</span></span><span style=display:flex><span>    .map((value) <span style=color:#f92672>=&gt;</span> (value <span style=color:#f92672>as</span> <span style=color:#66d9ef>num</span>).toDouble())
+</span></span><span style=display:flex><span>    .toList();
+</span></span><span style=display:flex><span><span style=color:#75715e>// We can then apply an argmax to get the predicted class index, and a softmax to get the confidence scores
+</span></span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> predictedIndex <span style=color:#f92672>=</span> _argmax(logits);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> confidence <span style=color:#f92672>=</span> _softmax(logits)[predictedIndex];
+</span></span><span style=display:flex><span><span style=color:#66d9ef>final</span> emotion <span style=color:#f92672>=</span> predictedIndex <span style=color:#f92672>&lt;</span> _labels.length
+</span></span><span style=display:flex><span>    <span style=color:#f92672>?</span> _labels[predictedIndex]
+</span></span><span style=display:flex><span>    <span style=color:#f92672>:</span> <span style=color:#e6db74>&#39;label_</span><span style=color:#e6db74>$</span>predictedIndex<span style=color:#e6db74>&#39;</span>;
+</span></span></code></pre></div><p>And just like that, we can display both the predicted emotion and its confidence score directly in our Flutter UI.</p><blockquote><p>Tip: Make sure to clean up/release any input tensors after inference to avoid memory leaks.</p></blockquote><h2 id=final-demo>Final Demo</h2><p>Here’s where Flutter really shines: I developed this app on Windows for Android, and thanks to Flutter’s portability, I can run the exact same UI on the web as well. Enjoy!</p><div class=app-embed><button type=button class="btn btn-primary app-embed__load" data-app-load data-loaded-label="Demo loaded">
+Load interactive demo
+</button>
+<iframe class=app-embed__frame title="Sentiment demo application" loading=lazy aria-label="Sentiment demo application" data-app-src=/works/sentiment-v0/embed.html></iframe></div><blockquote><p>Note: The web version doesn’t support models using <strong>int64</strong> inputs, so this demo uses a version of the model converted to <strong>int32</strong> instead.</p></blockquote><h2 id=future-improvements>Future Improvements</h2><ul><li>Experiment with quantization to reduce model size and improve inference speed on mobile.</li><li>Design a more journal-like UI to make the app more engaging.</li><li>Fine-tune this model, or a different one, to match a full emotion wheel instead of just 13 classes.</li><li>Add support for int64 tensors in <a href=https://pub.dev/packages/flutter_onnxruntime target=_blank rel=noopener>flutter_onnxruntime</a> so the original model can run on the web.</li></ul><h2 id=call-to-action>Call to Action</h2><p>Go checkout the <a href=https://github.com/arqueffe/onnx_flutter_example target=_blank rel=noopener>code</a> on GitHub, give the app a try, and feel free to reach out with questions or feedback. I’d love to hear what you build with it!</p><h2 id=license>License</h2><p>While my code is open source under the <a href=https://opensource.org/license/mit target=_blank rel=noopener>MIT License</a>, the <a href=https://huggingface.co/boltuix/bert-emotion target=_blank rel=noopener>bert_emotion</a> model itself is not (<a href=https://www.apache.org/licenses/LICENSE-2.0 target=_blank rel=noopener>Apache 2.0 License</a>).</p></div><div class="row ps-3 pe-3"><div class="col-md-6 share-buttons"></div></div><div class="row next-prev-navigator"></div></div></div></div><a id=scroll-to-top class=btn type=button data-bs-toggle=tooltip data-bs-placement=left title="Scroll to top"><i class="fas fa-chevron-circle-up"></i></a></section></div><footer id=footer class="container-fluid text-center align-content-center footer pb-2"><div class="container pt-5"><div class="row text-start justify-content-center"><div class="col-md-5 col-sm-12"><h5>Navigation</h5><ul><li class=nav-item><a class=smooth-scroll href=https://arqueffe.github.io/#about>About</a></li><li class=nav-item><a class=smooth-scroll href=https://arqueffe.github.io/#skills>Skills</a></li><li class=nav-item><a class=smooth-scroll href=https://arqueffe.github.io/#experiences>Experiences</a></li><li class=nav-item><a class=smooth-scroll href=https://arqueffe.github.io/#education>Education</a></li><li class=nav-item><a class=smooth-scroll href=https://arqueffe.github.io/#works>Works</a></li><li class=nav-item><a class=smooth-scroll href=https://arqueffe.github.io/#publications>Publications</a></li></ul></div><div class="col-md-5 col-sm-12"><h5>Contact me:</h5><ul><li><a href=mailto:arthur.queffelec@gmail.com target=_blank rel=noopener><span><i class="fas fa-envelope"></i></span> <span>arthur.queffelec@gmail.com</span></a></li><li><a href=https://github.com/arqueffe target=_blank rel=noopener><span><i class="fab fa-github"></i></span> <span>arqueffe</span></a></li><li><a href=https://www.linkedin.com/in/arqueffe target=_blank rel=noopener><span><i class="fab fa-linkedin"></i></span> <span>Arthur Queffelec</span></a></li><li><a href=tel:+33698977231 target=_blank rel=noopener><span><i class="fas fa-phone-alt"></i></span> <span>+33698977231</span></a></li><li><a href=https://www.researchgate.net/profile/arthur-queffelec target=_blank rel=noopener><span><i class="fab fa-researchgate"></i></span> <span>Arthur Queffelec</span></a></li></ul></div></div></div><hr><div class=container><div class="row text-start"><div class=col-md-4><a id=theme href=https://github.com/hugo-toha/toha target=_blank rel=noopener><img src=/images/theme-logo_hu_be7279b2506ad3f1.png alt="Toha Theme Logo">
+Toha</a></div><div class="col-md-4 text-center">© 2020 Copyright.</div><div class="col-md-4 text-end"><a id=hugo href=https://gohugo.io/ target=_blank rel=noopener>Powered by
+<img src=/images/hugo-logo.svg alt="Hugo Logo" height=18></a></div></div></div></footer><script src=/application.fa3906c959dfe6652c17fb5c6e1ec0db36c992f0614ef7ed21e2a87c6c2bd918.js integrity="sha256-+jkGyVnf5mUsF/tcbh7A2zbJkvBhTvftIeKofGwr2Rg=" defer></script></body></html>
