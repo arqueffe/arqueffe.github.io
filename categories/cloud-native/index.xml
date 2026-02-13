@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloud Native on Arthur&#39;s Portfolio</title>
+    <link>https://arqueffe.github.io/categories/cloud-native/</link>
+    <description>Recent content in Cloud Native on Arthur&#39;s Portfolio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 15 Jan 2024 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/categories/cloud-native/index.xml" rel="self" type="application/rss+xml" /><item>
+      <title>Kubernetes Operator for ML Pipelines</title>
+      <link>https://arqueffe.github.io/works/sample-project/</link>
+      <pubDate>Mon, 15 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://arqueffe.github.io/works/sample-project/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;A custom Kubernetes operator that simplifies the deployment and management of machine learning pipelines in cloud-native environments.&lt;/p&gt;
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Automated pipeline orchestration&lt;/li&gt;
+&lt;li&gt;Resource optimization&lt;/li&gt;
+&lt;li&gt;Multi-cluster support&lt;/li&gt;
+&lt;li&gt;Built-in monitoring and logging&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;tech-stack&#34;&gt;Tech Stack&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Golang&lt;/li&gt;
+&lt;li&gt;Kubernetes Operator SDK&lt;/li&gt;
+&lt;li&gt;Kubeflow&lt;/li&gt;
+&lt;li&gt;Prometheus&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;impact&#34;&gt;Impact&lt;/h2&gt;
+&lt;p&gt;Reduced deployment time by 60% and improved resource utilization across the cluster.&lt;/p&gt;</description>
+    </item>
+    
+    
+  </channel>
+</rss>

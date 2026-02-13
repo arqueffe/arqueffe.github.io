@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Works on Arthur&#39;s Portfolio</title>
+    <link>http://localhost:1313/works/</link>
+    <description>Recent content in Works on Arthur&#39;s Portfolio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 15 Jan 2026 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/works/index.xml" rel="self" type="application/rss+xml" /><item>
+      <title>Building in Public: Why I Share Everything</title>
+      <link>http://localhost:1313/works/building-in-public/</link>
+      <pubDate>Thu, 15 Jan 2026 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/works/building-in-public/</guid>
+      <description>&lt;h2 id=&#34;the-scary-decision&#34;&gt;The Scary Decision&lt;/h2&gt;
+&lt;p&gt;A year ago, I made a terrifying commitment: &lt;strong&gt;share everything publicly&lt;/strong&gt;. Every project, every failure, every lesson learned. No cherry-picking wins, no hiding struggles.&lt;/p&gt;
+&lt;p&gt;It changed everything.&lt;/p&gt;
+&lt;h2 id=&#34;what-building-in-public-means&#34;&gt;What &amp;ldquo;Building in Public&amp;rdquo; Means&lt;/h2&gt;
+&lt;p&gt;It&amp;rsquo;s not just about posting progress updates. It&amp;rsquo;s about &lt;strong&gt;complete transparency&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sharing code from day one (even when it&amp;rsquo;s ugly)&lt;/li&gt;
+&lt;li&gt;Documenting failures as thoroughly as successes&lt;/li&gt;
+&lt;li&gt;Live-streaming debugging sessions&lt;/li&gt;
+&lt;li&gt;Publishing revenue numbers&lt;/li&gt;
+&lt;li&gt;Admitting when you have no idea what you&amp;rsquo;re doing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;why-i-started&#34;&gt;Why I Started&lt;/h2&gt;
+&lt;h3 id=&#34;the-impostor-syndrome-trap&#34;&gt;The Impostor Syndrome Trap&lt;/h3&gt;
+&lt;p&gt;For years, I curated a perfect professional image. Every commit polished, every project spotlight-ready. And I felt like a fraud.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Neural Dream: AI-Powered Creative Studio</title>
+      <link>http://localhost:1313/works/neural-dream/</link>
+      <pubDate>Thu, 20 Nov 2025 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/works/neural-dream/</guid>
+      <description>&lt;h2 id=&#34;the-vision&#34;&gt;The Vision&lt;/h2&gt;
+&lt;p&gt;What if every person could turn their wildest creative visions into reality? &lt;strong&gt;Neural Dream&lt;/strong&gt; bridges the gap between imagination and creation, giving artists and dreamers a powerful AI collaborator that understands intent, style, and emotion.&lt;/p&gt;
+&lt;h2 id=&#34;why-this-matters&#34;&gt;Why This Matters&lt;/h2&gt;
+&lt;p&gt;Creative tools have always been gatekeepers. Traditional software requires years to master. Neural Dream flips this paradigm—it&amp;rsquo;s a &lt;strong&gt;dialogue with creativity itself&lt;/strong&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;ldquo;The best interface is the one that disappears. Neural Dream lets you focus on what matters: your vision.&amp;rdquo;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Understanding Microservices Architecture</title>
+      <link>http://localhost:1313/works/blog-post-example/</link>
+      <pubDate>Sat, 10 Feb 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/works/blog-post-example/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Microservices architecture has become the de facto standard for building scalable applications&amp;hellip;&lt;/p&gt;
+&lt;h2 id=&#34;key-principles&#34;&gt;Key Principles&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Single Responsibility&lt;/strong&gt;: Each service does one thing well&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Independence&lt;/strong&gt;: Services can be deployed independently&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Decentralization&lt;/strong&gt;: Data and decision-making are distributed&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;common-patterns&#34;&gt;Common Patterns&lt;/h2&gt;
+&lt;h3 id=&#34;api-gateway&#34;&gt;API Gateway&lt;/h3&gt;
+&lt;p&gt;The API Gateway pattern provides a single entry point for all clients&amp;hellip;&lt;/p&gt;
+&lt;h3 id=&#34;service-discovery&#34;&gt;Service Discovery&lt;/h3&gt;
+&lt;p&gt;In a dynamic environment, services need to discover each other&amp;hellip;&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Microservices offer significant benefits but require careful planning and implementation.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes Operator for ML Pipelines</title>
+      <link>http://localhost:1313/works/sample-project/</link>
+      <pubDate>Mon, 15 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/works/sample-project/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
+&lt;p&gt;A custom Kubernetes operator that simplifies the deployment and management of machine learning pipelines in cloud-native environments.&lt;/p&gt;
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Automated pipeline orchestration&lt;/li&gt;
+&lt;li&gt;Resource optimization&lt;/li&gt;
+&lt;li&gt;Multi-cluster support&lt;/li&gt;
+&lt;li&gt;Built-in monitoring and logging&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;tech-stack&#34;&gt;Tech Stack&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Golang&lt;/li&gt;
+&lt;li&gt;Kubernetes Operator SDK&lt;/li&gt;
+&lt;li&gt;Kubeflow&lt;/li&gt;
+&lt;li&gt;Prometheus&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;impact&#34;&gt;Impact&lt;/h2&gt;
+&lt;p&gt;Reduced deployment time by 60% and improved resource utilization across the cluster.&lt;/p&gt;</description>
+    </item>
+    
+    
+  </channel>
+</rss>
