@@ -1,3 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mobile Development on Arthur's Portfolio</title><link>https://arqueffe.github.io/categories/mobile-development/</link><description>Recent content in Mobile Development on Arthur's Portfolio</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 13 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/categories/mobile-development/index.xml" rel="self" type="application/rss+xml"/><item><title>Running ONNX Models in Flutter</title><link>https://arqueffe.github.io/works/sentiment-v0/</link><pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate><guid>https://arqueffe.github.io/works/sentiment-v0/</guid><description>&lt;h2 id="introduction"&gt;Introduction&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mobile Development on Arthur&#39;s Portfolio</title>
+    <link>https://arqueffe.github.io/categories/mobile-development/</link>
+    <description>Recent content in Mobile Development on Arthur&#39;s Portfolio</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 13 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/categories/mobile-development/index.xml" rel="self" type="application/rss+xml" /><item>
+      <title>Running ONNX Models in Flutter</title>
+      <link>https://arqueffe.github.io/works/sentiment-v0/</link>
+      <pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://arqueffe.github.io/works/sentiment-v0/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;Hi there!&lt;/p&gt;
-&lt;p&gt;Lately, I’ve been seeing a wave of articles and posts praising lightning-fast GPU inference. And don’t get me wrong, GPUs are great, and I absolutely appreciate a good speed boost as much as the next person. But I also believe a huge chunk of real-world use cases simply don’t need massive models or blazing inference speeds. In fact, for many apps, the ability to run small models fully offline, on the device that’s already in your pocket, provides far more practical value, especially when it comes to privacy.&lt;/p&gt;</description></item></channel></rss>
+&lt;p&gt;Lately, I’ve been seeing a wave of articles and posts praising lightning-fast GPU inference. And don’t get me wrong, GPUs are great, and I absolutely appreciate a good speed boost as much as the next person. But I also believe a huge chunk of real-world use cases simply don’t need massive models or blazing inference speeds. In fact, for many apps, the ability to run small models fully offline, on the device that’s already in your pocket, provides far more practical value, especially when it comes to privacy.&lt;/p&gt;</description>
+    </item>
+    
+    
+  </channel>
+</rss>
