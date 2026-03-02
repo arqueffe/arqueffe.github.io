@@ -285,7 +285,7 @@
           <h2 id="introduction">Introduction</h2>
 <p>Hi there!</p>
 <p>While reading the state of the art of Retrieval Augmented Generation (RAG), I realized that I wanted to experiement with some bleeding edge techniques that I had read about. In order to do so, I needed a simple project to build on top of. While reading <a href="">Generative AI with LangChain</a>, I thought, &ldquo;I wish I could ask questions about this book&rdquo; and I guess that was the spark that ignited this project.</p>
-<p>And, of course, as I love to make GenAI as mobile as possible, I decided to build a simple PDF semantic search engine that could be used in browser and would allow me to easily extend it.</p>
+<p>And, of course, as I love to make GenAI as mobile as possible, I decided to build a simple PDF semantic search engine that could be used in browser and would allow me to easily extend it. So, like the previous project, this is fully running in the browser, without any backend, is open source, and ensures privacy.</p>
 <p>In this article, I will show you how you can build the simplest PDF semantic search engine using <a href="https://www.langchain.com/" target="_blank" rel="noopener">LangChain</a> that will be the stepping stone for more complex RAG projects.</p>
 <h2 id="retrieval">Retrieval</h2>
 <p>It&rsquo;s important to note that before we even consider the &lsquo;Generation&rsquo; part of RAG, we need to build the &lsquo;Retrieval&rsquo; part. This is where the semantic search engine comes into play. The idea is to create a system that can understand the content of a document and retrieve relevant information based on a query.</p>
@@ -514,7 +514,7 @@ The overlap is necessary because it allows us to maintain some context between t
 <p>There are many parameters that one can play with in order to improve the retrieval performance. First, it is worth noting that the chunking strategy can have a significant impact on the perfomance depending on the type of documents you are working with.
 Additionally, the choice of the embedding model can also dramatically change the results. It&rsquo;s worth experimenting with different models to see which one works best for your specific use case.
 We didn&rsquo;t talk about other retrieval techniques, such as using a more advanced vector store or implementing a more complex retrieval algorithm, but those are also worth exploring.</p>
-<p>That thing being said, let&rsquo;s try it out and see how it performs on &ldquo;Generative AI with LangChain.&rdquo;</p>
+<p>That being said, let&rsquo;s try it out and see how it performs on &ldquo;Generative AI with LangChain.&rdquo;</p>
 <blockquote>
 <p>Query: &ldquo;What is the difference between zero shot prompting and few shot prompting?&rdquo;</p>
 <pre tabindex="0"><code>. The best example of using a placeholder
@@ -746,7 +746,6 @@ uses that document’s embedding for retrieval
                 </li>
               
               
-              
                 
                 
                   
@@ -754,6 +753,7 @@ uses that document’s embedding for retrieval
                 <li class="nav-item">
                   <a class="smooth-scroll" href="https://arqueffe.github.io/#works">Works</a>
                 </li>
+              
               
               
                 
