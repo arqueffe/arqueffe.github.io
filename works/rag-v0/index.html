@@ -162,13 +162,13 @@
               
             
             
+            
               
               
                 <li class="nav-item">
                   <a class="nav-link" href="/#works">Works</a>
                 </li>
               
-            
             
             
               
@@ -514,7 +514,8 @@ The overlap is necessary because it allows us to maintain some context between t
 <p>There are many parameters that one can play with in order to improve the retrieval performance. First, it is worth noting that the chunking strategy can have a significant impact on the perfomance depending on the type of documents you are working with.
 Additionally, the choice of the embedding model can also dramatically change the results. It&rsquo;s worth experimenting with different models to see which one works best for your specific use case.
 We didn&rsquo;t talk about other retrieval techniques, such as using a more advanced vector store or implementing a more complex retrieval algorithm, but those are also worth exploring.</p>
-<p>That being said, let&rsquo;s try it out and see how it performs on &ldquo;Generative AI with LangChain.&rdquo;</p>
+<p>That being said, let&rsquo;s try it out and see how it performs on &ldquo;Generative AI with LangChain.&rdquo;
+For the following examples, I will be using a chunk size of 400 characters with an overlap of 100 characters.</p>
 <blockquote>
 <p>Query: &ldquo;What is the difference between zero shot prompting and few shot prompting?&rdquo;</p>
 <pre tabindex="0"><code>. The best example of using a placeholder
@@ -746,6 +747,7 @@ uses that document’s embedding for retrieval
                 </li>
               
               
+              
                 
                 
                   
@@ -753,7 +755,6 @@ uses that document’s embedding for retrieval
                 <li class="nav-item">
                   <a class="smooth-scroll" href="https://arqueffe.github.io/#works">Works</a>
                 </li>
-              
               
               
                 
