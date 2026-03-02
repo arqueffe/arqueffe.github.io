@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Building a Basic PDF Semantic Search Engine</title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+
+
+
+<link rel="canonical" href="https://arqueffe.github.io/works/rag-v0/" />
+
+
+<link rel="stylesheet" href="/application.5366be729c796a98468d18f8e17bf7c6edebd6f6d5d2b4a3a207f053cb21b003.css" integrity="sha256-U2a&#43;cpx5aphGjRj44Xv3xu3r1vbV0rSjogfwU8shsAM=" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Building a Basic PDF Semantic Search Engine" />
+<meta property="og:type" content="article" />
+<meta property="og:description" content="Learn how to build a basic PDF semantic search engine using LangChain." /><meta property="og:image" content="https://arqueffe.github.io/images/author/arthur.png"><meta property="og:url" content="https://arqueffe.github.io/works/rag-v0/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Building a Basic PDF Semantic Search Engine">
+  <meta name="twitter:description" content="Learn how to build a basic PDF semantic search engine using LangChain.">
+
+    
+<meta name="description" content="Learn how to build a basic PDF semantic search engine using LangChain." />
+
+
+    
+
+
+
+
+
+    <script integrity="sha256-2BwJjqRAiPaI8auaJ1nlOKNIUGyjtiMovI8Mf7JpcwM=">
+     document.documentElement.setAttribute('data-theme', 'dark')
+
+    </script>
+    
+  </head>
+
+  <body class="type-article kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Arthur&#39;s Portfolio</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
+        
+          
+          
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#about">About</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#skills">Skills</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#experiences">Experiences</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#education">Education</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#works">Works</a>
+                </li>
+              
+            
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#publications">Publications</a>
+                </li>
+              
+            
+          
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  
+</nav>
+
+
+
+      
+      
+  
+  <section class="toc-section left-toc" id="toc-section">
+    <div class="toc-holder">
+      <h5 class="text-center ps-3">Table of Contents</h5>
+      <hr>
+      <div class="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#retrieval">Retrieval</a>
+      <ul>
+        <li><a href="#why-retrieving">Why Retrieving?</a></li>
+        <li><a href="#how-retrieval-works">How Retrieval Works</a></li>
+      </ul>
+    </li>
+    <li><a href="#pdf-semantic-search-engine">PDF Semantic Search Engine</a>
+      <ul>
+        <li><a href="#the-pipeline">The Pipeline</a></li>
+        <li><a href="#pdf-parsing">PDF Parsing</a></li>
+        <li><a href="#text-chunking">Text Chunking</a></li>
+        <li><a href="#embeddings">Embeddings</a></li>
+        <li><a href="#vector-store-creation">Vector Store Creation</a></li>
+        <li><a href="#retrieval-1">Retrieval</a></li>
+        <li><a href="#evaluation">Evaluation</a></li>
+      </ul>
+    </li>
+    <li><a href="#live-demo">Live Demo</a></li>
+    <li><a href="#future-improvements">Future Improvements</a></li>
+    <li><a href="#call-to-action">Call to Action</a></li>
+    <li><a href="#license">License</a></li>
+  </ul>
+</nav>
+      </div>
+    </div>
+  </section>
+  
+
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      <div class="hero-area col-sm-12" id="hero-area" style="background-image: url('/images/works/rag-v0/hero.jpg');">
+      </div>
+
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/author/arthur_hu_4fb916464580a7f5.png' alt="Author">
+          <h5 class="author-name">Arthur Queffelec</h5>
+          <p class="text-muted">Monday, February 23, 2026 | 11 minutes</p>
+        </div>
+        
+
+        <div class="title">
+          <h1>Building a Basic PDF Semantic Search Engine</h1>
+        </div>
+
+        
+
+        
+          <div class="tags">
+  <ul style="padding-left: 0;">
+    
+    
+    <li><a href="/tags/machine-learning/" class="btn btn-sm btn-outline-info rounded">machine learning</a></li>
+    
+    
+    <li><a href="/tags/nlp/" class="btn btn-sm btn-outline-info rounded">nlp</a></li>
+    
+    
+    <li><a href="/tags/mobile/" class="btn btn-sm btn-outline-info rounded">mobile</a></li>
+    
+    
+    <li><a href="/tags/langchain/" class="btn btn-sm btn-outline-info rounded">langchain</a></li>
+    
+  </ul>
+</div>
+
+        
+        <div class="post-content" id="post-content">
+          <h2 id="introduction">Introduction</h2>
+<p>Hi there!</p>
+<p>While reading the state of the art of Retrieval Augmented Generation (RAG), I realized that I wanted to experiement with some bleeding edge techniques that I had read about. In order to do so, I needed a simple project to build on top of. While reading <a href="">Generative AI with LangChain</a>, I thought, &ldquo;I wish I could ask questions about this book&rdquo; and I guess that was the spark that ignited this project.</p>
+<p>And, of course, as I love to make GenAI as mobile as possible, I decided to build a simple PDF semantic search engine that could be used in browser and would allow me to easily extend it.</p>
+<p>In this article, I will show you how you can build the simplest PDF semantic search engine using <a href="https://www.langchain.com/" target="_blank" rel="noopener">LangChain</a> that will be the stepping stone for more complex RAG projects.</p>
+<h2 id="retrieval">Retrieval</h2>
+<p>It&rsquo;s important to note that before we even consider the &lsquo;Generation&rsquo; part of RAG, we need to build the &lsquo;Retrieval&rsquo; part. This is where the semantic search engine comes into play. The idea is to create a system that can understand the content of a document and retrieve relevant information based on a query.</p>
+<h3 id="why-retrieving">Why Retrieving?</h3>
+<p>An LLM, as big as it is, doesn&rsquo;t properly &lsquo;know&rsquo; anything. It has been trained to predict the next token based on the previous ones, but it doesn&rsquo;t have a true understanding of the world. I like to see an LLM as a very powerful parser. Historically, transformers have been created for translation tasks, and while they have been adapted to many other tasks, they still remain fundamentally a tool for &rsquo;transforming&rsquo; data. Pun intended.</p>
+<p>So, when we want an LLM to answer a question, the best way for it to get it right is to allow it to &lsquo;see&rsquo; the right answer. However, we cannot shove the entire knowledge of the humanity into it&rsquo;s context window, and even if we could, it&rsquo;s attention mechanism is limited, so it would even struggle to find the right information in that sea of data.</p>
+<p>This is where retrieval comes in. By retrieving the most relevant information and providing it as context to the LLM, we can significantly improve the quality of the generated response.</p>
+<h3 id="how-retrieval-works">How Retrieval Works</h3>
+<p>So, let&rsquo;s ignore generation for now, the problem we try to solve is: &ldquo;Given a document and a query, how can we select the most relevant parts of the document to answer the query?&rdquo;</p>
+<p>Information retrieval is a well-studied problem in the field of Natural Language Processing (NLP). There has been many techniques to achieve this. However, the breakthrough in this field has been the use of embeddings. Indeed, while neccesary for LLMs, embeddings have also revolutionized the way we do information retrieval.</p>
+<p>By using embeddings, we can project a piece of text into a high-dimensional space where semantically similar pieces of text are close to each other.</p>
+<p>For the sake of simplicity, imagine a giant 3D map, where every concept has a specific coordinate:</p>
+<ul>
+<li>&ldquo;Apple&rdquo; and &ldquo;iPhone&rdquo; would be close to each other.</li>
+<li>&ldquo;Apple&rdquo; and &ldquo;Pear&rdquo; would also be close, but in a different &lsquo;direction&rsquo;.</li>
+<li>&ldquo;Apple&rdquo; and &ldquo;Nuclear Physics&rdquo; would be miles apart. (But potentially closer than &ldquo;Nuclear Physics&rdquo; and &ldquo;Pear&rdquo;, thanks to Newton!)</li>
+</ul>
+<p>Interestingly, the plane in which &ldquo;Apple&rdquo; and &ldquo;iPhone&rdquo; would be close might very much be the same as the plane on which &ldquo;Raspberry&rdquo; and &ldquo;Pi Zero&rdquo; would be close, which is pretty cool.</p>
+<figure>
+  
+  
+  
+  
+    
+      
+  
+      
+      
+      
+      
+  
+      
+  
+      
+      
+      
+      
+  
+      
+  
+  
+      
+      <img
+      
+            srcset='
+            
+              /images/works/rag-v0/embedding_hu_e6ae5c9c7af77e6b.png 500w
+            
+            
+              , /images/works/rag-v0/embedding_hu_e8adfdfd49b0a2fb.png 800w
+            
+            
+              , /images/works/rag-v0/embedding_hu_7a7a4cd7254ebfb9.png 1200w
+            
+            '
+            
+              src="/images/works/rag-v0/embedding.png"
+            
+  
+            alt='Illustration of the embedding space.'>
+      
+  
+
+<figcaption>Figure 1: Illustration of the embedding space.</figcaption>
+</figure>
+<p>Now, let&rsquo;s say we plot the entire content of a document on this map. When we have a query, we can also plot it on the same map and look for the closest points to it. Those points will correspond to the most relevant parts of the document.</p>
+<h2 id="pdf-semantic-search-engine">PDF Semantic Search Engine</h2>
+<h3 id="the-pipeline">The Pipeline</h3>
+<p>Alright, now that we understand the concept of retrieval and roughly how embeddings work, let&rsquo;s see how we can build a simple PDF semantic search engine using LangChain.</p>
+<p>Here is the high-level pipeline we will follow:</p>
+<ol>
+<li><strong>PDF Parsing</strong>: We will use a PDF parser to extract the text from the PDF document.</li>
+<li><strong>Text Chunking</strong>: We will split the extracted text into smaller chunks that can be processed by the embedding model.</li>
+<li><strong>Vector Store Creation</strong>: We will use an embedding model to generate embeddings for each chunk of text and store them in a vector database.</li>
+<li><strong>Retrieval</strong>: When a query is made, we will generate an embedding for the query and retrieve the most relevant chunks from the vector database based on cosine similarity.</li>
+</ol>
+<figure>
+  
+  
+  
+  
+    
+      
+  
+      
+      
+      
+      
+  
+      
+  
+      
+      
+      
+      
+  
+      
+  
+  
+      
+      <img
+      
+            srcset='
+            
+            
+            
+            '
+            
+              src="/images/works/rag-v0/pipeline.png"
+            
+  
+            alt='Illustration of the pipeline.'>
+      
+  
+
+<figcaption>Figure 2: Illustration of the pipeline.</figcaption>
+</figure>
+<p>Note that the following code is simplified for the sake of clarity and is not production-ready. It is meant to illustrate the concepts and the pipeline. You can find the full code in the <a href="https://github.com/arqueffe/rag-v0" target="_blank" rel="noopener">GitHub repository</a>.</p>
+<h3 id="pdf-parsing">PDF Parsing</h3>
+<p>Let&rsquo;s start with the PDF parsing. We will use the <code>WebPDFLoader</code> from the <code>@langchain/community</code> package to load and parse the PDF document.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">WebPDFLoader</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@langchain/community/document_loaders/web/pdf&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">type</span> { <span style="color:#a6e22e">Document</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@langchain/core/documents&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">as</span> <span style="color:#a6e22e">pdfjs</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;pdfjs-dist/build/pdf.mjs&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">loadPdfAsDocuments</span>(<span style="color:#a6e22e">file</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">File</span>)<span style="color:#f92672">:</span> Promise<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">Document</span>[]<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">loader</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">WebPDFLoader</span>(<span style="color:#a6e22e">file</span>, {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">pdfjs</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">async</span> () =&gt; <span style="color:#a6e22e">pdfjs</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">splitPages</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">loader</span>.<span style="color:#a6e22e">load</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="text-chunking">Text Chunking</h3>
+<blockquote>
+<p>Note: Chunking is a whole art of its own. The way you chunk your text can have a significant impact on the performance of your retrieval system. It&rsquo;s important to experiment with different chunking strategies to find the one that works best for your specific use case.</p>
+</blockquote>
+<p>For our simple semantic search engine, we will use the <code>CharacterTextSplitter</code> from the <code>@langchain/textsplitters</code> package, which allows us to split the text based on a separator, a chunk size and an overlap.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">CharacterTextSplitter</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@langchain/textsplitters&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">type</span> { <span style="color:#a6e22e">Document</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@langchain/core/documents&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">chunkDocuments</span>(<span style="color:#a6e22e">documents</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Document</span>[])<span style="color:#f92672">:</span> Promise<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">Document</span>[]<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">splitter</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">CharacterTextSplitter</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">separator</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">fixed</span>.<span style="color:#a6e22e">separator</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">chunkSize</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">fixed</span>.<span style="color:#a6e22e">chunkSize</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">chunkOverlap</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">fixed</span>.<span style="color:#a6e22e">chunkOverlap</span>
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">splitter</span>.<span style="color:#a6e22e">splitDocuments</span>(<span style="color:#a6e22e">documents</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The chunk size can be important depending on the type of documents. However, it&rsquo;s worth noting that you will be limited by the maximum input size of the embedding model you are using.
+The overlap is necessary because it allows us to maintain some context between the chunks, which can be crucial for the retrieval step.</p>
+<h3 id="embeddings">Embeddings</h3>
+<p>For the sake of building a in-browser semantic search engine, we will use the <code>Xenova/all-MiniLM-L6-v2</code> model, which is a small and efficient model that can run in the browser using the <code>@xenova/transformers</code> library. We will create a custom <code>Embeddings</code> class that uses this model to generate embeddings for our text chunks.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Embeddings</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@langchain/core/embeddings&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">env</span>, <span style="color:#a6e22e">pipeline</span>, <span style="color:#a6e22e">type</span> <span style="color:#a6e22e">FeatureExtractionPipeline</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@xenova/transformers&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">DEFAULT_MODEL</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Xenova/all-MiniLM-L6-v2&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BrowserTransformersEmbeddings</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Embeddings</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">extractor</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">FeatureExtractionPipeline</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">constructor</span>(<span style="color:#66d9ef">private</span> <span style="color:#a6e22e">readonly</span> <span style="color:#a6e22e">model</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">string</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">DEFAULT_MODEL</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span>({});
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">env</span>.<span style="color:#a6e22e">allowLocalModels</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">ensureExtractor</span>()<span style="color:#f92672">:</span> Promise<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">FeatureExtractionPipeline</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">extractor</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">extractor</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">pipeline</span>(<span style="color:#e6db74">&#34;feature-extraction&#34;</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">model</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">extractor</span> <span style="color:#a6e22e">as</span> <span style="color:#a6e22e">FeatureExtractionPipeline</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">embedDocuments</span>(<span style="color:#a6e22e">texts</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">string</span>[])<span style="color:#f92672">:</span> Promise<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">number</span>[][]<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Promise.<span style="color:#a6e22e">all</span>(<span style="color:#a6e22e">texts</span>.<span style="color:#a6e22e">map</span>((<span style="color:#a6e22e">text</span>) =&gt; <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">embedQuery</span>(<span style="color:#a6e22e">text</span>)));
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">async</span> <span style="color:#a6e22e">embedQuery</span>(<span style="color:#a6e22e">text</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">string</span>)<span style="color:#f92672">:</span> Promise<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">number</span>[]<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">extractor</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ensureExtractor</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">extractor</span>(<span style="color:#a6e22e">text</span>, { <span style="color:#a6e22e">pooling</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;mean&#34;</span>, <span style="color:#a6e22e">normalize</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Array.<span style="color:#a6e22e">from</span>(<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">data</span> <span style="color:#a6e22e">as</span> <span style="color:#a6e22e">ArrayLike</span><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">number</span><span style="color:#f92672">&gt;</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>It&rsquo;s pretty straightforward. We create a feature extraction pipeline using the model, and then we use it to extract the features from the text. Embedding a document is simply embedding every chunk of text in the document.</p>
+<blockquote>
+<p>Note: In the extractor, we use mean pooling and normalization to get a single embedding vector for the entire text chunk.</p>
+</blockquote>
+<h3 id="vector-store-creation">Vector Store Creation</h3>
+<p>Now that we can embed a document, we need to store it into a database that allows us to efficiently retrieve similar embeddings. For this simple semantic search engine, we will use the <code>MemoryVectorStore</code> from the <code>langchain/vectorstores/memory</code> package, which is an in-memory vector store that allows us to perform exact, linear search for the most similar embeddings. The default similarity metric is cosine similarity, but can be changed.</p>
+<blockquote>
+<p>Note: While the <code>MemoryVectorStore</code> is enough for our purpose, it is worth noting that a linear search can be quite inefficient for large datasets. For larger datasets, you might want to consider using a more advanced vector store that implements an approximate nearest neighbor search algorithm, such as HNSW or FAISS.</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">type</span> { <span style="color:#a6e22e">Document</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@langchain/core/documents&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">type</span> { <span style="color:#a6e22e">Embeddings</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@langchain/core/embeddings&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">MemoryVectorStore</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;langchain/vectorstores/memory&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createVectorStore</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">documents</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Document</span>[],
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">embeddings</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">Embeddings</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">:</span> Promise<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">MemoryVectorStore</span><span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">store</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">MemoryVectorStore</span>(<span style="color:#a6e22e">embeddings</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">addDocuments</span>(<span style="color:#a6e22e">documents</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">store</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>Note: As for the chunking strategy, the choice of the vector store can also have a significant impact on the performance of the retrieval system. I highly recommend to explore the different vector stores available in the <a href="https://docs.langchain.com/oss/javascript/integrations/vectorstores/index#vector-store-integrations" target="_blank" rel="noopener">LangChain ecosystem</a>.</p>
+</blockquote>
+<h3 id="retrieval-1">Retrieval</h3>
+<p>Finally, we can implement the retrieval step. When a query is made, we will generate an embedding for the query and retrieve the most relevant chunks from the vector database based on cosine similarity.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-javascript" data-lang="javascript"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">type</span> { <span style="color:#a6e22e">Document</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;@langchain/core/documents&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">type</span> { <span style="color:#a6e22e">MemoryVectorStore</span> } <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#34;langchain/vectorstores/memory&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">createRetriever</span>(<span style="color:#a6e22e">vectorStore</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">MemoryVectorStore</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">vectorStore</span>.<span style="color:#a6e22e">asRetriever</span>(<span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">queryWithRetriever</span>(
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">retriever</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">ReturnType</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typeof</span> <span style="color:#a6e22e">createRetriever</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">query</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">string</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">:</span> Promise<span style="color:#f92672">&lt;</span><span style="color:#a6e22e">Document</span>[]<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">retriever</span>.<span style="color:#a6e22e">invoke</span>(<span style="color:#a6e22e">query</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="evaluation">Evaluation</h3>
+<p>There are many parameters that one can play with in order to improve the retrieval performance. First, it is worth noting that the chunking strategy can have a significant impact on the perfomance depending on the type of documents you are working with.
+Additionally, the choice of the embedding model can also dramatically change the results. It&rsquo;s worth experimenting with different models to see which one works best for your specific use case.
+We didn&rsquo;t talk about other retrieval techniques, such as using a more advanced vector store or implementing a more complex retrieval algorithm, but those are also worth exploring.</p>
+<p>That thing being said, let&rsquo;s try it out and see how it performs on &ldquo;Generative AI with LangChain.&rdquo;</p>
+<blockquote>
+<p>Query: &ldquo;What is the difference between zero shot prompting and few shot prompting?&rdquo;</p>
+<pre tabindex="0"><code>. The best example of using a placeholder
+is to input a history of a chat, but we’ll see more advanced ones later in this book when we’ll talk
+about how an LLM interacts with an external world or how different LLMs coordinate together
+in a multi-agent setup.
+Zero-shot vs. few-shot prompting
+As we have discussed, the first thing that we want to experiment with is improving the task de-
+scription itself
+</code></pre><p>The retrieved chunk is pretty relevant and would send us to the right page. However, it doesn&rsquo;t contain the answer to the question.</p>
+</blockquote>
+<blockquote>
+<p>Query: &ldquo;How can I summarize a long video?&rdquo;</p>
+<pre tabindex="0"><code>Appendix
+432
+Summarizing long videos
+ln Chapter 3, we demonstrated how to summarize long videos (that don’t fit into the context
+window) with a map-reduce approach. We used LangGraph to design such a workflow. Of course,
+you can use the same approach to any similar case – for example, to summarize long text or to
+extract information from long audios
+</code></pre><p>The retrieved chunk is not bad, but it doesn&rsquo;t point directly to the answer. This is common problem known as hubness, where introductions, conclusions, table of contents and other &lsquo;generic&rsquo; chunks tend to be retrieved more often than the more specific ones. There exist some techniques to mitigate this problem, such as re-ranking the retrieved chunks or using a more advanced retrieval algorithm or ensemble methods which combine the results of multiple retrieval algorithms.</p>
+</blockquote>
+<blockquote>
+<p>Query: &ldquo;How does HyDE work?&rdquo;</p>
+<pre tabindex="0"><code>. How does climate change affect the environment?
+3. What are the consequences of climate change?
+A more advanced approach is Hypothetical Document Embeddings (HyDE).
+Hypothetical Document Embeddings (HyDE)
+HyDE uses an LLM to generate a hypothetical answer document based on the query, and then
+uses that document’s embedding for retrieval
+</code></pre><p>The retrieved chunk is prefectly pointing to the answer. However, it&rsquo;s worth noting that it also contains some irrelevant information, which is common when using a basic text splitter. A more advanced chunking strategy, such as a semantic chunker, could potentially help with this issue.</p>
+</blockquote>
+<h2 id="live-demo">Live Demo</h2>
+<div class="app-embed">
+  <button
+    type="button"
+    class="btn btn-primary app-embed__load"
+    data-app-load
+    data-loaded-label="Demo loaded"
+  >
+    Load interactive demo
+  </button>
+  <iframe
+    class="app-embed__frame"
+    title="Semantic Search demo application"
+    loading="lazy"
+    aria-label="Semantic Search demo application"
+    data-app-src="/works/rag-v0/embed.html"
+  ></iframe>
+</div>
+<h2 id="future-improvements">Future Improvements</h2>
+<p>This was a very simple implementation of a PDF semantic search engine, and there are many ways to improve it.</p>
+<p>Minor improvements to the retrieval step could include:</p>
+<ul>
+<li><strong>Hybrid Search</strong>: Combine semantic search with traditional lexical search to improve retrieval performance.</li>
+<li><strong>Re-ranking</strong>: Implement a re-ranking step after retrieval to further improve the relevance of the retrieved chunks.</li>
+<li><strong>Query Transformation</strong>: Use an LLM to transform the query into a more effective form for retrieval.</li>
+<li><strong>HyDE (Hypothetical Document Embeddings)</strong>: Generate hypothetical answers to the query and use their embeddings to improve retrieval.</li>
+<li><strong>Contextual Compression</strong>: Implement a contextual compression step to reduce the size of the retrieved chunks while maintaining their relevance.</li>
+<li><strong>Score Attribution</strong>: Implement a score attribution mechanism to understand which parts of the retrieved chunks are contributing the most to the final answer.</li>
+<li><strong>Self-Consistency</strong>: Implement a self-consistency mechanism to improve the robustness of the generated answers.</li>
+</ul>
+<p>Major improvements could include:</p>
+<ul>
+<li><strong>Corrective RAG</strong>: Implement a corrective RAG that addresses the issue of irrelevant, insufficient, or missleading retrieved information by explicit evaluation and correction of the retrieved information.</li>
+<li><strong>Agentic RAG</strong>: Implement an agentic RAG that can decide when to retrieve, what to retrieve, and how to use the retrieved information in a more dynamic and flexible way.</li>
+</ul>
+<h2 id="call-to-action">Call to Action</h2>
+<p>Go checkout the <a href="https://github.com/arqueffe/rag-v0" target="_blank" rel="noopener">code</a> on GitHub, give the app a try, and feel free to reach out with questions or feedback. I’d love to hear what you build with it!</p>
+<h2 id="license">License</h2>
+<p>My code is open source under the <a href="https://opensource.org/license/mit" target="_blank" rel="noopener">MIT License</a>.</p>
+
+        </div>
+
+        <div class="row ps-3 pe-3">
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+          
+        </div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row next-prev-navigator">
+  
+  
+</div>
+
+
+      
+
+      
+
+      </div>
+    </div>
+  </div>
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+       
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+  
+      
+  
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+
+  
+  
+    
+    
+      
+    
+  
+
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start justify-content-center">
+        
+        <div class="col-md-5 col-sm-12">
+          <h5>Navigation</h5>
+          
+          <ul>
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#about">About</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#skills">Skills</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#experiences">Experiences</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#education">Education</a>
+                </li>
+              
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#works">Works</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#publications">Publications</a>
+                </li>
+              
+            
+              
+            
+          </ul>
+          
+        </div>
+        
+        
+        <div class="col-md-5 col-sm-12">
+          <h5>Contact me:</h5>
+          <ul>
+            
+              
+                <li><a href=mailto:arthur.queffelec@gmail.com target="_blank" rel="noopener">
+                  <span><i class="fas fa-envelope"></i></span> <span>arthur.queffelec@gmail.com</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://github.com/arqueffe target="_blank" rel="noopener">
+                  <span><i class="fab fa-github"></i></span> <span>arqueffe</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://www.linkedin.com/in/arqueffe target="_blank" rel="noopener">
+                  <span><i class="fab fa-linkedin"></i></span> <span>Arthur Queffelec</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://www.researchgate.net/profile/arthur-queffelec target="_blank" rel="noopener">
+                  <span><i class="fab fa-researchgate"></i></span> <span>Arthur Queffelec</span>
+                </a></li>            
+              
+            
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_be7279b2506ad3f1.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2020 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/application.96cc6db979ee335540cd0ec5a26d1ef3da79333e83887e380bd2821bdded93ed.js" integrity="sha256-lsxtuXnuM1VAzQ7Fom0e89p5Mz6DiH44C9KCG93tk&#43;0=" defer></script>
+
+
+    
+     
+
+    
+</body>
+</html>

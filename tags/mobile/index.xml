@@ -6,7 +6,18 @@
     <description>Recent content in Mobile on Arthur&#39;s Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 13 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/tags/mobile/index.xml" rel="self" type="application/rss+xml" /><item>
+    <lastBuildDate>Mon, 23 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/tags/mobile/index.xml" rel="self" type="application/rss+xml" /><item>
+      <title>Building a Basic PDF Semantic Search Engine</title>
+      <link>https://arqueffe.github.io/works/rag-v0/</link>
+      <pubDate>Mon, 23 Feb 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://arqueffe.github.io/works/rag-v0/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Hi there!&lt;/p&gt;
+&lt;p&gt;While reading the state of the art of Retrieval Augmented Generation (RAG), I realized that I wanted to experiement with some bleeding edge techniques that I had read about. In order to do so, I needed a simple project to build on top of. While reading &lt;a href=&#34;&#34;&gt;Generative AI with LangChain&lt;/a&gt;, I thought, &amp;ldquo;I wish I could ask questions about this book&amp;rdquo; and I guess that was the spark that ignited this project.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Running ONNX Models in Flutter</title>
       <link>https://arqueffe.github.io/works/sentiment-v0/</link>
       <pubDate>Fri, 13 Feb 2026 00:00:00 +0000</pubDate>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Search Results</title>
+    <title>Langchain</title>
     <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="ie=edge" />
@@ -9,7 +9,7 @@
 
 
 
-<link rel="canonical" href="https://arqueffe.github.io/search/" />
+<link rel="canonical" href="https://arqueffe.github.io/tags/langchain/" />
 
 
 <link rel="stylesheet" href="/application.5366be729c796a98468d18f8e17bf7c6edebd6f6d5d2b4a3a207f053cb21b003.css" integrity="sha256-U2a&#43;cpx5aphGjRj44Xv3xu3r1vbV0rSjogfwU8shsAM=" />
@@ -19,6 +19,7 @@
 
 
 
+<link rel="alternate" type="application/rss+xml" href="https://arqueffe.github.io/tags/langchain/index.xml" title="Arthur's Portfolio">
 
 
 
@@ -26,17 +27,12 @@
 
 
 
-<meta property="og:title" content="Search Results" />
+<meta property="og:title" content="Arthur&#39;s Portfolio" />
 <meta property="og:type" content="website" />
-<meta property="og:description" content="Portfolio and personal blog of Arthur Queffelec." /><meta property="og:image" content="https://arqueffe.github.io/images/author/arthur.png"><meta property="og:url" content="https://arqueffe.github.io/search/">
+<meta property="og:description" content="Portfolio and personal blog of Arthur Queffelec." /><meta property="og:image" content="https://arqueffe.github.io/images/author/arthur.png"><meta property="og:url" content="https://arqueffe.github.io/tags/langchain/">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Search Results">
-  <meta name="twitter:description" content="This file exists solely to respond to /search URL with the related search layout template.
-No content shown here is rendered, all content is based in the template layouts/page/search.html
-Setting a very low sitemap priority will tell search engines this is not important content.
-This implementation uses Fusejs and mark.js
-Initial setup Search depends on additional output content type of JSON in config.toml ``` [outputs] home = [“HTML”, “JSON”] ```">
+  <meta name="twitter:title" content="Langchain">
 
      
 
@@ -53,7 +49,7 @@ Initial setup Search depends on additional output content type of JSON in config
     
   </head>
 
-  <body class="type-search kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+  <body class="type-tags kind-term" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
     <div class="container-fluid bg-secondary wrapper">
       
       
@@ -213,9 +209,38 @@ Initial setup Search depends on additional output content type of JSON in config
         </form>
         <div class="sidebar-tree">
           <ul class="tree" id="tree">
-            <li id="list-heading"><a href="/search" data-filter="all">Search</a></li>
-            <div class="subtree">
-                
+            <li id="list-heading"><a href="/tags" data-filter="all">Tags</a></li>
+            <div class="subtree taxonomy-terms">
+              
+              
+
+
+
+  
+  
+        
+          
+            
+          
+          <li><a class="taxonomy-term active" href="https://arqueffe.github.io/tags/langchain/" data-taxonomy-term="langchain"><span class="taxonomy-label">Langchain</span></a></li>
+        
+          
+            
+          
+          <li><a class="taxonomy-term " href="https://arqueffe.github.io/tags/machine-learning/" data-taxonomy-term="machine-learning"><span class="taxonomy-label">Machine Learning</span></a></li>
+        
+          
+            
+          
+          <li><a class="taxonomy-term " href="https://arqueffe.github.io/tags/mobile/" data-taxonomy-term="mobile"><span class="taxonomy-label">Mobile</span></a></li>
+        
+          
+            
+          
+          <li><a class="taxonomy-term " href="https://arqueffe.github.io/tags/nlp/" data-taxonomy-term="nlp"><span class="taxonomy-label">Nlp</span></a></li>
+        
+  
+
 
             </div>
           </ul>
@@ -227,44 +252,65 @@ Initial setup Search depends on additional output content type of JSON in config
 
       
       
-<script>
-  document.body.classList.replace('kind-page', 'kind-section');
-</script>
 <section class="content-section" id="content-section">
   <div class="content container-fluid" id="content">
     <div class="container-fluid post-card-holder" id="post-card-holder">
-      <div id="search-results" style="display: flex; flex-wrap: wrap;">
-
-        <script id="search-result-template" type="text/x-js-template">
+      
+      
+      
+      
+        
           <div class="post-card">
-              <div class="card">
-                <div class="card-head">
-                  <a href="${link}" class="post-card-link">
-                  <img class="card-img-top" src="${hero}" alt="Card Heading Image">
-                  </a>
-                </div>
-                <div class="card-body">
-                  <a href="${link}" class="post-card-link">
-                    <h5 class="card-title">${title}</h5>
-                    <p class="card-text post-summary">${summary}</p>
-                  </a>
-                  
-                  <div class="tags">
-                    <ul style="padding-left: 0;">
-                    ${tags}
-                    </ul>
-                  </div>
-                  
-                </div>
-                <div class="card-footer">
-                  <span class="float-start">${date}</span>
-                  <a href="${link}" class="float-end btn btn-outline-info btn-sm">Read</a>
-                </div>
-              </div>
-          </div>
-        </script>
+  <div class="card">
+    <div class="card-head">
+      <a href="/works/rag-v0/" class="post-card-link">
+        <img class="card-img-top" src='/images/works/rag-v0/hero.jpg' alt="Hero Image">
+      </a>
+    </div>
+    <div class="card-body">
+      <a href="/works/rag-v0/" class="post-card-link">
+        <h5 class="card-title">Building a Basic PDF Semantic Search Engine</h5>
+        <p class="card-text post-summary">Introduction Hi there!
+While reading the state of the art of Retrieval Augmented Generation (RAG), I realized that I wanted to experiement with some bleeding edge techniques that I had read about. In order to do so, I needed a simple project to build on top of. While reading Generative AI with LangChain, I thought, &ldquo;I wish I could ask questions about this book&rdquo; and I guess that was the spark that ignited this project.
+</p>
+      </a>
+      
+        <div class="tags">
+  <ul style="padding-left: 0;">
+    
+    
+    <li><a href="/tags/machine-learning/" class="btn btn-sm btn-outline-info rounded">machine learning</a></li>
+    
+    
+    <li><a href="/tags/nlp/" class="btn btn-sm btn-outline-info rounded">nlp</a></li>
+    
+    
+    <li><a href="/tags/mobile/" class="btn btn-sm btn-outline-info rounded">mobile</a></li>
+    
+    
+    <li><a href="/tags/langchain/" class="btn btn-sm btn-outline-info rounded">langchain</a></li>
+    
+  </ul>
+</div>
 
-      </div>
+      
+    </div>
+    <div class="card-footer">
+      <span class="float-start">
+          Monday, February 23, 2026
+           | 11 minutes </span>
+      <a
+      href="/works/rag-v0/"
+      class="float-end btn btn-outline-info btn-sm">Read</a>
+    </div>
+  </div>
+</div>
+
+        
+      
+    </div>
+    <div class="paginator">
+      
     </div>
   </div>
 </section>
