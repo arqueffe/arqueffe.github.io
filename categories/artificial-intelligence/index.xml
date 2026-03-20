@@ -6,7 +6,19 @@
     <description>Recent content in Artificial Intelligence on Arthur&#39;s Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/categories/artificial-intelligence/index.xml" rel="self" type="application/rss+xml" /><item>
+    <lastBuildDate>Fri, 20 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/categories/artificial-intelligence/index.xml" rel="self" type="application/rss+xml" /><item>
+      <title>Private Journaling with Emotion Analysis</title>
+      <link>https://arqueffe.github.io/works/sentiment-v1/</link>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://arqueffe.github.io/works/sentiment-v1/</guid>
+      <description>&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;Hi there!&lt;/p&gt;
+&lt;p&gt;In a previous article, I experimented with running a BERT-based emotion classification model directly on-device using ONNX Runtime in Flutter. (You can catch up on that &lt;a href=&#34;https://arqueffe.github.io/works/sentiment-v0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;here&lt;/a&gt;!) At the time, I just wanted to see if I could create a smooth local inference experience without relying on external APIs.&lt;/p&gt;
+&lt;p&gt;But a technical demo only goes so far. I started wondering: what would this look like as a real-world tool?&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Building a Basic PDF Semantic Search Engine</title>
       <link>https://arqueffe.github.io/works/rag-v0/</link>
       <pubDate>Tue, 03 Mar 2026 00:00:00 +0000</pubDate>

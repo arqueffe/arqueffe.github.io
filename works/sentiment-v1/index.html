@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Private Journaling with Emotion Analysis</title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+
+
+
+<link rel="canonical" href="https://arqueffe.github.io/works/sentiment-v1/" />
+
+
+<link rel="stylesheet" href="/application.a6ca09af97e876f6d5b11d57d2e8159ce7432baa2002554376a5c065b393f361.css" integrity="sha256-psoJr5fodvbVsR1X0ugVnOdDK6ogAlVDdqXAZbOT82E=" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Private Journaling with Emotion Analysis" />
+<meta property="og:type" content="article" />
+<meta property="og:description" content="Building a Private On-Device Journal with Emotion Analysis" /><meta property="og:image" content="https://arqueffe.github.io/images/author/arthur.png"><meta property="og:url" content="https://arqueffe.github.io/works/sentiment-v1/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Private Journaling with Emotion Analysis">
+  <meta name="twitter:description" content="Building a Private On-Device Journal with Emotion Analysis">
+
+    
+<meta name="description" content="Building a Private On-Device Journal with Emotion Analysis" />
+
+
+    
+
+
+
+
+
+    <script integrity="sha256-2BwJjqRAiPaI8auaJ1nlOKNIUGyjtiMovI8Mf7JpcwM=">
+     document.documentElement.setAttribute('data-theme', 'dark')
+
+    </script>
+    
+  </head>
+
+  <body class="type-article kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Arthur&#39;s Portfolio</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
+        
+          
+          
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#about">About</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#skills">Skills</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#experiences">Experiences</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#education">Education</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#works">Works</a>
+                </li>
+              
+            
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#publications">Publications</a>
+                </li>
+              
+            
+          
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  
+</nav>
+
+
+
+      
+      
+  
+  <section class="toc-section left-toc" id="toc-section">
+    <div class="toc-holder">
+      <h5 class="text-center ps-3">Table of Contents</h5>
+      <hr>
+      <div class="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#why-journaling-">Why Journaling ?</a></li>
+    <li><a href="#a-simple-experience">A Simple Experience</a></li>
+    <li><a href="#interpreting-your-thoughts">Interpreting your Thoughts</a></li>
+    <li><a href="#from-text-to-patterns">From Text to Patterns</a></li>
+    <li><a href="#security-and-privacy">Security and Privacy</a></li>
+    <li><a href="#closed-beta">Closed Beta</a></li>
+    <li><a href="#future-improvements">Future Improvements</a></li>
+  </ul>
+</nav>
+      </div>
+    </div>
+  </section>
+  
+
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      <div class="hero-area col-sm-12" id="hero-area" style="background-image: url('/images/works/sentiment-v1/logo.png');">
+      </div>
+
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/author/arthur_hu_4fb916464580a7f5.png' alt="Author">
+          <h5 class="author-name">Arthur Queffelec</h5>
+          <p class="text-muted">Friday, March 20, 2026 | 6 minutes</p>
+        </div>
+        
+
+        <div class="title">
+          <h1>Private Journaling with Emotion Analysis</h1>
+        </div>
+
+        
+
+        
+          <div class="tags">
+  <ul style="padding-left: 0;">
+    
+    
+    <li><a href="/tags/machine-learning/" class="btn btn-sm btn-outline-info rounded">machine learning</a></li>
+    
+    
+    <li><a href="/tags/nlp/" class="btn btn-sm btn-outline-info rounded">nlp</a></li>
+    
+    
+    <li><a href="/tags/mobile/" class="btn btn-sm btn-outline-info rounded">mobile</a></li>
+    
+  </ul>
+</div>
+
+        
+        <div class="post-content" id="post-content">
+          <h2 id="introduction">Introduction</h2>
+<p>Hi there!</p>
+<p>In a previous article, I experimented with running a BERT-based emotion classification model directly on-device using ONNX Runtime in Flutter. (You can catch up on that <a href="https://arqueffe.github.io/works/sentiment-v0/" target="_blank" rel="noopener">here</a>!) At the time, I just wanted to see if I could create a smooth local inference experience without relying on external APIs.</p>
+<p>But a technical demo only goes so far. I started wondering: what would this look like as a real-world tool?</p>
+<p>That question led me to build <strong>Sentiment</strong>, a private, on-device journaling app designed to help you navigate your emotional landscape.</p>
+<p>Journaling felt like the perfect fit for this technology. It produces rich text, rewards deep introspection, and, above all, requires absolute privacy. This project is my attempt at turning a successful experiment into a functional, polished application that helps you see the patterns behind your words.</p>
+<h2 id="why-journaling-">Why Journaling ?</h2>
+<p>Journaling has been shown to have a lot of benefits for mental health, emotional processing, and self-reflection 
+
+<span class="citation-inline">(<a href="#ref-smyth-2003-focused" class="citation-link"><span class="citation-text">Smyth & Helm, 2003</span></a>, <a href="#ref-ruini-2022-writing" class="citation-link"><span class="citation-text">Ruini & Mortara, 2022</span></a>, <a href="#ref-sohal-2022-efficacy" class="citation-link"><span class="citation-text">Sohal et al., 2022</span></a>)</span>.</p>
+<p>However, it can be easy to fall for your own biases, and not obtain a very accurate picture of your emotional state. Furthermore, when writing down you thoughts, especially when they are still fresh, it can be hard to step back and analyze them in a more objective way. This is where I thought that some kind of real-time analysis could be useful.</p>
+<p>Additionally, a journal is, at its core, just unstructured text accumulated over time. You write entries, sometimes regularly, sometimes not, and eventually you end up with a large amount of data that is hard to navigate. Reading past entries can be useful, but it doesn’t really scale. Patterns are not obvious, and emotional evolution is mostly implicit.</p>
+<p>What I wanted to build was something that doesn’t just store entries, but helps interpret them. You can observe trends, see how your emotional state changes, and maybe even get some insights that would be hard to notice otherwise.</p>
+<h2 id="a-simple-experience">A Simple Experience</h2>
+<p>To make that possible, the writing flow needed a straightforward structure.</p>
+<p>Instead of going straight into free writing, each entry is framed by a simple idea: capturing your state before and after. The entry sits in between, and becomes something that can be analyzed.</p>
+<p>This creates a small feedback loop. Writing is no longer just expressive, it becomes something you can reflect on almost immediately. In particular, it allows you to compare the emotional signal from the text with how you felt, which can give you a better understanding of your own emotional patterns.</p>
+<figure>
+  
+  
+  
+  
+    
+      
+  
+      
+      
+      
+      
+  
+      
+  
+      
+      
+      
+      
+  
+      
+  
+  
+      
+      <img
+      
+            srcset='
+            
+              /images/works/sentiment-v1/sentiment_wheel_hu_af2910e159f631e2.png 500w
+            
+            
+              , /images/works/sentiment-v1/sentiment_wheel_hu_3220e3ae346c2f4a.png 800w
+            
+            
+              , /images/works/sentiment-v1/sentiment_wheel_hu_b97f1d6d4ba1fbac.png 1200w
+            
+            '
+            
+              src="/images/works/sentiment-v1/sentiment_wheel.png"
+            
+  
+            alt='Entry flow'>
+      
+  
+
+  <figcaption>Figure 1: Screenshot of Sentiment displaying the emotion wheel.</figcaption>
+</figure>
+<p>The interactive emotion wheel is based on the one developed by Gloria Willcox 
+
+<span class="citation-inline">(<a href="#ref-willcox-1982-emotion" class="citation-link"><span class="citation-text">Willcox, 1982</span></a>)</span>. It’s a simple way to capture your emotional state in a more structured way, and it also serves as a visual representation of the emotional spectrum.</p>
+<h2 id="interpreting-your-thoughts">Interpreting your Thoughts</h2>
+<p>As you write down your thoughts, the app is analyzing them in real time. This is where the model from the previous experiment comes in. The text is broken down into sentences, each of which is associated with an emotion, and then aggregated into a broader signal.</p>
+<p>Your thoughts labeled with emotions, you can review them on the fly. Realizing that your thoughts carry anger, for instance, might allow you to question it, what hurt you, what frustrated you.</p>
+<p>This model is not perfectly accurate, and will make mistakes, but with a critical eye, it can still be a useful tool to gain insights into your own emotional patterns.</p>
+<figure>
+  
+  
+  
+  
+    
+      
+  
+      
+      
+      
+      
+  
+      
+  
+      
+      
+      
+      
+  
+      
+  
+  
+      
+      <img
+      
+            srcset='
+            
+              /images/works/sentiment-v1/sentiment_entry_hu_2b6d39a5a68f6802.png 500w
+            
+            
+              , /images/works/sentiment-v1/sentiment_entry_hu_e754253e736a5239.png 800w
+            
+            
+              , /images/works/sentiment-v1/sentiment_entry_hu_29bd8f7a2e028900.png 1200w
+            
+            '
+            
+              src="/images/works/sentiment-v1/sentiment_entry.png"
+            
+  
+            alt='Entry analysis.'>
+      
+  
+
+  <figcaption>Figure 2: Screenshot of Sentiment displaying an entry analysis.</figcaption>
+</figure>
+<p>Each emotion is associated with a color for you to easily identify it, and each sentence is independently analyzed. This way, you can quickly get a sense of the emotional tone of your entry. After you finish your entry, the entry as a whole is also analyzed to obtain context beyond individual sentences.</p>
+<h2 id="from-text-to-patterns">From Text to Patterns</h2>
+<p>Once entries start accumulating, the interesting part shifts from individual texts to trends.</p>
+<p>Because each entry carries a consistent emotional signal, it becomes possible to look at how things evolve over time. Not in a highly detailed or overwhelming way, but just enough to surface patterns that would otherwise go unnoticed.</p>
+<p>You might observe periods of anxiety, or see how your emotional state changes in response to certain events. You might even be able to correlate it with other factors, like sleep or exercise.</p>
+<figure>
+  
+  
+  
+  
+    
+      
+  
+      
+      
+      
+      
+  
+      
+  
+      
+      
+      
+      
+  
+      
+  
+  
+      
+      <img
+      
+            srcset='
+            
+              /images/works/sentiment-v1/sentiment_insights_hu_a5fc6d7f6fe379c.png 500w
+            
+            
+              , /images/works/sentiment-v1/sentiment_insights_hu_6a33dfd514a000f3.png 800w
+            
+            
+              , /images/works/sentiment-v1/sentiment_insights_hu_d5495d52a2609a09.png 1200w
+            
+            '
+            
+              src="/images/works/sentiment-v1/sentiment_insights.png"
+            
+  
+            alt='Trends'>
+      
+  
+
+  <figcaption>Figure 3: Screenshot of Sentiment displaying the entries insights.</figcaption>
+</figure>
+<p>The emotion distribution is a simple way to see which emotions are more prevalent in your entries over time.</p>
+<h2 id="security-and-privacy">Security and Privacy</h2>
+<p>Since everything is stored locally, protecting access becomes essential. The app is locked behind a password, with optional biometric authentication, and the data itself is encrypted at rest. The idea is simply to ensure that the content remains accessible only to the person who wrote it. If you decide to back it up, that’s your choice, but by default, it’s designed to be a private space.</p>
+<figure>
+  
+  
+  
+  
+    
+      
+  
+      
+      
+      
+      
+  
+      
+  
+      
+      
+      
+      
+  
+      
+  
+  
+      
+      <img
+      
+            srcset='
+            
+              /images/works/sentiment-v1/sentiment_lock_hu_3ff15ac6077c707c.png 500w
+            
+            
+              , /images/works/sentiment-v1/sentiment_lock_hu_ba172822c4fac634.png 800w
+            
+            
+              , /images/works/sentiment-v1/sentiment_lock_hu_622292241f95160d.png 1200w
+            
+            '
+            
+              src="/images/works/sentiment-v1/sentiment_lock.png"
+            
+  
+            alt='Security'>
+      
+  
+
+  <figcaption>Figure 4: Screenshot of Sentiment displaying the lock screen.</figcaption>
+</figure>
+<p>It is worth noting that even though the data can be backed up, losing your password would mean losing access to it, since it’s encrypted.</p>
+<p>The model processing the text is also running locally, so no data is sent to any server. The app is designed to be a completely self-contained experience, where your data never leaves your device.</p>
+<h2 id="closed-beta">Closed Beta</h2>
+<p>The app is currently being prepared for release on Google Play. In the meantime, I’m running a closed beta. If you’d like to try it, feel free to reach out on <a href="https://www.linkedin.com/in/arthur-queffelec" target="_blank" rel="noopener">LinkedIn</a> or by <a href="mailto:mailto:arthur.queffelec@gmail.com">email</a>, I’ll give you access.</p>
+<p>It’s completely free!</p>
+<h2 id="future-improvements">Future Improvements</h2>
+<p>I see many ways to improve this project to become an even more insightful tool. Some of them are technical, like improving the model, while others are more about the experience, like adding more ways to explore your data.</p>
+<p>A very important improvement would be to better classify the emotions. Firstly, I am currently working on extracting a clustering of emotions from embeddings, which would allow for a more nuanced and personalized emotional signal. Secondly, I want to explore the possibility of fine-tuning the model on this more precise set of emotions, which would hopefully improve the accuracy.</p>
+<p>Another big improvement would be to add a small language model that could review your entry and ask you questions about it. This would create a more interactive experience, and allow you to reflect on your thoughts in a more structured way. Alongside this, it would be very important to be able to identify cognitive distortions in your entries. For instance, if you often devalue yourself, the app could surface that pattern and help you to be more kind to yourself.</p>
+
+        </div>
+
+        
+          
+
+
+
+<div class="references-section" id="references">
+  <h2>References</h2>
+  <ol class="references-list">
+    <li id="ref-smyth-2003-focused" class="reference-entry">
+      <span class="ref-authors">Smyth, J. &amp; Helm, R.</span>
+      <span class="ref-year"> (2003). </span><span class="ref-title"><em>Focused expressive writing as self‐help for stress and trauma</em>. </span><span class="ref-journal">Journal of clinical psychology. </span><span class="ref-doi"><a href="https://doi.org/10.1002/jclp.10142" target="_blank" rel="noopener">DOI: 10.1002/jclp.10142</a>.</span>
+      
+    </li>
+    <li id="ref-ruini-2022-writing" class="reference-entry">
+      <span class="ref-authors">Ruini, C. &amp; Mortara, C. C.</span>
+      <span class="ref-year"> (2022). </span><span class="ref-title"><em>Writing technique across psychotherapies—from traditional expressive writing to new positive psychology interventions: A narrative review</em>. </span><span class="ref-journal">Journal of Contemporary Psychotherapy. </span><span class="ref-doi"><a href="https://doi.org/10.1007/s10879-021-09428-9" target="_blank" rel="noopener">DOI: 10.1007/s10879-021-09428-9</a>.</span>
+      
+    </li>
+    <li id="ref-sohal-2022-efficacy" class="reference-entry">
+      <span class="ref-authors">Sohal, M., Singh, P., Dhillon, B. S., &amp; Gill, H. S.</span>
+      <span class="ref-year"> (2022). </span><span class="ref-title"><em>Efficacy of journaling in the management of mental illness: a systematic review and meta-analysis</em>. </span><span class="ref-journal">Family medicine and community health. </span><span class="ref-doi"><a href="https://doi.org/10.1136/fmch-2021-001154" target="_blank" rel="noopener">DOI: 10.1136/fmch-2021-001154</a>.</span>
+      
+    </li>
+    <li id="ref-willcox-1982-emotion" class="reference-entry">
+      <span class="ref-authors">Willcox, G.</span>
+      <span class="ref-year"> (1982). </span><span class="ref-title"><em>The Feeling Wheel: A Tool for Expanding Awareness of Emotions and Increasing Spontaneity and Intimacy</em>. </span><span class="ref-journal">Transactional Analysis Journal. </span><span class="ref-doi"><a href="https://doi.org/10.1177/036215378201200411" target="_blank" rel="noopener">DOI: 10.1177/036215378201200411</a>.</span>
+      
+    </li>
+    
+  </ol>
+</div>
+
+
+        
+
+        <div class="row ps-3 pe-3">
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+          
+        </div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row next-prev-navigator">
+  
+  
+</div>
+
+
+      
+
+      
+
+      </div>
+    </div>
+  </div>
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+       
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+  
+      
+  
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+
+  
+  
+    
+    
+      
+    
+  
+
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start justify-content-center">
+        
+        <div class="col-md-5 col-sm-12">
+          <h5>Navigation</h5>
+          
+          <ul>
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#about">About</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#skills">Skills</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#experiences">Experiences</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#education">Education</a>
+                </li>
+              
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#works">Works</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#publications">Publications</a>
+                </li>
+              
+            
+              
+            
+          </ul>
+          
+        </div>
+        
+        
+        <div class="col-md-5 col-sm-12">
+          <h5>Contact me:</h5>
+          <ul>
+            
+              
+                <li><a href=mailto:arthur.queffelec@gmail.com target="_blank" rel="noopener">
+                  <span><i class="fas fa-envelope"></i></span> <span>arthur.queffelec@gmail.com</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://github.com/arqueffe target="_blank" rel="noopener">
+                  <span><i class="fab fa-github"></i></span> <span>arqueffe</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://scholar.google.com/citations?user&#61;UiOaLwIAAAAJ target="_blank" rel="noopener">
+                  <span><i class="fas fa-graduation-cap"></i></span> <span>Arthur Queffelec</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://www.linkedin.com/in/arthur-queffelec target="_blank" rel="noopener">
+                  <span><i class="fab fa-linkedin"></i></span> <span>Arthur Queffelec</span>
+                </a></li>
+              
+            
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_be7279b2506ad3f1.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2020 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/application.96cc6db979ee335540cd0ec5a26d1ef3da79333e83887e380bd2821bdded93ed.js" integrity="sha256-lsxtuXnuM1VAzQ7Fom0e89p5Mz6DiH44C9KCG93tk&#43;0=" defer></script>
+
+
+    
+     
+
+    
+</body>
+</html>
