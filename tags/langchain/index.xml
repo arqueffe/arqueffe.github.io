@@ -6,7 +6,18 @@
     <description>Recent content in Langchain on Arthur&#39;s Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 03 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/tags/langchain/index.xml" rel="self" type="application/rss+xml" /><item>
+    <lastBuildDate>Tue, 24 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/tags/langchain/index.xml" rel="self" type="application/rss+xml" /><item>
+      <title>PDF Semantic Search</title>
+      <link>https://arqueffe.github.io/demos/pdf-semantic-search/</link>
+      <pubDate>Tue, 24 Mar 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://arqueffe.github.io/demos/pdf-semantic-search/</guid>
+      <description>&lt;p&gt;This demo is the interactive app from the RAG v0 work. Upload a PDF, ask a question, and retrieve the most relevant chunks using semantic similarity.&lt;/p&gt;
+&lt;p&gt;See the full write-up in the related work:
+&lt;a href=&#34;https://arqueffe.github.io/works/rag-v0/&#34;&gt;Building a Basic PDF Semantic Search Engine&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Building a Basic PDF Semantic Search Engine</title>
       <link>https://arqueffe.github.io/works/rag-v0/</link>
       <pubDate>Tue, 03 Mar 2026 00:00:00 +0000</pubDate>

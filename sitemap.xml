@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://arqueffe.github.io/demos/pdf-semantic-search/</loc>
+    <lastmod>2026-03-24T00:00:00&#43;00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://arqueffe.github.io/demos/sentiment-v1/</loc>
+    <lastmod>2026-03-24T00:00:00&#43;00:00</lastmod>
+  </url>
+  <url>
     <loc>https://arqueffe.github.io/works/sentiment-v1/</loc>
     <lastmod>2026-03-20T00:00:00&#43;00:00</lastmod>
   </url>
