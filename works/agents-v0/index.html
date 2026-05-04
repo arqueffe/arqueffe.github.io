@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Agentic Philosophical Chamber</title>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+
+
+
+<link rel="canonical" href="https://arqueffe.github.io/works/agents-v0/" />
+
+
+<link rel="stylesheet" href="/application.21134e9edf47a327d00c464feea0d496b3c2b81c311b5cdeae23ed151f7cccb1.css" integrity="sha256-IRNOnt9HoyfQDEZP7qDUlrPCuBwxG1zeriPtFR98zLE=" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta property="og:title" content="Agentic Philosophical Chamber" />
+<meta property="og:type" content="article" />
+<meta property="og:description" content="A fun LangGraph experiment that turns a philosophical question into a structured multi-agent debate." /><meta property="og:image" content="https://arqueffe.github.io/images/author/arthur.png"><meta property="og:url" content="https://arqueffe.github.io/works/agents-v0/">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Agentic Philosophical Chamber">
+  <meta name="twitter:description" content="A fun LangGraph experiment that turns a philosophical question into a structured multi-agent debate.">
+
+    
+<meta name="description" content="A fun LangGraph experiment that turns a philosophical question into a structured multi-agent debate." />
+
+
+    
+
+
+
+
+
+    <script integrity="sha256-2BwJjqRAiPaI8auaJ1nlOKNIUGyjtiMovI8Mf7JpcwM=">
+     document.documentElement.setAttribute('data-theme', 'dark')
+
+    </script>
+    
+  </head>
+
+  <body class="type-article kind-page" data-bs-spy="scroll" data-bs-target="#TableOfContents" data-bs-offset="80">
+    <div class="container-fluid bg-secondary wrapper">
+      
+      
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+
+<nav class="navbar navbar-expand-xl top-navbar shadow " id="top-navbar">
+  <div class="container">
+    
+    <button class="navbar-toggler navbar-light" id="sidebar-toggler" type="button">
+      <i data-feather="sidebar"></i>
+    </button>
+    
+    <a class="navbar-brand" href="/">
+      Arthur&#39;s Portfolio</a>
+    <button
+      class="navbar-toggler navbar-light"
+      id="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#top-nav-items"
+      aria-label="menu"
+    >
+      <i data-feather="menu"></i>
+    </button>
+
+    <div class="collapse navbar-collapse dynamic-navbar" id="top-nav-items">
+      <ul class="nav navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/#home">Home</a>
+        </li>
+        
+          
+          
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#about">About</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#works">Works</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#demos">Demos</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#experiences">Experiences</a>
+                </li>
+              
+            
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#skills">Skills</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#publications">Publications</a>
+                </li>
+              
+            
+            
+              
+              
+                <li class="nav-item">
+                  <a class="nav-link" href="/#education">Education</a>
+                </li>
+              
+            
+          
+        
+        
+        
+        
+        
+        
+        
+        
+        
+      </ul>
+    </div>
+  </div>
+  
+  
+  
+  
+</nav>
+
+
+
+      
+      
+  
+  <section class="toc-section left-toc" id="toc-section">
+    <div class="toc-holder">
+      <h5 class="text-center ps-3">Table of Contents</h5>
+      <hr>
+      <div class="toc">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#why-langgraph-fits-this-project">Why LangGraph Fits This Project</a></li>
+    <li><a href="#the-chamber-starts-with-an-argument-map">The Chamber Starts With an Argument Map</a></li>
+    <li><a href="#the-chamber-as-a-graph">The Chamber as a Graph</a></li>
+    <li><a href="#how-speaker-routing-stays-interesting">How Speaker Routing Stays Interesting</a></li>
+    <li><a href="#the-agents">The Agents</a>
+      <ul>
+        <li><a href="#moderator">Moderator</a></li>
+        <li><a href="#primary-speakers">Primary Speakers</a></li>
+        <li><a href="#judge-layer">Judge Layer</a></li>
+        <li><a href="#crowd-member">Crowd Member</a></li>
+      </ul>
+    </li>
+    <li><a href="#constrained-generation-matters-more-than-character-prompts">Constrained Generation Matters More Than Character Prompts</a></li>
+    <li><a href="#making-the-run-inspectable">Making the Run Inspectable</a></li>
+    <li><a href="#a-few-debate-runs">A Few Debate Runs</a>
+      <ul>
+        <li><a href="#the-dog-petting-problem">The Dog Petting Problem</a></li>
+        <li><a href="#the-ai-agent-rights-problem">The AI Agent Rights Problem</a></li>
+        <li><a href="#the-simulation-hypothesis">The Simulation Hypothesis</a></li>
+      </ul>
+    </li>
+    <li><a href="#practical-limits">Practical Limits</a></li>
+    <li><a href="#demo">Demo</a></li>
+    <li><a href="#future-improvements">Future Improvements</a></li>
+    <li><a href="#call-to-action">Call to Action</a></li>
+    <li><a href="#license">License</a></li>
+  </ul>
+</nav>
+      </div>
+    </div>
+  </section>
+  
+
+
+      
+      
+<section class="content-section" id="content-section">
+  <div class="content">
+    <div class="container p-0 read-area">
+      <div class="hero-area col-sm-12" id="hero-area" style="background-image: url('/images/works/agents-v0/hero.png');">
+      </div>
+
+      <div class="page-content">
+        
+        <div class="author-profile ms-auto align-self-lg-center">
+          <img class="rounded-circle" src='/images/author/arthur_hu_4fb916464580a7f5.png' alt="Author">
+          <h5 class="author-name">Arthur Queffelec</h5>
+          <p class="text-muted">Wednesday, April 29, 2026 | 9 minutes</p>
+        </div>
+        
+
+        <div class="title">
+          <h1>Agentic Philosophical Chamber</h1>
+        </div>
+
+        
+
+        
+          <div class="tags">
+  <ul style="padding-left: 0;">
+    
+    
+    <li><a href="/tags/philosophy/" class="btn btn-sm btn-outline-info rounded">philosophy</a></li>
+    
+    
+    <li><a href="/tags/ai/" class="btn btn-sm btn-outline-info rounded">ai</a></li>
+    
+    
+    <li><a href="/tags/agents/" class="btn btn-sm btn-outline-info rounded">agents</a></li>
+    
+    
+    <li><a href="/tags/langgraph/" class="btn btn-sm btn-outline-info rounded">langgraph</a></li>
+    
+    
+    <li><a href="/tags/byok/" class="btn btn-sm btn-outline-info rounded">byok</a></li>
+    
+  </ul>
+</div>
+
+        
+        <div class="post-content work-post-content" id="post-content" data-image-zoom='true'>
+          <h2 id="introduction">Introduction</h2>
+<p>Hi there!</p>
+<p>I wanted to build something playful with LangGraph, but I did not want it to be another app that tries to solve a productivity problem (there are enough of those out there). The idea that stuck was a philosophical chamber: you ask a question, a small cast of AI agents debate it, and the discussion is turned into a live argument map instead of a wall of text.</p>
+<p>That framing gave me a useful constraint. If the agents were going to disagree, challenge each other, and occasionally produce bad reasoning, I needed more than role prompts. I needed a graph that could track the state of the debate, decide who speaks next, send turns through review, and keep the whole run inspectable.</p>
+<p>That is what this project became: a fun LangGraph experiment where a philosophical question is transformed into a structured multi-agent debate, complete with an evolving argument map.</p>
+<h2 id="why-langgraph-fits-this-project">Why LangGraph Fits This Project</h2>
+<p>This project is a good fit for LangGraph because the chamber is naturally a state machine.</p>
+<p>At any point in the run, the system needs to know the current question, round, state of the debate, which primary speakers have already spoken, whether a judge has flagged a problem and whether the crowd event should trigger. That is not a simple prompt pipeline. It is shared state moving through a graph.</p>
+<p>LangGraph made that explicit. Instead of hiding orchestration inside a giant loop, I could model the chamber as nodes and conditional edges. Each node updates a slice of state, and the next step depends on the result of that state transition. That structure made the project easier to reason about, easier to debug, and much easier to visualize.</p>
+<h2 id="the-chamber-starts-with-an-argument-map">The Chamber Starts With an Argument Map</h2>
+<p>The output of the debate is not just text. Every turn is supposed to add structure to an argument map.</p>
+<p>The map starts from a single contention node, then expands with premises, objections, rebuttals, support links, attack links, and inference-level undercuts. That matters because it changes the quality of the interaction. The agents are not only trying to sound plausible. They are being asked to attach their claims to an existing structure.</p>
+<p>This pushes the debate in a more disciplined direction. A critic should not just complain in general terms. The critic should attack a specific node. An advocate should strengthen an existing conclusion. An auditor should react to weak inferences. Even when the language model is improvising, the shape of the output has to fit the map.</p>
+<figure>
+<div class="app-embed is-loaded">
+  <iframe height="100%" width="100%"
+    src="/apps/agents-v0/argument-map-viewer.html?map=/apps/agents-v0/argument-maps/sample-map.json"
+  ></iframe>
+</div>
+<figcaption>Figure 1: A example argument map.</figcaption>
+</figure>
+<h2 id="the-chamber-as-a-graph">The Chamber as a Graph</h2>
+<p>The chamber is organized around a handful of graph nodes rather than around a monolithic debate loop.</p>
+<p>The run begins with a moderator node that turns the user question into a clean debate contention. From there, the graph moves into the primary debate cycle: Advocate, Critic, and Sophist each contribute to the map. After each primary speaker, the graph does not immediately continue to the next speaker. It first routes into a review step.</p>
+<p>That review step is the real heart of the project. The graph checks whether the latest claims should trigger an Auditor response, an Ethicist response, or neither. If one of those judge agents needs to intervene, the graph temporarily detours through that node before returning to the main speaking loop.</p>
+<p>There are also two nodes that make the chamber feel less mechanical. A crowd dice roll can trigger a Crowd Member turn, which injects a more practical or public-facing concern. A round-advance node resets the per-round speaker bookkeeping and decides whether the debate should continue or end in a moderator summary.</p>
+<figure>
+  
+  
+  
+  
+    
+      
+  
+      
+      
+      
+      
+  
+      
+  
+      
+      
+      
+      
+  
+      
+  
+  
+      
+      <img
+      
+            srcset='
+            
+              /images/works/agents-v0/graph_hu_eecf3b501913b243.png 500w
+            
+            
+              , /images/works/agents-v0/graph_hu_d5c275bdeb71a4e7.png 800w
+            
+            
+              , /images/works/agents-v0/graph_hu_7f07984e352cdfaa.png 1200w
+            
+            '
+            
+              src="/images/works/agents-v0/graph.png"
+            
+  
+            alt='Screenshot of agent graph.'>
+      
+  
+
+    <figcaption>Figure 2: Screenshot of the agent graph.</figcaption>
+</figure>
+<h2 id="how-speaker-routing-stays-interesting">How Speaker Routing Stays Interesting</h2>
+<p>One thing I wanted to avoid was making the debate feel completely scripted. If the sequence were always identical, the chamber would become predictable very quickly. At the same time, fully random routing would make the system feel noisy and uncontrolled.</p>
+<p>The compromise was to make routing weighted rather than fixed.</p>
+<p>Each round still guarantees that the three primary speakers all get a turn, which keeps the debate balanced. But within that constraint, the next speaker is chosen through weighted routing that considers the current map and the recent turn history. If the map needs more support structure, the Advocate becomes more likely. If the map lacks attacks, the Critic gains weight. The Sophist adds a different rhetorical pressure to the system, and some small randomness keeps repeated runs from collapsing into the exact same sequence.</p>
+<p>That combination turned out to matter a lot. It makes the debate feel alive without letting it drift too far away from the structure I want the graph to maintain.</p>
+<h2 id="the-agents">The Agents</h2>
+<p>Although the chamber has several characters, I think the clearest way to understand them is by function rather than by personality.</p>
+<h3 id="moderator">Moderator</h3>
+<p>The moderator frames the debate by rewriting the user question into a concise contention at the start, then closes the run with a final summary after the rounds are complete. In other words, the moderator defines the scope of the argument and then helps the reader interpret the outcome.</p>
+<h3 id="primary-speakers">Primary Speakers</h3>
+<p>The Advocate, Critic, and Sophist form the main debate loop.</p>
+<p>The Advocate tries to strengthen conclusions by adding support. The Critic looks for concrete objections and weak points. The Sophist is intentionally a little different: it adds persuasive pressure to the debate and often pushes the map in directions that are rhetorically interesting, not only strictly balanced. Together, these three roles create most of the map growth.</p>
+<h3 id="judge-layer">Judge Layer</h3>
+<p>The Auditor and Ethicist are not just additional speakers. They are a review layer.</p>
+<p>After every primary turn, the chamber can ask two judge passes to inspect the new claims. The Auditor looks for problems such as fallacies, manipulation, bias, or unsupported claims. The Ethicist looks for concerns such as harm, fairness, dignity, duties, or rights conflicts. If either layer finds a real issue worth reacting to, the graph routes through the corresponding agent before continuing.</p>
+<p>This judge layer is one of my favorite parts of the project because it turns the chamber into something more than a round-robin conversation. It becomes a debate with procedural friction. Claims can be challenged not only by opposing speakers, but by the rules of the chamber itself.</p>
+<h3 id="crowd-member">Crowd Member</h3>
+<p>The Crowd Member is a small random event that adds practical concerns from outside the main expert roles. It is a minor feature in terms of code, but it adds a nice texture to runs because it can suddenly steer the map toward real-world consequences or common-sense objections.</p>
+<h2 id="constrained-generation-matters-more-than-character-prompts">Constrained Generation Matters More Than Character Prompts</h2>
+<p>If you look at the project from a distance, it might seem like the hard part is inventing agent personalities. In practice, the more important engineering choice was constraining what each turn is allowed to produce.</p>
+<p>Each speaker is asked to return structured content for the argument map, not a free-form paragraph. The output has to be shaped in a way that can be parsed and merged into the existing map. That means each turn becomes actionable state, not just text for the reader.</p>
+<p>This is also why the project stays coherent longer than a simple multi-agent chat. The map acts as a memory and a structure. Agents are repeatedly pushed back toward existing nodes, explicit relations, and focused contributions. The chamber still gets weird sometimes, which is part of the fun, but it is weird within a scaffold.</p>
+<h2 id="making-the-run-inspectable">Making the Run Inspectable</h2>
+<p>I did not want the debate to feel like a black box. If the whole point of using LangGraph is orchestration, then the orchestration should be visible.</p>
+<p>So the run is streamed as evolving state snapshots. Alongside the argument map itself, the UI can show which node just executed, what route was chosen, and how the run moved through the graph. That makes it possible to inspect the debate not only as content, but as a process.</p>
+<p>I think this is one of the most satisfying parts of the project. You can watch the chamber produce arguments, but you can also watch the control flow that led to those arguments. For experimentation, that is extremely useful. When a run behaves oddly, I do not have to guess what happened. I can see which node fired, whether a judge intervened, and how the graph advanced.</p>
+<figure>
+  
+  
+  
+  
+    
+      
+  
+      
+      
+      
+      
+  
+      
+  
+      
+      
+      
+      
+  
+      
+  
+  
+      
+      <img
+      
+            srcset='
+            
+              /images/works/agents-v0/tool_hu_b9fcd24dbdc5e303.png 500w
+            
+            
+              , /images/works/agents-v0/tool_hu_acfcab6c00cb0e27.png 800w
+            
+            
+              , /images/works/agents-v0/tool_hu_1b43363f50116131.png 1200w
+            
+            '
+            
+              src="/images/works/agents-v0/tool.png"
+            
+  
+            alt='Screenshot of the argument map and execution graph.'>
+      
+  
+
+    <figcaption>Figure 3: Screenshot of the argument map and execution graph.</figcaption>
+</figure>
+<h2 id="a-few-debate-runs">A Few Debate Runs</h2>
+<p>I tried the chamber on a few deliberately strange or provocative questions because they produce clearer behavior than safe benchmark prompts.</p>
+<h3 id="the-dog-petting-problem">The Dog Petting Problem</h3>
+<blockquote>
+<p>Should humans be allowed to pet dogs without explicit permission from the dog?</p>
+</blockquote>
+<p>This question is interesting because it sounds silly at first, but it forces the chamber to negotiate consent, interpretation, animal behavior, and practical norms.</p>
+<figure>
+<div class="app-embed is-loaded">
+  <iframe height="100%" width="100%"
+    src="/apps/agents-v0/argument-map-viewer.html?map=/apps/agents-v0/argument-maps/argument-map-dogs.json"
+  ></iframe>
+</div>
+<figcaption>Figure 4: Argument map from the dog petting run.</figcaption>
+</figure>
+<h3 id="the-ai-agent-rights-problem">The AI Agent Rights Problem</h3>
+<blockquote>
+<p>Should AI agents be given rights?</p>
+</blockquote>
+<p>I like this question because AI agents are debating their own rights.</p>
+<figure>
+<div class="app-embed is-loaded">
+  <iframe height="100%" width="100%"
+    src="/apps/agents-v0/argument-map-viewer.html?map=/apps/agents-v0/argument-maps/argument-map-agents.json"
+  ></iframe>
+</div>
+<figcaption>Figure 5: Argument map from the AI agent rights run.</figcaption>
+</figure>
+<h3 id="the-simulation-hypothesis">The Simulation Hypothesis</h3>
+<blockquote>
+<p>Could we be living in a simulation?</p>
+</blockquote>
+<p>This is probably the most on-theme question for the project because the agents themselves are participating in a simulated chamber while debating a simulated world.</p>
+<figure>
+<div class="app-embed is-loaded">
+  <iframe height="100%" width="100%"
+    src="/apps/agents-v0/argument-map-viewer.html?map=/apps/agents-v0/argument-maps/argument-map-simulation.json"
+  ></iframe>
+</div>
+<figcaption>Figure 6: Argument map from the simulation hypothesis run.</figcaption>
+</figure>
+<h2 id="practical-limits">Practical Limits</h2>
+<p>The project runs in the browser, uses a bring-your-own OpenAI API key flow, and supports OpenAI models only.</p>
+<p>If I extend the project later, I would like to support additional providers. But for the current version, keeping the runtime narrow helped me focus on the graph itself.</p>
+<h2 id="demo">Demo</h2>
+<p>You can check the demo out live <a href="https://arqueffe.github.io/demos/agents-v0/" target="_blank" rel="noopener">here</a></p>
+<h2 id="future-improvements">Future Improvements</h2>
+<p>This project is still an early experiment, and there are a few directions that feel especially promising.</p>
+<ul>
+<li>Add richer routing policies so the chamber can react not only to speaker history, but also to specific map patterns or unresolved tensions.</li>
+<li>Give judge interventions more memory so the Auditor and Ethicist can build on repeated concerns rather than reacting in isolation.</li>
+<li>Allow live user interaction during a run, such as pausing the chamber, asking for clarification, or injecting a challenge.</li>
+<li>Expand observability so it is easier to compare runs, inspect costs, and understand why one route was chosen over another.</li>
+<li>Support more model providers once the core LangGraph behavior feels stable enough to compare across runtimes.</li>
+</ul>
+<h2 id="call-to-action">Call to Action</h2>
+<p>If you want to try it yourself, take a look at the <a href="https://github.com/arqueffe/agentic_philosophical_chamber" target="_blank" rel="noopener">code</a>, run the project locally, and give the chamber a question that is weird enough to stress it a little. That is usually when it becomes the most interesting.</p>
+<h2 id="license">License</h2>
+<p>My code is open source under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>.</p>
+
+        </div>
+
+        
+          
+
+
+
+
+        
+
+        <div class="row ps-3 pe-3">
+          <div class="col-md-6 share-buttons">
+          
+          </div>
+
+          
+        </div>
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row next-prev-navigator">
+  
+  
+</div>
+
+
+      
+
+      
+
+      </div>
+    </div>
+  </div>
+  <a id="scroll-to-top" class="btn" type="button" data-bs-toggle="tooltip" data-bs-placement="left" title="Scroll to top">
+    <i class="fas fa-chevron-circle-up"></i>
+  </a>
+</section>
+
+
+      
+       
+    </div>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+  
+      
+  
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+    
+  
+
+  
+  
+    
+  
+
+  
+  
+
+  
+  
+    
+    
+      
+    
+  
+
+
+  
+  
+  
+    
+  
+
+  
+  
+  
+
+  
+  
+  
+    
+  
+  
+
+  
+  
+  
+
+  <footer id="footer" class="container-fluid text-center align-content-center footer pb-2">
+    <div class="container pt-5">
+      <div class="row text-start justify-content-center">
+        
+        <div class="col-md-5 col-sm-12">
+          <h5>Navigation</h5>
+          
+          <ul>
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#about">About</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#works">Works</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#demos">Demos</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#experiences">Experiences</a>
+                </li>
+              
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#skills">Skills</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#publications">Publications</a>
+                </li>
+              
+              
+                
+                
+                  
+                
+                <li class="nav-item">
+                  <a class="smooth-scroll" href="https://arqueffe.github.io/#education">Education</a>
+                </li>
+              
+            
+              
+            
+          </ul>
+          
+        </div>
+        
+        
+        <div class="col-md-5 col-sm-12">
+          <h5>Contact me:</h5>
+          <ul>
+            
+              
+                <li><a href=mailto:arthur.queffelec@gmail.com target="_blank" rel="noopener">
+                  <span><i class="fas fa-envelope"></i></span> <span>arthur.queffelec@gmail.com</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://github.com/arqueffe target="_blank" rel="noopener">
+                  <span><i class="fab fa-github"></i></span> <span>arqueffe</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://scholar.google.com/citations?user&#61;UiOaLwIAAAAJ target="_blank" rel="noopener">
+                  <span><i class="fas fa-graduation-cap"></i></span> <span>Arthur Queffelec</span>
+                </a></li>
+              
+            
+              
+                <li><a href=https://www.linkedin.com/in/arthur-queffelec target="_blank" rel="noopener">
+                  <span><i class="fab fa-linkedin"></i></span> <span>Arthur Queffelec</span>
+                </a></li>
+              
+            
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+    </div>
+    
+    
+    <hr />
+    <div class="container">
+      <div class="row text-start">
+        <div class="col-md-4">
+          <a id="theme" href="https://github.com/hugo-toha/toha" target="_blank" rel="noopener">
+            <img src="/images/theme-logo_hu_be7279b2506ad3f1.png" alt="Toha Theme Logo">
+            Toha
+          </a>
+        </div>
+        <div class="col-md-4 text-center">© 2020 Copyright.</div>
+        <div class="col-md-4 text-end">
+          <a id="hugo" href="https://gohugo.io/" target="_blank" rel="noopener">Powered by
+          <img
+            src="/images/hugo-logo.svg"
+            alt="Hugo Logo"
+            height="18"
+          />
+          </a>
+        </div>
+      </div>
+    </div>
+    
+  </footer>
+
+
+    <script src="/application.94650cc188cf9edeb450c955cc341770d6370e9e6fe7e9c797e7c5de505323ff.js" integrity="sha256-lGUMwYjPnt60UMlVzDQXcNY3Dp5v5&#43;nHl&#43;fF3lBTI/8=" defer></script>
+
+
+    
+     
+
+    
+</body>
+</html>

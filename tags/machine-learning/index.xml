@@ -6,7 +6,16 @@
     <description>Recent content in Machine Learning on Arthur&#39;s Portfolio</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 24 Mar 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" /><item>
+    <lastBuildDate>Fri, 01 May 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://arqueffe.github.io/tags/machine-learning/index.xml" rel="self" type="application/rss+xml" /><item>
+      <title>Philosophical Chamber</title>
+      <link>https://arqueffe.github.io/demos/agents-v0/</link>
+      <pubDate>Fri, 01 May 2026 00:00:00 +0000</pubDate>
+      
+      <guid>https://arqueffe.github.io/demos/agents-v0/</guid>
+      <description>&lt;p&gt;This demo showcases a philosophical debate simulation with multiple agents. The agents use LangGraph to structure their arguments in a shared graph format, allowing for dynamic and interactive debates on various topics.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>PDF Semantic Search</title>
       <link>https://arqueffe.github.io/demos/pdf-semantic-search/</link>
       <pubDate>Tue, 24 Mar 2026 00:00:00 +0000</pubDate>

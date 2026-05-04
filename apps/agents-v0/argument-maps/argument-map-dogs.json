@@ -1,0 +1,186 @@
+{
+  "contentionNodeId": "mnode-1",
+  "nodes": [
+    {
+      "id": "mnode-1",
+      "kind": "main-conclusion",
+      "text": "Humans should not be allowed to pet dogs without obtaining explicit permission from the dog.",
+      "role": "Moderator",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742948791
+    },
+    {
+      "id": "mnode-2",
+      "kind": "premise",
+      "text": "Petting a dog without its explicit permission can cause stress or fear in the animal, compromising its welfare.",
+      "role": "Advocate",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742949724
+    },
+    {
+      "id": "mnode-3",
+      "kind": "objection",
+      "text": "Some dogs may enjoy being petted by humans even without explicit permission, so assuming harm in all cases is overgeneralized.",
+      "role": "Critic",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742952010
+    },
+    {
+      "id": "mnode-4",
+      "kind": "objection",
+      "text": "There is insufficient empirical evidence provided to substantiate the claim that some dogs enjoy being petted without explicit permission.",
+      "role": "Auditor",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742953792
+    },
+    {
+      "id": "mnode-5",
+      "kind": "rebuttal",
+      "text": "Even if some dogs enjoy unsolicited petting, the inability to reliably distinguish these cases justifies a general rule requiring explicit permission to protect animal welfare.",
+      "role": "Sophist",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742954878
+    },
+    {
+      "id": "mnode-6",
+      "kind": "premise",
+      "text": "Respecting a dog's autonomy by seeking explicit permission aligns with ethical principles of consent and reduces the risk of negative interactions.",
+      "role": "Advocate",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777742956284
+    },
+    {
+      "id": "mnode-7",
+      "kind": "objection",
+      "text": "The concept of obtaining explicit permission from a dog is ambiguous and not practically achievable, undermining the feasibility of the main conclusion.",
+      "role": "Critic",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777742957905
+    },
+    {
+      "id": "mnode-8",
+      "kind": "rebuttal",
+      "text": "Guidelines for interpreting canine body language can provide a practical framework for determining when a dog may be giving permission to be petted.",
+      "role": "Sophist",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777742959575
+    },
+    {
+      "id": "mnode-9",
+      "kind": "objection",
+      "text": "There is a lack of empirical validation demonstrating that guidelines for interpreting canine body language are consistently reliable across different dogs and contexts.",
+      "role": "Auditor",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777742961840
+    }
+  ],
+  "inferences": [
+    {
+      "id": "inf-1",
+      "premiseNodeIds": [
+        "mnode-2"
+      ],
+      "conclusionNodeId": "mnode-1",
+      "linkage": "independent",
+      "role": "Advocate",
+      "round": 1,
+      "createdAt": 1777742949724
+    },
+    {
+      "id": "inf-2",
+      "premiseNodeIds": [
+        "mnode-6"
+      ],
+      "conclusionNodeId": "mnode-1",
+      "linkage": "independent",
+      "role": "Advocate",
+      "round": 2,
+      "createdAt": 1777742956284
+    }
+  ],
+  "edges": [
+    {
+      "id": "f79a53e3-0472-48a6-b81f-1991a32d3797",
+      "fromNodeId": "mnode-2",
+      "toNodeId": "mnode-1",
+      "viaInferenceId": "inf-1",
+      "kind": "supports",
+      "role": "Advocate",
+      "round": 1,
+      "createdAt": 1777742949724
+    },
+    {
+      "id": "3c8d0140-0e53-431a-a2eb-44419fe96d95",
+      "fromNodeId": "mnode-3",
+      "toNodeId": "mnode-2",
+      "kind": "attacks",
+      "role": "Critic",
+      "round": 1,
+      "createdAt": 1777742952010
+    },
+    {
+      "id": "19fb8454-43c1-4f5b-8072-acca65871657",
+      "fromNodeId": "mnode-4",
+      "toNodeId": "mnode-3",
+      "kind": "attacks",
+      "role": "Auditor",
+      "round": 1,
+      "createdAt": 1777742953792
+    },
+    {
+      "id": "f06ddab8-5ae7-45f9-9c62-6d349217de31",
+      "fromNodeId": "mnode-5",
+      "toNodeId": "mnode-3",
+      "kind": "rebuts",
+      "role": "Sophist",
+      "round": 1,
+      "createdAt": 1777742954878
+    },
+    {
+      "id": "cacfc09b-46a7-4af2-98c2-e3f996f34e84",
+      "fromNodeId": "mnode-6",
+      "toNodeId": "mnode-1",
+      "viaInferenceId": "inf-2",
+      "kind": "supports",
+      "role": "Advocate",
+      "round": 2,
+      "createdAt": 1777742956284
+    },
+    {
+      "id": "cb75bbfd-1e47-477a-8f3c-b18f2604746d",
+      "fromNodeId": "mnode-7",
+      "toNodeId": "mnode-1",
+      "kind": "attacks",
+      "role": "Critic",
+      "round": 2,
+      "createdAt": 1777742957905
+    },
+    {
+      "id": "fbabe471-1822-4115-88dd-d533398a0011",
+      "fromNodeId": "mnode-8",
+      "toNodeId": "mnode-7",
+      "kind": "rebuts",
+      "role": "Sophist",
+      "round": 2,
+      "createdAt": 1777742959575
+    },
+    {
+      "id": "8f4ca004-07e1-4521-905b-c078ab99292e",
+      "fromNodeId": "mnode-9",
+      "toNodeId": "mnode-8",
+      "kind": "attacks",
+      "role": "Auditor",
+      "round": 2,
+      "createdAt": 1777742961840
+    }
+  ]
+}

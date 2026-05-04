@@ -1,0 +1,71 @@
+{
+  "contentionNodeId": "claim-1",
+  "nodes": [
+    {
+      "id": "claim-1",
+      "kind": "main-conclusion",
+      "text": "Humans should seek clear signals of comfort before petting unfamiliar dogs.",
+      "role": "Moderator",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1
+    },
+    {
+      "id": "claim-2",
+      "kind": "premise",
+      "text": "Dogs communicate stress and consent imperfectly, so cautious interpretation reduces avoidable harm.",
+      "role": "Advocate",
+      "round": 1,
+      "confidence": 0.92,
+      "createdAt": 2
+    },
+    {
+      "id": "claim-3",
+      "kind": "objection",
+      "text": "Everyday petting often happens too quickly for formal consent checks, so the rule may be unrealistic.",
+      "role": "Critic",
+      "round": 1,
+      "confidence": 0.84,
+      "createdAt": 3
+    },
+    {
+      "id": "claim-4",
+      "kind": "rebuttal",
+      "text": "The standard does not require formality, only attention to approach cues, body language, and the owner's guidance.",
+      "role": "Sophist",
+      "round": 1,
+      "confidence": 0.8,
+      "createdAt": 4
+    }
+  ],
+  "inferences": [],
+  "edges": [
+    {
+      "id": "edge-1",
+      "fromNodeId": "claim-2",
+      "toNodeId": "claim-1",
+      "kind": "supports",
+      "role": "Advocate",
+      "round": 1,
+      "createdAt": 5
+    },
+    {
+      "id": "edge-2",
+      "fromNodeId": "claim-3",
+      "toNodeId": "claim-1",
+      "kind": "attacks",
+      "role": "Critic",
+      "round": 1,
+      "createdAt": 6
+    },
+    {
+      "id": "edge-3",
+      "fromNodeId": "claim-4",
+      "toNodeId": "claim-3",
+      "kind": "rebuts",
+      "role": "Sophist",
+      "round": 1,
+      "createdAt": 7
+    }
+  ]
+}

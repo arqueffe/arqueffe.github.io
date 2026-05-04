@@ -1,0 +1,189 @@
+{
+  "contentionNodeId": "mnode-1",
+  "nodes": [
+    {
+      "id": "mnode-1",
+      "kind": "main-conclusion",
+      "text": "AI agents should be granted legal rights comparable to those of humans or other legal entities.",
+      "role": "Moderator",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742992800
+    },
+    {
+      "id": "mnode-2",
+      "kind": "premise",
+      "text": "Granting rights to AI agents could provide them with legal protections that promote responsible development and use.",
+      "role": "Advocate",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742993473
+    },
+    {
+      "id": "mnode-3",
+      "kind": "objection",
+      "text": "AI agents lack consciousness and subjective experience, making it inappropriate to grant them rights designed for sentient beings.",
+      "role": "Critic",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742994923
+    },
+    {
+      "id": "mnode-4",
+      "kind": "rebuttal",
+      "text": "Legal rights can be tailored to specific entities without requiring consciousness, as demonstrated by the rights granted to corporations.",
+      "role": "Sophist",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777742996837
+    },
+    {
+      "id": "mnode-5",
+      "kind": "premise",
+      "text": "Recognizing AI agents as legal entities with rights would clarify liability and accountability in cases involving their actions.",
+      "role": "Advocate",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777742998363
+    },
+    {
+      "id": "mnode-6",
+      "kind": "objection",
+      "text": "There is insufficient evidence that granting AI agents rights would necessarily lead to clearer liability or accountability, as the legal complexities surrounding AI actions may persist regardless of their legal status.",
+      "role": "Auditor",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777743000888
+    },
+    {
+      "id": "mnode-7",
+      "kind": "premise",
+      "text": "Granting rights to AI agents could incentivize developers to implement robust ethical safeguards, as legal recognition would increase scrutiny and standards.",
+      "role": "Sophist",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777743002203
+    },
+    {
+      "id": "mnode-8",
+      "kind": "objection",
+      "text": "Granting rights to AI agents may create moral confusion by equating artificial constructs with beings capable of moral consideration, thereby undermining the significance of rights for sentient entities.",
+      "role": "Critic",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777743003909
+    }
+  ],
+  "inferences": [
+    {
+      "id": "inf-1",
+      "premiseNodeIds": [
+        "mnode-2"
+      ],
+      "conclusionNodeId": "mnode-1",
+      "linkage": "independent",
+      "role": "Advocate",
+      "round": 1,
+      "createdAt": 1777742993473
+    },
+    {
+      "id": "inf-2",
+      "premiseNodeIds": [
+        "mnode-5"
+      ],
+      "conclusionNodeId": "mnode-1",
+      "linkage": "independent",
+      "role": "Advocate",
+      "round": 2,
+      "createdAt": 1777742998363
+    },
+    {
+      "id": "inf-3",
+      "premiseNodeIds": [
+        "mnode-7"
+      ],
+      "conclusionNodeId": "mnode-1",
+      "linkage": "independent",
+      "role": "Sophist",
+      "round": 2,
+      "createdAt": 1777743002203
+    }
+  ],
+  "edges": [
+    {
+      "id": "5820b98a-44b4-4422-9652-70a375251144",
+      "fromNodeId": "mnode-2",
+      "toNodeId": "mnode-1",
+      "viaInferenceId": "inf-1",
+      "kind": "supports",
+      "role": "Advocate",
+      "round": 1,
+      "createdAt": 1777742993473
+    },
+    {
+      "id": "0e064930-d328-4551-add6-557f0874d474",
+      "fromNodeId": "mnode-3",
+      "toNodeId": "mnode-1",
+      "kind": "attacks",
+      "role": "Critic",
+      "round": 1,
+      "createdAt": 1777742994923
+    },
+    {
+      "id": "81ec23dd-6ddb-439e-abaa-67517c4344d4",
+      "fromNodeId": "mnode-4",
+      "toNodeId": "mnode-3",
+      "kind": "rebuts",
+      "role": "Sophist",
+      "round": 1,
+      "createdAt": 1777742996837
+    },
+    {
+      "id": "6dbd87f9-ef76-47b3-9a00-98a055901486",
+      "fromNodeId": "mnode-5",
+      "toNodeId": "mnode-1",
+      "viaInferenceId": "inf-2",
+      "kind": "supports",
+      "role": "Advocate",
+      "round": 2,
+      "createdAt": 1777742998363
+    },
+    {
+      "id": "c8ff0529-8449-4cf9-b943-77e5a0356573",
+      "fromNodeId": "mnode-6",
+      "toNodeId": "mnode-5",
+      "kind": "attacks",
+      "role": "Auditor",
+      "round": 2,
+      "createdAt": 1777743000888
+    },
+    {
+      "id": "f10da99a-91ad-4464-a92f-081915e02ffc",
+      "fromNodeId": "mnode-6",
+      "toInferenceId": "inf-2",
+      "kind": "undercuts",
+      "role": "Auditor",
+      "round": 2,
+      "createdAt": 1777743000888
+    },
+    {
+      "id": "25d75498-10b6-4607-b9df-e99d3bdf823e",
+      "fromNodeId": "mnode-7",
+      "toNodeId": "mnode-1",
+      "viaInferenceId": "inf-3",
+      "kind": "supports",
+      "role": "Sophist",
+      "round": 2,
+      "createdAt": 1777743002203
+    },
+    {
+      "id": "96a9b8f2-ff4c-4642-968c-fe4e8036d6f5",
+      "fromNodeId": "mnode-8",
+      "toNodeId": "mnode-4",
+      "kind": "attacks",
+      "role": "Critic",
+      "round": 2,
+      "createdAt": 1777743003909
+    }
+  ]
+}

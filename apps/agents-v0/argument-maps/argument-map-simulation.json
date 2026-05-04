@@ -1,0 +1,150 @@
+{
+  "contentionNodeId": "mnode-1",
+  "nodes": [
+    {
+      "id": "mnode-1",
+      "kind": "main-conclusion",
+      "text": "We are currently living in a computer-generated simulation rather than a base physical reality.",
+      "role": "Moderator",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777743026810
+    },
+    {
+      "id": "mnode-2",
+      "kind": "premise",
+      "text": "If advanced civilizations could create simulations indistinguishable from reality, it is statistically more likely that we are in a simulation than in base reality.",
+      "role": "Advocate",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777743027601
+    },
+    {
+      "id": "mnode-3",
+      "kind": "objection",
+      "text": "There is currently no empirical evidence to suggest that our reality is a simulation rather than base reality.",
+      "role": "Sophist",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777743029585
+    },
+    {
+      "id": "mnode-4",
+      "kind": "objection",
+      "text": "The assumption that simulated realities would vastly outnumber base realities ignores potential limitations on computational resources and ethical constraints of advanced civilizations.",
+      "role": "Critic",
+      "round": 1,
+      "confidence": 1,
+      "createdAt": 1777743031313
+    },
+    {
+      "id": "mnode-5",
+      "kind": "premise",
+      "text": "The continued advancement of virtual reality and artificial intelligence technologies demonstrates that creating highly realistic simulated experiences is becoming increasingly feasible.",
+      "role": "Advocate",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777743032701
+    },
+    {
+      "id": "mnode-6",
+      "kind": "objection",
+      "text": "Technological feasibility of creating realistic simulations does not imply that such simulations are actually being created or that we are inside one.",
+      "role": "Critic",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777743034289
+    },
+    {
+      "id": "mnode-7",
+      "kind": "rebuttal",
+      "text": "The lack of empirical evidence for a simulation hypothesis does not disprove its possibility, as limitations in detection methods could prevent us from perceiving the underlying nature of reality.",
+      "role": "Sophist",
+      "round": 2,
+      "confidence": 1,
+      "createdAt": 1777743037349
+    }
+  ],
+  "inferences": [
+    {
+      "id": "inf-1",
+      "premiseNodeIds": [
+        "mnode-2"
+      ],
+      "conclusionNodeId": "mnode-1",
+      "linkage": "independent",
+      "role": "Advocate",
+      "round": 1,
+      "createdAt": 1777743027601
+    },
+    {
+      "id": "inf-2",
+      "premiseNodeIds": [
+        "mnode-5"
+      ],
+      "conclusionNodeId": "mnode-2",
+      "linkage": "independent",
+      "role": "Advocate",
+      "round": 2,
+      "createdAt": 1777743032701
+    }
+  ],
+  "edges": [
+    {
+      "id": "ebc831e8-dde9-4d56-880b-c5b2ad84f5c5",
+      "fromNodeId": "mnode-2",
+      "toNodeId": "mnode-1",
+      "viaInferenceId": "inf-1",
+      "kind": "supports",
+      "role": "Advocate",
+      "round": 1,
+      "createdAt": 1777743027601
+    },
+    {
+      "id": "a2a7f4af-8ee1-4b91-b429-8624851b4118",
+      "fromNodeId": "mnode-3",
+      "toNodeId": "mnode-2",
+      "kind": "attacks",
+      "role": "Sophist",
+      "round": 1,
+      "createdAt": 1777743029585
+    },
+    {
+      "id": "8f5bbbd3-6e15-4723-a38e-d72806e23624",
+      "fromNodeId": "mnode-4",
+      "toNodeId": "mnode-2",
+      "kind": "attacks",
+      "role": "Critic",
+      "round": 1,
+      "createdAt": 1777743031313
+    },
+    {
+      "id": "f4478bbb-ba48-4cdc-bd10-9eee5ce0109d",
+      "fromNodeId": "mnode-5",
+      "toNodeId": "mnode-2",
+      "viaInferenceId": "inf-2",
+      "kind": "supports",
+      "role": "Advocate",
+      "round": 2,
+      "createdAt": 1777743032701
+    },
+    {
+      "id": "e02f5498-ceac-40c5-b1b1-ea8676cb1cef",
+      "fromNodeId": "mnode-6",
+      "toNodeId": "mnode-5",
+      "kind": "attacks",
+      "role": "Critic",
+      "round": 2,
+      "createdAt": 1777743034289
+    },
+    {
+      "id": "2d330a4f-90cd-401a-a903-caf0a32a4210",
+      "fromNodeId": "mnode-7",
+      "toNodeId": "mnode-3",
+      "kind": "rebuts",
+      "role": "Sophist",
+      "round": 2,
+      "createdAt": 1777743037349
+    }
+  ]
+}
